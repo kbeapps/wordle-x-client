@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'client';
+  title: string = 'Wordle X';
+  isLoggedIn: boolean = false; // add loggedIn observable from auth service
+  selectedTheme: string = 'dark'; // add theme observable from preferences service
+
+  constructor() {}
 }

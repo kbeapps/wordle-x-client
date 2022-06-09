@@ -5,17 +5,9 @@
 
 // include all used mat components in classes:
 .main-light-theme {
-  @include mat.button-color($light-theme);
-  @include mat.card-color($light-theme);
-  @include mat.core-color($light-theme);
-  @include mat.slide-toggle-color($light-theme);
-  @include mat.tabs-color($light-theme);
+  @include mat.all-component-themes($light-theme);
 }
 
 .main-dark-theme {
-  @include mat.button-color($dark-theme);
-  @include mat.card-color($dark-theme);
-  @include mat.core-color($dark-theme);
-  @include mat.slide-toggle-color($dark-theme);
-  @include mat.tabs-color($dark-theme);
+  @include mat.all-component-themes($dark-theme);
 }

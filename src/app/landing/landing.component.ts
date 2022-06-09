@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-landing',
@@ -6,7 +8,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./landing.component.scss'],
 })
 export class LandingComponent implements OnInit {
-  constructor() {}
+  title: string = environment.appTitle;
+
+  constructor(private router: Router) {}
 
   ngOnInit(): void {}
+
+  onLogin(): void {
+    this.router.navigateByUrl('login');
+  }
+
+  onRegister(): void {
+    this.router.navigateByUrl('signup');
+  }
 }
