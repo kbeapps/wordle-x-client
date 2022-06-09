@@ -3,13 +3,14 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { FriendsComponent } from './dashboard/friends/friends/friends.component';
-import { GamesComponent } from './dashboard/games/games/games.component';
-import { GroupsComponent } from './dashboard/groups/groups/groups.component';
-import { ProfileComponent } from './dashboard/profile/profile/profile.component';
+import { FriendsComponent } from './dashboard/friends/friends.component';
+import { GamesComponent } from './dashboard/games/games.component';
+import { GroupsComponent } from './dashboard/groups/groups.component';
+import { ProfileComponent } from './dashboard/profile/profile.component';
 import { LandingComponent } from './landing/landing.component';
-import { LoginComponent } from './landing/login/login/login.component';
-import { SignupComponent } from './landing/signup/signup/signup.component';
+import { LoginComponent } from './landing/login/login.component';
+import { SignupComponent } from './landing/signup/signup.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import { SignupComponent } from './landing/signup/signup/signup.component';
     LoginComponent,
     SignupComponent,
   ],
-  imports: [BrowserModule],
+  imports: [BrowserModule, BrowserAnimationsModule],
   providers: [],
   bootstrap: [AppComponent],
 })
