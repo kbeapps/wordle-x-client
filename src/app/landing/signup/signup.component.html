@@ -18,7 +18,7 @@
               !signupForm.controls?.['email']?.valid
             "
           >
-            {{ getErrors("email") }}
+            {{ validateField("email") }}
           </mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill">
@@ -35,7 +35,7 @@
               !signupForm.controls?.['username']?.valid
             "
           >
-            {{ getErrors("username") }}
+            {{ validateField("username") }}
           </mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill">
@@ -52,7 +52,7 @@
               !signupForm.controls?.['password']?.valid
             "
           >
-            {{ getErrors("password") }}
+            {{ validateField("password") }}
           </mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill">
@@ -68,7 +68,7 @@
               !signupForm.controls?.['confirmPassword']?.pristine
             "
           >
-            {{ getErrors("confirmPassword") }}
+            {{ validateField("confirmPassword") }}
           </mat-error>
         </mat-form-field>
       </form>

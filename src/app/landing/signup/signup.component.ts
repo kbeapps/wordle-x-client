@@ -44,7 +44,7 @@ export class SignupComponent implements OnInit {
     console.log(this.signupForm);
   }
 
-  getErrors(fieldKey: string): string {
+  validateField(fieldKey: string): string {
     let err: string = '';
 
     const password: string = this.signupForm.value.password;
