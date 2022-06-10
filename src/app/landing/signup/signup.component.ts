@@ -47,6 +47,7 @@ export class SignupComponent implements OnInit {
   getErrors(fieldKey: string): string {
     let err: string = '';
 
+    const password: string = this.signupForm.value.password;
     if (fieldKey === 'confirmPassword' || fieldKey === 'password') {
       // check if password matches confirmPassword
       const passwordIsValid =
@@ -59,42 +60,9 @@ export class SignupComponent implements OnInit {
       );
     }
 
+    // // get error for fieldKey
     const errors: ValidationErrors | null =
       this.signupForm.controls?.[fieldKey]?.errors;
-
-    console.log('key: ', fieldKey, '\n error: ', errors);
-    if (errors) {
-      for (const key in errors) {
-        switch (key) {
-          case 'email':
-            err = 'invalid email address';
-            break;
-          case 'required':
-            err = `${fieldKey}: field required`;
-            break;
-          case 'minlength':
-            err = `minimum allowed length: ${errors[key].requiredLength}`;
-            break;
-          case 'maxlength':
-            err = `maximum allowed length: ${errors[key].requiredLength}`;
-            break;
-          case 'pattern':
-            err = `allowed characters: ${errors[key].requiredPattern}`;
-            break;
-          case 'match':
-            err = `confirm password does not match password`;
-            break;
-
-          default:
-            err = `${fieldKey}: invalid input`;
-            break;
-        }
-
-        break;
-      }
-    }
-    console.log(this.signupForm);
-    console.log('err: ', err);
-    return err;
+    return this.validationService.getErrorMessage(errors, fieldKey);
   }
 }
