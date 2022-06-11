@@ -16,6 +16,8 @@ import { LandingComponent } from './landing/landing.component';
 import { LoginComponent } from './landing/login/login.component';
 import { SignupComponent } from './landing/signup/signup.component';
 
+import { RequestButtonComponent } from './shared/components/request-button/request-button.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +29,7 @@ import { SignupComponent } from './landing/signup/signup.component';
     LandingComponent,
     LoginComponent,
     SignupComponent,
+    RequestButtonComponent,
   ],
   imports: [
     AppRoutingModule,

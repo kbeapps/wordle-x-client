@@ -87,6 +87,13 @@
           Signup!
         </button>
       </div>
+      <div class="signup-button">
+        <app-request-button
+          color="primary"
+          (click)="onSignup()"
+          [disabled]="!signupForm.valid"
+        ></app-request-button>
+      </div>
     </mat-card>
   </div>
 </div>
