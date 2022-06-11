@@ -34,12 +34,10 @@ export class SignupService {
       password: password,
     };
 
-    return this.http
-      .post<object>(this.apiUrl + 'auth/signup', signupRequest, httpOptions)
-      .pipe(
-        catchError((err) => {
-          throw new Error(err);
-        })
-      );
+    return this.http.post<object>(
+      this.apiUrl + 'auth/signup',
+      signupRequest,
+      httpOptions
+    );
   }
 }

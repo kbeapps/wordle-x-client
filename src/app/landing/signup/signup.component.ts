@@ -5,9 +5,9 @@ import {
   Validators,
   ValidationErrors,
 } from '@angular/forms';
-import { catchError, ignoreElements } from 'rxjs/operators';
-import { Observable, of, throwError } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { CustomValidationService } from 'src/app/shared/validators/custom-validation.service';
+import { AuthService } from '../../shared/services/auth.service';
 import { SignupService } from './services/signup.service';
 
 interface IHttpError {
@@ -25,11 +25,12 @@ interface IHttpError {
 export class SignupComponent implements OnInit {
   signupForm!: FormGroup;
   isLoading: boolean = false;
-  errorMessage!: Observable<string>;
+  errorMessage: string = '';
 
   constructor(
-    private validationService: CustomValidationService,
-    private signupService: SignupService
+    private authService: AuthService,
+    private signupService: SignupService,
+    private validationService: CustomValidationService
   ) {}
 
   ngOnInit(): void {
@@ -56,39 +57,21 @@ export class SignupComponent implements OnInit {
     this.signupForm.addValidators(this.validationService.doesMatchValidator());
   }
 
-  onSignup(): void {
+  async onSignup(): Promise<void> {
     this.isLoading = true;
-    let errMessage;
-    try {
-      const request = this.signupService.requestSignup(
+
+    await firstValueFrom(
+      this.signupService.requestSignup(
         this.signupForm.value.email,
         this.signupForm.value.username,
         this.signupForm.value.password
-      );
-
-      // .subscribe({
-      //   next(res) {
-      //     console.log('response in subscribe: ', res);
-      //   },
-      //   error(err) {
-      //     console.log('err in o: ', err);
-      //   },
-      // });
-
-      this.errorMessage = request.pipe(
-        ignoreElements(),
-        catchError((err) => of(err))
-      );
-      console.log('test: ', this.errorMessage);
-    } catch (err) {
-      if (err instanceof Error) {
-        console.log('error in catch: ', err.message);
-      }
-    } finally {
-      this.isLoading = false;
-      console.log('finished submitting');
-      console.log('errMessage: ', errMessage);
-    }
+      )
+    )
+      .then((res) => {
+        this.authService.toggleIsLoggedIn();
+      })
+      .catch((err) => (this.errorMessage = err.error.message))
+      .finally(() => (this.isLoading = false));
   }
 
   validateField(fieldKey: string): string {

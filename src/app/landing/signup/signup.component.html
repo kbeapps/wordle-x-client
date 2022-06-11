@@ -77,8 +77,8 @@
         </mat-form-field>
       </form>
       <div class="section-control">
-        <div *ngIf="errorMessage | async as error" class="error-display">
-          {{ error }}
+        <div class="error-display">
+          {{ errorMessage }}
         </div>
         <div class="signup-button">
           <app-request-button

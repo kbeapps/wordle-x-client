@@ -34,7 +34,7 @@ export class AuthService {
     const isLoggedIn: boolean = !this.authStore.loggedIn;
     this.authStore.loggedIn = isLoggedIn;
     this.subject.next(isLoggedIn);
-
+    console.log('isLogged: ', isLoggedIn);
     if (!isLoggedIn) {
       this.router.navigateByUrl('login');
       this.storeService.clearData();
@@ -47,6 +47,4 @@ export class AuthService {
   watchIsLoggedIn(): Observable<any> {
     return this.subject.asObservable();
   }
-
-  
 }
