@@ -1,6 +1,6 @@
 <div class="layout-inner-container">
   <div class="page-container">
-    <mat-card>
+    <mat-card class="container-card">
       <div class="section-header">
         <h1>Sign-Up</h1>
       </div>
@@ -77,22 +77,18 @@
         </mat-form-field>
       </form>
       <div class="section-control">
-        <button
-          mat-raised-button
-          class="signup-button"
-          color="primary"
-          (click)="onSignup()"
-          [disabled]="!signupForm.valid"
-        >
-          Signup!
-        </button>
-      </div>
-      <div class="signup-button">
-        <app-request-button
-          color="primary"
-          (click)="onSignup()"
-          [disabled]="!signupForm.valid"
-        ></app-request-button>
+        <div *ngIf="errorMessage | async as error" class="error-display">
+          {{ error }}
+        </div>
+        <div class="signup-button">
+          <app-request-button
+            color="primary"
+            label="Signup!"
+            [isLoading]="isLoading"
+            (click)="onSignup()"
+            [disabled]="!signupForm.valid"
+          ></app-request-button>
+        </div>
       </div>
     </mat-card>
   </div>

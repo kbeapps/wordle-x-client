@@ -5,8 +5,16 @@ import {
   Validators,
   ValidationErrors,
 } from '@angular/forms';
+import { catchError, ignoreElements } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
 import { CustomValidationService } from 'src/app/shared/validators/custom-validation.service';
 import { SignupService } from './services/signup.service';
+
+interface IHttpError {
+  error?: {
+    message: string;
+  };
+}
 
 @Component({
   selector: 'app-signup',
@@ -16,6 +24,8 @@ import { SignupService } from './services/signup.service';
 })
 export class SignupComponent implements OnInit {
   signupForm!: FormGroup;
+  isLoading: boolean = false;
+  errorMessage!: Observable<string>;
 
   constructor(
     private validationService: CustomValidationService,
@@ -47,18 +57,38 @@ export class SignupComponent implements OnInit {
   }
 
   onSignup(): void {
-    console.log('SUBMITTING!');
-    console.log(this.signupForm);
-
-    this.signupService
-      .requestSignup(
+    this.isLoading = true;
+    let errMessage;
+    try {
+      const request = this.signupService.requestSignup(
         this.signupForm.value.email,
         this.signupForm.value.username,
         this.signupForm.value.password
-      )
-      .subscribe((res) => {
-        console.log(res);
-      });
+      );
+
+      // .subscribe({
+      //   next(res) {
+      //     console.log('response in subscribe: ', res);
+      //   },
+      //   error(err) {
+      //     console.log('err in o: ', err);
+      //   },
+      // });
+
+      this.errorMessage = request.pipe(
+        ignoreElements(),
+        catchError((err) => of(err))
+      );
+      console.log('test: ', this.errorMessage);
+    } catch (err) {
+      if (err instanceof Error) {
+        console.log('error in catch: ', err.message);
+      }
+    } finally {
+      this.isLoading = false;
+      console.log('finished submitting');
+      console.log('errMessage: ', errMessage);
+    }
   }
 
   validateField(fieldKey: string): string {

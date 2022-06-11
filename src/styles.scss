@@ -32,3 +32,11 @@ body {
   display: flex;
   align-items: center;
 }
+
+.error-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  color: red;
+}

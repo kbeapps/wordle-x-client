@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
@@ -26,15 +28,18 @@ export class SignupService {
     username: string,
     password: string
   ): Observable<object> {
-    console.log('u: ', this.apiUrl);
-    console.log('email: ', email);
-    const response = this.http.post<object>(
-      this.apiUrl + 'auth/signup',
-      { email: email, username: username, password: password },
-      httpOptions
-    );
+    const signupRequest: object = {
+      email: email,
+      username: username,
+      password: password,
+    };
 
-    console.log('response: ', response);
-    return response;
+    return this.http
+      .post<object>(this.apiUrl + 'auth/signup', signupRequest, httpOptions)
+      .pipe(
+        catchError((err) => {
+          throw new Error(err);
+        })
+      );
   }
 }

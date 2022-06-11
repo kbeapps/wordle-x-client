@@ -5,15 +5,16 @@
   (click)="onClick()"
   [disabled]="disabled"
 >
-  <div *ngIf="!isLoading">
+  <div *ngIf="!isLoading; else loading">
     {{ label }}
   </div>
-  <mat-progress-spinner
-    *ngIf="isLoading"
-    color="accent"
-    mode="indeterminate"
-    class="request-spinner"
-    [diameter]="spinnerDiameter"
-  >
-  </mat-progress-spinner>
+  <ng-template #loading>
+    <mat-progress-spinner
+      color="accent"
+      mode="indeterminate"
+      class="request-spinner"
+      [diameter]="spinnerDiameter"
+    >
+    </mat-progress-spinner>
+  </ng-template>
 </button>
