@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   appTitle: 'Wordle-X',
+  apiUrl: 'http://localhost:8080/',
 };
 
 /*

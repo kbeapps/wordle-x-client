@@ -7,7 +7,7 @@
       <form
         class="section-form"
         [formGroup]="signupForm"
-        (ngSubmit)="onSubmit()"
+        (ngSubmit)="onSignup()"
       >
         <mat-form-field appearance="fill">
           <mat-label>Email</mat-label>
@@ -77,7 +77,7 @@
           mat-raised-button
           class="signup-button"
           color="primary"
-          (click)="onSubmit()"
+          (click)="onSignup()"
           [disabled]="!signupForm.valid"
         >
           Signup!
