@@ -3,9 +3,10 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
-interface IHttpResponse {
-  message: string;
-  data?: object;
+interface ISigninPayload {
+  email?: string;
+  username?: string;
+  password: string;
 }
 
 const httpOptions = {
@@ -17,24 +18,21 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root',
 })
-export class SignupService {
+export class LoginService {
   private apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
 
-  requestSignup(
-    email: string,
-    username: string,
-    password: string
-  ): Observable<object> {
-    const signupRequestPayload: object = {
-      email: email,
-      username: username,
+  requestLogin(emailOrUsername: string, password: string): Observable<object> {
+    const signinRequestPayload: ISigninPayload = {
       password: password,
     };
 
+    signinRequestPayload[emailOrUsername.includes('@') ? 'email' : 'username'] =
+      emailOrUsername;
+
     return this.http.post<object>(
-      this.apiUrl + 'auth/signup',
-      signupRequestPayload,
+      this.apiUrl + 'auth/signin',
+      signinRequestPayload,
       httpOptions
     );
   }

@@ -1,4 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  ValidationErrors,
+} from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
+import { CustomValidationService } from 'src/app/shared/validators/custom-validation.service';
+import { AuthService } from '../../shared/services/auth.service';
+import { LoginService } from './services/login.service';
 
 @Component({
   selector: 'app-login',
@@ -6,27 +16,41 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  @Input() email: string = '';
-  @Input() password: string = '';
+  loginForm!: FormGroup;
+  isLoading: boolean = false;
+  errorMessage: string = '';
 
-  constructor() {}
+  constructor(
+    private authService: AuthService,
+    private loginService: LoginService,
+    private validationService: CustomValidationService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loginForm = new FormGroup({
+      emailOrUsername: new FormControl('', Validators.required),
+      password: new FormControl('', [Validators.required]),
+    });
+  }
 
-  onSubmit() {
-    if (!this.email) {
-      alert('Please enter an email address');
-      return;
-    }
+  async onLogin() {
+    this.isLoading = true;
 
-    if (!this.password) {
-      alert('Please enter a password');
-      return;
-    }
+    await firstValueFrom(
+      this.loginService.requestLogin(
+        this.loginForm.value.emailOrUsername,
+        this.loginForm.value.password
+      )
+    )
+      .then((res) => this.authService.toggleIsLoggedIn())
+      .catch((err) => (this.errorMessage = err.error.message))
+      .finally(() => (this.isLoading = false));
+  }
 
-    // Call service to attempt login
-
-    this.email = '';
-    this.password = '';
+  validateField(fieldKey: string): string {
+    // // get error for fieldKey
+    const errors: ValidationErrors | null =
+      this.loginForm.controls?.[fieldKey]?.errors;
+    return this.validationService.getErrorMessage(errors, fieldKey);
   }
 }

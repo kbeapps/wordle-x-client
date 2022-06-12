@@ -35,23 +35,20 @@ export class SignupComponent implements OnInit {
 
   ngOnInit(): void {
     this.signupForm = new FormGroup({
-      email: new FormControl('test@test.com', [
-        Validators.required,
-        Validators.email,
-      ]),
-      username: new FormControl('test12', [
+      email: new FormControl('', [Validators.required, Validators.email]),
+      username: new FormControl('', [
         Validators.required,
         Validators.minLength(5),
         Validators.maxLength(20),
         Validators.pattern('^[a-zA-Z0-9_.-]{5,20}$'),
       ]),
-      password: new FormControl('123456', [
+      password: new FormControl('', [
         Validators.required,
         Validators.minLength(5),
         Validators.pattern('^[a-zA-Z0-9_.!@$%&(){}:;<>,?+=|-]{5,20}$'),
         this.validationService.doesMatchValidator,
       ]),
-      confirmPassword: new FormControl('123456', [Validators.required]),
+      confirmPassword: new FormControl('', [Validators.required]),
     });
 
     this.signupForm.addValidators(this.validationService.doesMatchValidator());
@@ -67,9 +64,7 @@ export class SignupComponent implements OnInit {
         this.signupForm.value.password
       )
     )
-      .then((res) => {
-        this.authService.toggleIsLoggedIn();
-      })
+      .then((res) => this.authService.toggleIsLoggedIn())
       .catch((err) => (this.errorMessage = err.error.message))
       .finally(() => (this.isLoading = false));
   }
