@@ -13,22 +13,22 @@ const routes: Routes = [
   {
     path: '',
     component: LandingComponent,
-    // canActivate: [LandingGuard],
+    canActivate: [LandingGuard],
   },
   {
     path: 'dashboard',
     component: DashboardComponent,
-    // canActivate: [DashboardGuard],
+    canActivate: [DashboardGuard],
   },
   {
     path: 'login',
     component: LoginComponent,
-    // canActivate: [LandingGuard],
+    canActivate: [LandingGuard],
   },
   {
     path: 'signup',
     component: SignupComponent,
-    // canActivate: [LandingGuard],
+    canActivate: [LandingGuard],
   },
 ];
 

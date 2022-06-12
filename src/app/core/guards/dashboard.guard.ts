@@ -6,12 +6,13 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DashboardGuard implements CanActivate {
-  constructor(private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -23,7 +24,14 @@ export class DashboardGuard implements CanActivate {
   }
 
   checkLogin(url: string): true | UrlTree {
-    // add auth service and check if logged in, add redirect if not
+    if (this.authService.authStore.loggedIn) {
+      return true;
+    }
+
+    // Store the attempted URL for redirecting
+    this.authService.redirectUrl = url;
+
+    // Redirect to the login page
     return this.router.parseUrl('/login');
   }
 }
