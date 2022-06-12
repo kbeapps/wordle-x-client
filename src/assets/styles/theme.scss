@@ -1,0 +1,13 @@
+@use "@angular/material" as mat;
+@include mat.core(); // required mat-core mixin
+@import "themes/light-theme";
+@import "themes/dark-theme";
+
+// include all used mat components in classes:
+.main-light-theme {
+  @include mat.all-component-themes($light-theme);
+}
+
+.main-dark-theme {
+  @include mat.all-component-themes($dark-theme);
+}
