@@ -1,0 +1,22 @@
+<div class="gameboard-container">
+  <div class="board-section">
+    <div
+      class="board-row"
+      *ngFor="
+        let guess of gameState.guesses;
+        index as rowIndex;
+        first as isFirstRow
+      "
+    >
+      <mat-card
+        class="board-square"
+        *ngFor="
+          let col of initializedWordSize;
+          index as colIndex;
+          first as isFirstCol
+        "
+      ></mat-card>
+    </div>
+  </div>
+  <div class="keyboard-section">insert keyboard here</div>
+</div>

@@ -1,0 +1,35 @@
+.gameboard-container {
+  width: 600px;
+  height: 900px;
+  display: flex;
+  flex-direction: column;
+  //   align-items: center;
+  justify-content: space-between;
+
+  border: 1px solid teal;
+}
+
+.board-section {
+  height: 60%;
+  border: 1px solid red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.board-row {
+  //   flex-direction: row;
+  //   border: 1px solid green;
+}
+
+.board-square {
+  height: 10%;
+  width: 10%;
+  margin: 2px;
+}
+
+.keyboard-section {
+  height: 40%;
+  text-align: center;
+  border: 1px solid teal;
+}
