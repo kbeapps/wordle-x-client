@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { ProfileService } from './dashboard/profile/services/profile.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -7,8 +9,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title: string = 'Wordle X';
-  isLoggedIn: boolean = false; // add loggedIn observable from auth service
-  selectedTheme: string = 'dark'; // add theme observable from preferences service
+  selectedTheme: string = this.profileService.getSelectedTheme();
+  selectedThemeSubscription: Subscription = new Subscription();
 
-  constructor() {}
+  constructor(private profileService: ProfileService) {
+    this.selectedThemeSubscription = this.profileService
+      .watchSelectedTheme()
+      .subscribe((theme) => (this.selectedTheme = theme));
+  }
 }

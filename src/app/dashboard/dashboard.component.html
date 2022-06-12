@@ -1,1 +1,20 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+  <mat-tab-group mat-stretch-tabs color="accent" backgroundColor="primary">
+    <mat-tab label="Play">
+      <app-games class="body-container"></app-games>
+    </mat-tab>
+    <mat-tab label="Manage">
+      <mat-tab-group>
+        <mat-tab label="friends">
+          <app-friends class="body-container"></app-friends>
+        </mat-tab>
+        <mat-tab label="groups">
+          <app-groups class="body-container"></app-groups>
+        </mat-tab>
+        <mat-tab label="profile">
+          <app-profile class="body-container"></app-profile>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-tab>
+  </mat-tab-group>
+</div>
