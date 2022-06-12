@@ -1,7 +1,9 @@
-$key-width: 40px;
-$key-height: 50px;
+$key-width: 45px;
+$key-height: 60px;
 $key-margin: 1px;
 $key-color: silver;
+$font-size: 0.7em;
+$key-color: none;
 
 .keyboard-container {
   display: flex;
@@ -16,14 +18,14 @@ $key-color: silver;
 
 .key-base {
   margin: $key-margin;
-  height: $key-height;
+  height: $key-height !important;
   width: $key-width !important;
   min-width: unset !important;
+  font-size: $font-size;
+  background-color: $key-color;
 }
 
 .delete-base {
-  margin: $key-margin;
-  height: $key-height;
+  @extend .key-base;
   width: calc($key-width * 1.5) !important;
-  min-width: unset !important;
 }

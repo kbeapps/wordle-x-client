@@ -6,21 +6,25 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./keyboard.component.scss'],
 })
 export class KeyboardComponent implements OnInit {
-  topRowKeys: string[] = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'];
-  middleRowKeys: string[] = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
+  topRowKeys: string[] = ['A', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
+  middleRowKeys: string[] = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
   bottomRowKeys: string[] = [
-    'enter',
-    'z',
-    'x',
-    'c',
-    'v',
-    'b',
-    'n',
-    'm',
-    'delete',
+    'ENTER',
+    'Z',
+    'X',
+    'C',
+    'V',
+    'B',
+    'N',
+    'M',
+    'DELETE',
   ];
 
   constructor() {}
 
   ngOnInit(): void {}
+
+  onClick(key: string) {
+    console.log('event: ', key);
+  }
 }

@@ -1,7 +1,7 @@
 <div class="keyboard-container">
   <div class="keyboard-row">
     <div *ngFor="let key of topRowKeys; index as keyIndex">
-      <button class="key-base" mat-raised-button color="black">
+      <button class="key-base" mat-raised-button (click)="onClick(key)">
         {{ key }}
       </button>
     </div>
@@ -9,7 +9,7 @@
 
   <div class="keyboard-row">
     <div *ngFor="let key of middleRowKeys; index as keyIndex">
-      <button class="key-base" mat-raised-button>
+      <button class="key-base" mat-raised-button (click)="onClick(key)">
         {{ key }}
       </button>
     </div>
@@ -20,8 +20,9 @@
       <button
         class="{{ key.length > 1 ? 'delete-base' : 'key-base' }}"
         mat-raised-button
+        (click)="onClick(key)"
       >
-        <div *ngIf="key !== 'delete'; else deleteKey">
+        <div *ngIf="key !== 'DELETE'; else deleteKey">
           {{ key }}
         </div>
         <ng-template #deleteKey>
