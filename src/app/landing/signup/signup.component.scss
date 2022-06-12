@@ -1,17 +1,19 @@
+@import "../../../assets/styles/variables.scss";
+
 .container-card {
   height: 600px;
   width: 600px;
   text-align: center;
+
+  // @media (max-width: $breakpoint-mobile-l) {
+  // background-color: red;
+  // }
 
   .section-header {
     display: flex;
     height: 25%;
     justify-content: center;
     align-items: center;
-
-    h1 {
-      font-size: 3em;
-    }
   }
   .section-form {
     height: 50%;

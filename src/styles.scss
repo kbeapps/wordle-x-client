@@ -2,6 +2,7 @@
 
 // custom themes:
 @import "./assets/styles/theme.scss";
+@import "./assets/styles/variables.scss";
 
 // global styles:
 html,
@@ -11,26 +12,16 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.layout-upper-container {
-  height: 95vh;
-}
-
-.layout-lower-container {
-  text-align: center;
-  height: 5vh;
-}
-
-.layout-inner-container {
-  height: 100%;
-  width: 100%;
+.layout-container {
+  height: 100vh;
   display: flex;
-  align-content: center;
   justify-content: center;
+  align-items: center;
 }
 
 .page-container {
-  display: flex;
-  align-items: center;
+  height: 100%;
+  width: 100%;
 }
 
 .error-display {
@@ -39,4 +30,8 @@ body {
   align-items: center;
   height: 30px;
   color: red;
+}
+
+h1 {
+  font-size: 3rem !important;
 }
