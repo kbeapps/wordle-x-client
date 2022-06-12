@@ -1,39 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { HttpRequestService } from 'src/app/shared/utils/http-request.service';
 
-interface ISigninPayload {
+interface ILoginPayload {
   email?: string;
   username?: string;
   password: string;
 }
 
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-  }),
-};
-
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
-  private apiUrl = environment.apiUrl;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpRequestService) {}
 
   requestLogin(emailOrUsername: string, password: string): Observable<object> {
-    const signinRequestPayload: ISigninPayload = {
+    const loginRequestPayload: ILoginPayload = {
       password: password,
     };
 
-    signinRequestPayload[emailOrUsername.includes('@') ? 'email' : 'username'] =
+    loginRequestPayload[emailOrUsername.includes('@') ? 'email' : 'username'] =
       emailOrUsername;
 
-    return this.http.post<object>(
-      this.apiUrl + 'auth/signin',
-      signinRequestPayload,
-      httpOptions
-    );
+    return this.http.post('auth/signin', loginRequestPayload);
   }
 }
