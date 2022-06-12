@@ -10,12 +10,6 @@ import { CustomValidationService } from 'src/app/shared/validators/custom-valida
 import { AuthService } from '../../shared/services/auth.service';
 import { SignupService } from './services/signup.service';
 
-interface IHttpError {
-  error?: {
-    message: string;
-  };
-}
-
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',

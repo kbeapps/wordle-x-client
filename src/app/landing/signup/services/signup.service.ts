@@ -1,41 +1,30 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { HttpRequestService } from 'src/app/shared/utils/http-request.service';
 
-interface IHttpResponse {
-  message: string;
-  data?: object;
+interface ISignupPayload {
+  email: string;
+  username: string;
+  password: string;
 }
-
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-  }),
-};
 
 @Injectable({
   providedIn: 'root',
 })
 export class SignupService {
-  private apiUrl = environment.apiUrl;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpRequestService) {}
 
   requestSignup(
     email: string,
     username: string,
     password: string
   ): Observable<object> {
-    const signupRequestPayload: object = {
+    const signupRequestPayload: ISignupPayload = {
       email: email,
       username: username,
       password: password,
     };
 
-    return this.http.post<object>(
-      this.apiUrl + 'auth/signup',
-      signupRequestPayload,
-      httpOptions
-    );
+    return this.http.post('auth/signup', signupRequestPayload);
   }
 }
