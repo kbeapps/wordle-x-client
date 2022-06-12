@@ -1,0 +1,20 @@
+<button
+  mat-raised-button
+  [class]="class"
+  [color]="color"
+  (click)="onClick()"
+  [disabled]="disabled"
+>
+  <div *ngIf="!isLoading; else loading">
+    {{ label }}
+  </div>
+  <ng-template #loading>
+    <mat-progress-spinner
+      color="accent"
+      mode="indeterminate"
+      class="request-spinner"
+      [diameter]="spinnerDiameter"
+    >
+    </mat-progress-spinner>
+  </ng-template>
+</button>
