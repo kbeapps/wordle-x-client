@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './core/modules/app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from './core/modules/material.module';
 
 import { AppComponent } from './app.component';
@@ -14,6 +16,8 @@ import { LandingComponent } from './landing/landing.component';
 import { LoginComponent } from './landing/login/login.component';
 import { SignupComponent } from './landing/signup/signup.component';
 
+import { RequestButtonComponent } from './shared/components/request-button/request-button.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,11 +29,15 @@ import { SignupComponent } from './landing/signup/signup.component';
     LandingComponent,
     LoginComponent,
     SignupComponent,
+    RequestButtonComponent,
   ],
   imports: [
     AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
+    FormsModule,
+    HttpClientModule,
+    ReactiveFormsModule,
     MaterialModule,
   ],
   providers: [],

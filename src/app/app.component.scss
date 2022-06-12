@@ -1,0 +1,22 @@
+@import "../assets/styles/variables.scss";
+
+.layout-container {
+  display: relative;
+}
+
+.footer {
+  position: absolute;
+  height: 40px;
+  bottom: 10px;
+  z-index: 1;
+
+  @media (max-width: $breakpoint-tablet) {
+    height: 30px;
+    bottom: 5px;
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    height: 20px;
+    // bottom: 4px;
+  }
+}
