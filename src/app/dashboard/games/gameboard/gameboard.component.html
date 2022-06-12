@@ -11,12 +11,15 @@
       <mat-card
         class="board-square"
         *ngFor="
-          let col of initializedWordSize;
+          let letter of initializedWordSize;
           index as colIndex;
           first as isFirstCol
         "
       ></mat-card>
     </div>
   </div>
-  <div class="keyboard-section">insert keyboard here</div>
+
+  <div class="keyboard-section">
+    <app-keyboard></app-keyboard>
+  </div>
 </div>

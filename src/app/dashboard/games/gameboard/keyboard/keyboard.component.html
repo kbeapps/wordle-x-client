@@ -1,0 +1,33 @@
+<div class="keyboard-container">
+  <div class="keyboard-row">
+    <div *ngFor="let key of topRowKeys; index as keyIndex">
+      <button class="key-base" mat-raised-button color="black">
+        {{ key }}
+      </button>
+    </div>
+  </div>
+
+  <div class="keyboard-row">
+    <div *ngFor="let key of middleRowKeys; index as keyIndex">
+      <button class="key-base" mat-raised-button>
+        {{ key }}
+      </button>
+    </div>
+  </div>
+
+  <div class="keyboard-row">
+    <div *ngFor="let key of bottomRowKeys; index as keyIndex">
+      <button
+        class="{{ key.length > 1 ? 'delete-base' : 'key-base' }}"
+        mat-raised-button
+      >
+        <div *ngIf="key !== 'delete'; else deleteKey">
+          {{ key }}
+        </div>
+        <ng-template #deleteKey>
+          <mat-icon>backspace</mat-icon>
+        </ng-template>
+      </button>
+    </div>
+  </div>
+</div>

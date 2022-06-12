@@ -19,6 +19,7 @@ import { SignupComponent } from './landing/signup/signup.component';
 import { RequestButtonComponent } from './shared/components/request-button/request-button.component';
 import { ThemeToggleComponent } from './dashboard/profile/components/theme-toggle/theme-toggle.component';
 import { GameboardComponent } from './dashboard/games/gameboard/gameboard.component';
+import { KeyboardComponent } from './dashboard/games/gameboard/keyboard/keyboard.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { GameboardComponent } from './dashboard/games/gameboard/gameboard.compon
     RequestButtonComponent,
     ThemeToggleComponent,
     GameboardComponent,
+    KeyboardComponent,
   ],
   imports: [
     AppRoutingModule,

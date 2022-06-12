@@ -1,0 +1,29 @@
+$key-width: 40px;
+$key-height: 50px;
+$key-margin: 1px;
+$key-color: silver;
+
+.keyboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.keyboard-row {
+  display: flex;
+}
+
+.key-base {
+  margin: $key-margin;
+  height: $key-height;
+  width: $key-width !important;
+  min-width: unset !important;
+}
+
+.delete-base {
+  margin: $key-margin;
+  height: $key-height;
+  width: calc($key-width * 1.5) !important;
+  min-width: unset !important;
+}

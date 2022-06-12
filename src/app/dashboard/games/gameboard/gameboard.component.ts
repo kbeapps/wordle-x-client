@@ -30,5 +30,12 @@ export class GameboardComponent implements OnInit {
     const guess = { guess: '', output: [] };
     this.gameState.guesses = Array(this.totalGuesses).fill(guess);
     this.initializedWordSize = Array(this.wordSize).fill('');
+
+    console.log(
+      'gameState: ',
+      this.gameState,
+      ' /n initialized: ',
+      this.initializedWordSize
+    );
   }
 }
