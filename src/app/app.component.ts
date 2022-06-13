@@ -15,6 +15,6 @@ export class AppComponent {
   constructor(private profileService: ProfileService) {
     this.selectedThemeSubscription = this.profileService
       .watchSelectedTheme()
-      .subscribe((theme) => (this.selectedTheme = theme));
+      .subscribe((theme: string) => (this.selectedTheme = theme));
   }
 }

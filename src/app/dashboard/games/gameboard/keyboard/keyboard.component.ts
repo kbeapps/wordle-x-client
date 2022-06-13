@@ -1,10 +1,7 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
-
-interface IKey {
-  key: string;
-  color: string;
-}
+import { Subscription } from 'rxjs';
+import { KeyboardService, IKey } from './keyboard.service';
 
 @Component({
   selector: 'app-keyboard',
@@ -26,17 +23,20 @@ export class KeyboardComponent implements OnInit {
     'DELETE',
   ];
   initializedKeys: IKey[] = [];
+  keyboardStateSubscription: Subscription = new Subscription();
   @Output() keyPressed: EventEmitter<any> = new EventEmitter();
 
-  constructor() {}
+  constructor(private keyboardService: KeyboardService) {
+    this.keyboardStateSubscription = this.keyboardService
+      .watchInitializedKeys()
+      .subscribe((keyState: IKey[]) => (this.initializedKeys = keyState));
+  }
 
   ngOnInit(): void {
     this.initializeKeys();
-    // this.getKeyColor('N');
-    // this.setKeyColor([{ key: 'A', color: 'correct-key' }]);
   }
 
-  initializeKeys() {
+  initializeKeys(): void {
     const topRowKeys: IKey[] = this.topRowKeys.map((key) => {
       return { key: key, color: '' };
     });
@@ -46,29 +46,21 @@ export class KeyboardComponent implements OnInit {
     const bottomRowKeys: IKey[] = this.bottomRowKeys.map((key) => {
       return { key: key, color: '' };
     });
-
-    this.initializedKeys = [...topRowKeys, ...middleRowKeys, ...bottomRowKeys];
-    console.log(this.initializedKeys);
-  }
-
-  setKeyColor(keyMap: IKey[]) {
-    // const correctClass: string = 'correct-key';
-    // const incorrectClass: string = 'incorrect-key';
-    // const closeClass: string = 'close-key';
-
-    for (let key of keyMap) {
-      this.initializedKeys = this.initializedKeys.map((item) =>
-        item.key === key.key ? { key: key.key, color: key.color } : item
-      );
-    }
+    this.keyboardService.setInitializedKeys([
+      ...topRowKeys,
+      ...middleRowKeys,
+      ...bottomRowKeys,
+    ]);
   }
 
   getKeyColor(key: string): string {
-    return this.initializedKeys.filter((item) => item.key === key)[0].color;
+    const foundColor: IKey | undefined = this.initializedKeys.find(
+      (item) => item.key === key
+    );
+    return foundColor ? foundColor.color : '';
   }
 
-  onClick(key: string) {
-    // console.log('event: ', this.initializeKeys);
+  onClick(key: string): void {
     this.keyPressed.emit(key);
   }
 }
