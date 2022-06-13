@@ -38,4 +38,8 @@ export class GameboardComponent implements OnInit {
       this.initializedWordSize
     );
   }
+
+  onKeyInput(key: string) {
+    console.log('key in gameboard: ', key);
+  }
 }
