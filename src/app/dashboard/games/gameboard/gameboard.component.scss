@@ -24,7 +24,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  // margin: 2px;
 }
 
 .board-square {
@@ -36,4 +35,16 @@
 .keyboard-section {
   height: 40%;
   text-align: center;
+}
+
+.correct-key {
+  background-color: $correct-color;
+}
+
+.close-key {
+  background-color: $close-color;
+}
+
+.incorrect-key {
+  background-color: $incorrect-color;
 }

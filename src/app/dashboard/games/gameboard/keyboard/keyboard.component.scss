@@ -1,13 +1,12 @@
+@import "../../../../../assets/styles/variables.scss";
+@import "../gameboard.component.scss";
+
 $key-width: 40px;
 $key-height: 60px;
 $key-margin: 2px;
 $key-color: silver;
 $font-size: 0.7em;
 $key-color: none;
-
-$correct-color: green;
-$close-color: yellow;
-$incorrect-color: red;
 
 .keyboard-container {
   display: flex;
@@ -32,16 +31,4 @@ $incorrect-color: red;
 .delete-base {
   @extend .key-base;
   width: calc($key-width * 1.5) !important;
-}
-
-.correct-key {
-  background-color: $correct-color;
-}
-
-.close-key {
-  background-color: $close-color;
-}
-
-.incorrect-key {
-  background-color: $incorrect-color;
 }

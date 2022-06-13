@@ -31,6 +31,13 @@ export class KeyboardService {
     this.initializedKeys = initializedKeys;
   }
 
+  getKeyColor(key: string): string {
+    const foundColor: IKey | undefined = this.initializedKeys.find(
+      (item) => item.key === key
+    );
+    return foundColor ? foundColor.color : '';
+  }
+
   watchInitializedKeys(): Observable<any> {
     return this.subject.asObservable();
   }

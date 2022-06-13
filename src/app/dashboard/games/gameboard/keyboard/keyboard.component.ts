@@ -54,10 +54,7 @@ export class KeyboardComponent implements OnInit {
   }
 
   getKeyColor(key: string): string {
-    const foundColor: IKey | undefined = this.initializedKeys.find(
-      (item) => item.key === key
-    );
-    return foundColor ? foundColor.color : '';
+    return this.keyboardService.getKeyColor(key);
   }
 
   onClick(key: string): void {

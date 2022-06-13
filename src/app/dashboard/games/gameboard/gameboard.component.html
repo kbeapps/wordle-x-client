@@ -9,7 +9,7 @@
       "
     >
       <mat-card
-        class="board-square"
+        class="{{ 'board-square ' + getKeyColor(letter) }}"
         *ngFor="
           let letter of initializedWordSize;
           index as colIndex;
