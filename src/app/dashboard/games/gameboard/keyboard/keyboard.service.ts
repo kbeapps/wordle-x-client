@@ -35,7 +35,7 @@ export class KeyboardService {
     const foundColor: IKey | undefined = this.initializedKeys.find(
       (item) => item.key === key
     );
-    return foundColor ? foundColor.color : '';
+    return foundColor ? foundColor.color + '-key' : '';
   }
 
   watchInitializedKeys(): Observable<any> {

@@ -16,6 +16,7 @@ export class GameboardComponent implements OnInit {
   initializedWordSize: string[] = [];
   activeRow: number = 0;
   gameStateSubscription: Subscription = new Subscription();
+  loading: boolean = true;
 
   constructor(
     private gameboardService: GameboardService,
@@ -23,15 +24,20 @@ export class GameboardComponent implements OnInit {
   ) {
     this.gameStateSubscription = this.gameboardService
       .watchGameState()
-      .subscribe((gameState: GameState) => {
-        this.gameState = gameState;
-        console.log('gs pushed: ', gameState);
-      });
+      .subscribe((gameState: GameState) => (this.gameState = gameState));
   }
 
   ngOnInit(): void {
     this.gameboardService.initializeGameState(this.totalGuesses);
+    this.initialize();
+  }
+
+  initialize(): void {
     this.initializedWordSize = Array(this.wordSize).fill('');
+    this.activeRow = this.gameState.guesses.filter(
+      (elem) => elem.guess.length === this.wordSize
+    ).length;
+    this.loading = false;
   }
 
   onKeyInput(key: string): void {
@@ -71,26 +77,26 @@ export class GameboardComponent implements OnInit {
     let keyMap: IKey[] = [];
     let guessOutput: string[] = [];
     let key: string = '';
-    let colorClass: string = '';
+    let evaluation: string = '';
 
     for (let i in separatedGuess) {
       key = separatedGuess[i];
-      colorClass =
+      evaluation =
         key === answer[i]
-          ? correctClass
+          ? 'correct'
           : answer.includes(key)
-          ? closeClass
-          : incorrectClass;
+          ? 'close'
+          : 'incorrect';
 
-      keyMap.push({ key: key, color: colorClass });
-      guessOutput.push(colorClass);
+      keyMap.push({ key: key, color: evaluation });
+      guessOutput.push(evaluation);
     }
     this.keyboardService.setKeyColor(keyMap);
-    this.gameboardService.updateGuess(guess, this.activeRow);
+    this.gameboardService.updateGuess(guess, this.activeRow, guessOutput);
+    this.activeRow += 1;
   }
 
   getKeyColor(key: string) {
-    console.log('getting', key);
     return this.keyboardService.getKeyColor(key);
   }
 }
