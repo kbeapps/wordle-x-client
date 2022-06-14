@@ -6,9 +6,9 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
-import { CustomValidationService } from 'src/app/shared/validators/custom-validation.service';
+import { CustomValidationService } from 'src/app/shared/services/custom-validation.service';
 import { AuthService } from '../../shared/services/auth.service';
-import { LoginService } from './services/login.service';
+import { LoginService } from './login.service';
 
 @Component({
   selector: 'app-login',

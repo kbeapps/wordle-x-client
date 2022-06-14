@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ProfileService } from './dashboard/profile/services/profile.service';
+import { ProfileService } from './dashboard/profile/profile.service';
 import { Subscription } from 'rxjs';
 
 @Component({
