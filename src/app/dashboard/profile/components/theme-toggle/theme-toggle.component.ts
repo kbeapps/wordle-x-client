@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ProfileService } from '../../services/profile.service';
+import { ProfileService } from '../../profile.service';
 
 @Component({
   selector: 'app-theme-toggle',
