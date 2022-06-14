@@ -36,7 +36,9 @@
             <div>
               {{ friend }}
             </div>
-            <mat-icon (click)="onDeleteFriend()" type="button">delete_forever</mat-icon>
+            <mat-icon (click)="onDeleteFriend(friend)" type="button"
+              >delete_forever</mat-icon
+            >
           </div>
         </mat-list-option>
       </mat-selection-list>

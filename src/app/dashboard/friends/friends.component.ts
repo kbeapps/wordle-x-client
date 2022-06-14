@@ -35,5 +35,9 @@ export class FriendsComponent implements OnInit {
 
   onAddFriend() {}
 
-  onDeleteFriend() {}
+  onDeleteFriend(friend: string): void {
+    console.log(
+      `You blocked me on facebook, now youre going to die: ${friend} `
+    );
+  }
 }
