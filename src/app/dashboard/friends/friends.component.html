@@ -1,34 +1,42 @@
 <mat-card class="container-card">
-  <div>
-    <form class="section-form">
-      <mat-form-field appearance="fill">
-        <mat-label>Email or Username</mat-label>
-        <input matInput type="text" />
-        <mat-icon matSuffix>search</mat-icon>
-      </mat-form-field>
-    </form>
-  </div>
+  <!-- add friend section -->
+  <div class="upper-section">
+    <div class="add-friend-section">
+      <form>
+        <mat-form-field appearance="fill">
+          <mat-label>Email or Username</mat-label>
+          <input matInput type="text" />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </form>
 
-  <div class="confirm-button">
-    <app-request-button
-      color="primary"
-      label="Add Friend"
-      (click)="onAddFriend()"
-      [isLoading]="isLoading"
-    ></app-request-button>
-  </div>
-
-  <div>
-    <div class="section-header">
-      <h1>My Friends</h1>
+      <div class="confirm-button">
+        <app-request-button
+          color="primary"
+          label="Add Friend"
+          (click)="onAddFriend()"
+          [isLoading]="isLoading"
+        ></app-request-button>
+      </div>
     </div>
+  </div>
+
+  <!-- friends list section -->
+  <div class="lower-section">
+    <h2>My Friends</h2>
+
     <div class="section-table">
       <mat-selection-list #friends [multiple]="false">
-        <mat-list-option *ngFor="let friend of friendsList" [value]="friend">
+        <mat-list-option
+          color="primary"
+          *ngFor="let friend of friendsList"
+          [value]="friend"
+        >
           {{ friend }}
         </mat-list-option>
       </mat-selection-list>
     </div>
+
     <p>Option selected: {{ friends.selectedOptions.selected[0]?.value }}</p>
   </div>
 </mat-card>
