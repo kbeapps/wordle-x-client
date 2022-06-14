@@ -32,7 +32,12 @@
           *ngFor="let friend of friendsList"
           [value]="friend"
         >
-          {{ friend }}
+          <div class="table-item">
+            <div>
+              {{ friend }}
+            </div>
+            <mat-icon (click)="onDeleteFriend()" type="button">delete_forever</mat-icon>
+          </div>
         </mat-list-option>
       </mat-selection-list>
     </div>

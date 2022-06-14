@@ -13,7 +13,7 @@ import {
 })
 export class FriendsComponent implements OnInit {
   isLoading: boolean = false;
-  
+
   friendsList: string[] = [
     'friend1',
     'friend2',
