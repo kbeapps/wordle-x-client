@@ -1,7 +1,10 @@
-$testVarColor: red;
-
+// breakpoints:
 $breakpoint-mobile-s: 320px;
 $breakpoint-mobile: 640px;
 $breakpoint-tablet: 960px;
 $breakpoint-desktop: 1024px;
 
+// colors:
+$correct-color: #4caf50;
+$close-color: #ffa000;
+$incorrect-color: #212121;
