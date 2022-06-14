@@ -15,13 +15,17 @@ export class GameboardService {
 
   constructor(private storeService: StoreService) {}
 
-  initializeGameState(totalGuesses: number): void {
+  initializeGameState(totalGuesses: number, wordSize: number): void {
     let gameState = this.storeService.getData('gameState') as GameState;
     if (!gameState) {
       gameState = new GameState();
-      gameState.guesses = new Array(totalGuesses).fill(null).map(() => {
-        return { guess: '', output: [] };
+      const outputArray = new Array(wordSize).fill(null).map(() => {
+        return '';
       });
+      gameState.guesses = new Array(totalGuesses).fill(null).map(() => {
+        return { guess: '', output: outputArray };
+      });
+
       this.storeService.setData('gameState', gameState);
     }
     this.gameState = gameState as GameState;

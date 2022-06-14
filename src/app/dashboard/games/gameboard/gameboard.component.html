@@ -9,7 +9,13 @@
       "
     >
       <mat-card
-        class="{{ 'board-square ' + getKeyColor(letter) }}"
+        class="{{
+          gameState.guesses[rowIndex].output[colIndex]
+            ? 'board-square ' +
+              gameState.guesses[rowIndex].output[colIndex] +
+              '-key'
+            : 'board-square'
+        }}"
         *ngFor="
           let letter of initializedWordSize;
           index as colIndex;

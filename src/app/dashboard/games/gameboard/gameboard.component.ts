@@ -28,7 +28,7 @@ export class GameboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.gameboardService.initializeGameState(this.totalGuesses);
+    this.gameboardService.initializeGameState(this.totalGuesses, this.wordSize);
     this.initialize();
   }
 
@@ -66,14 +66,8 @@ export class GameboardComponent implements OnInit {
     }
   }
 
-  handleGuess(guess: string): void {
-    const correctClass: string = 'correct-key';
-    const incorrectClass: string = 'incorrect-key';
-    const closeClass: string = 'close-key';
-
-    const answer = 'TESTY';
+  colorOnGuess(guess: string, answer: string): void {
     const separatedGuess = guess.split('');
-
     let keyMap: IKey[] = [];
     let guessOutput: string[] = [];
     let key: string = '';
@@ -93,6 +87,19 @@ export class GameboardComponent implements OnInit {
     }
     this.keyboardService.setKeyColor(keyMap);
     this.gameboardService.updateGuess(guess, this.activeRow, guessOutput);
+  }
+
+  onWin(): void {
+    console.log('game won!');
+  }
+
+  handleGuess(guess: string): void {
+    const answer = 'TESTY';
+    if (guess === answer) {
+      this.onWin();
+      return;
+    }
+    this.colorOnGuess(guess, answer);
     this.activeRow += 1;
   }
 
