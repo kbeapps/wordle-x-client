@@ -1,0 +1,43 @@
+@import "../../../assets/styles/variables.scss";
+
+.container-card {
+  height: 800px;
+  width: 800px;
+  text-align: center;
+
+  .section-header {
+    display: flex;
+    height: 25%;
+    justify-content: center;
+    align-items: center;
+  }
+  .section-form {
+    height: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+
+    mat-form-field {
+      width: 40%;
+    }
+  }
+  .section-control {
+    height: 25%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .confirm-button {
+    width: 30%;
+    height: 40px;
+    margin: auto;
+  }
+
+  .section-table {
+    background-color: aquamarine;
+    height: 200px;
+    width: 500px;
+    overflow: scroll;
+  }
+}
