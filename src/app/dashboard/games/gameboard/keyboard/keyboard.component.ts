@@ -1,7 +1,9 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, HostListener, OnInit, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { KeyboardService, IKey } from './keyboard.service';
+import { Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-keyboard',
@@ -9,6 +11,8 @@ import { KeyboardService, IKey } from './keyboard.service';
   styleUrls: ['./keyboard.component.scss'],
 })
 export class KeyboardComponent implements OnInit {
+  keyCodeMin: number = 100;
+  keyCodeMax: number = 0;
   topRowKeys: string[] = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];
   middleRowKeys: string[] = ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'];
   bottomRowKeys: string[] = [
@@ -20,13 +24,16 @@ export class KeyboardComponent implements OnInit {
     'B',
     'N',
     'M',
-    'DELETE',
+    'BACKSPACE',
   ];
   initializedKeys: IKey[] = [];
   keyboardStateSubscription: Subscription = new Subscription();
   @Output() keyPressed: EventEmitter<any> = new EventEmitter();
 
-  constructor(private keyboardService: KeyboardService) {
+  constructor(
+    private keyboardService: KeyboardService,
+    @Inject(DOCUMENT) document: Document
+  ) {
     this.keyboardStateSubscription = this.keyboardService
       .watchInitializedKeys()
       .subscribe((keyState: IKey[]) => (this.initializedKeys = keyState));
@@ -34,6 +41,24 @@ export class KeyboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeKeys();
+  }
+
+  @HostListener('window:keydown', ['$event']) externalKeyboardEvent(
+    event: any
+  ) {
+    if (document.getElementById('display-keyboard')) {
+      // alphabet event keycodes: 65 - 90
+      const keyCode: number = event.keyCode;
+      // alphabet event keycodes: 65 - 90
+      const eventKey: string = event.key.toUpperCase();
+      if (
+        (keyCode > 64 && keyCode < 91) ||
+        eventKey === 'ENTER' ||
+        eventKey === 'BACKSPACE'
+      ) {
+        this.onClick(eventKey);
+      }
+    }
   }
 
   initializeKeys(): void {

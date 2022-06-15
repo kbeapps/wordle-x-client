@@ -1,4 +1,4 @@
-<div class="keyboard-container">
+<div id="display-keyboard" class="keyboard-container">
   <div class="keyboard-row">
     <div *ngFor="let key of topRowKeys; index as keyIndex">
       <button
@@ -32,10 +32,10 @@
         mat-raised-button
         (click)="onClick(key)"
       >
-        <div *ngIf="key !== 'DELETE'; else deleteKey">
+        <div *ngIf="key !== 'BACKSPACE'; else backspaceKey">
           {{ key }}
         </div>
-        <ng-template #deleteKey>
+        <ng-template #backspaceKey>
           <mat-icon>backspace</mat-icon>
         </ng-template>
       </button>

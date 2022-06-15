@@ -53,7 +53,7 @@ export class GameboardComponent implements OnInit {
           this.handleGuess(currentGuess);
         }
         break;
-      case 'DELETE':
+      case 'BACKSPACE':
         if (currentGuessLength) {
           currentGuess = currentGuess.slice(0, -1);
           this.gameboardService.updateGuess(currentGuess, this.activeRow);
@@ -97,6 +97,7 @@ export class GameboardComponent implements OnInit {
   }
 
   handleGuess(guess: string): void {
+    console.log('handling guess');
     if (guess === this.answer) {
       this.onWin();
       return;
