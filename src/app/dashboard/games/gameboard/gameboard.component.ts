@@ -18,6 +18,7 @@ export class GameboardComponent implements OnInit {
   activeRow: number = 0;
   gameStateSubscription: Subscription = new Subscription();
   loading: boolean = true;
+  answer: string = '';
 
   constructor(
     private gameboardService: GameboardService,
@@ -29,6 +30,7 @@ export class GameboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.tempInit(); // REMOVE, initializes answer until added
     this.gameboardService.initializeGameState(this.totalGuesses, this.wordSize);
     this.initialize();
   }
@@ -95,16 +97,28 @@ export class GameboardComponent implements OnInit {
   }
 
   handleGuess(guess: string): void {
-    const answer = 'TESTY';
-    if (guess === answer) {
+    if (guess === this.answer) {
       this.onWin();
       return;
     }
-    this.colorOnGuess(guess, answer);
+
+    const isValidWord: boolean = checkWord(guess);
+    if (!isValidWord) {
+      // handle invalid word
+      console.log('word is invalid');
+      return;
+    }
+
+    // handle valid word guess
+    this.colorOnGuess(guess, this.answer);
     this.activeRow += 1;
   }
 
   getKeyColor(key: string) {
     return this.keyboardService.getKeyColor(key);
+  }
+
+  tempInit() {
+    this.answer = 'TESTY';
   }
 }
