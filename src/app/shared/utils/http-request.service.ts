@@ -21,8 +21,10 @@ export class HttpRequestService {
   private apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
 
-  get(route: string, params: string): Observable<object> {
-    return this.http.get<IResponse>(`${this.apiUrl}${route}/${params}`);
+  get(route: string, paramKey: string, paramValue: string): Observable<object> {
+    return this.http.get<IResponse>(
+      `${this.apiUrl}${route}/${paramKey}/${paramValue}`
+    );
   }
 
   post(route: string, payload: object): Observable<object> {
