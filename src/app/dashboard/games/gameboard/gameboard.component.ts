@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { IKey } from './keyboard/keyboard.service';
 import { GameboardService, GameState } from './gameboard.service';
 import { KeyboardService } from './keyboard/keyboard.service';
+import { checkWord } from 'check-if-word-partial';
 
 @Component({
   selector: 'app-gameboard',

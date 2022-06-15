@@ -2261,6 +2261,11 @@ chardet@^0.7.0:
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.7.0.tgz#90094849f0937f2eedc2425d0d28a9e5f0cbad9e"
   integrity sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==
 
+check-if-word-partial@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/check-if-word-partial/-/check-if-word-partial-1.1.4.tgz#9b1d83a0034181dd9fa0f56a20595439e17e1c7e"
+  integrity sha512-KZ4VIYp3MtRGAs3AnbKjoSgAbCm4sPh7R2OFXLb18cWW5CCE4zSSDtMJ3rWB0zaYMcmc4qYKoE+stKtvlYRElA==
+
 "chokidar@>=3.0.0 <4.0.0", chokidar@^3.0.0, chokidar@^3.5.1, chokidar@^3.5.3:
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.5.3.tgz#1cf37c8707b932bd1af1ae22c0432e2acd1903bd"
