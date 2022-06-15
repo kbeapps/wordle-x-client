@@ -20,6 +20,7 @@ import { RequestButtonComponent } from './shared/components/request-button/reque
 import { ThemeToggleComponent } from './dashboard/profile/components/theme-toggle/theme-toggle.component';
 import { GameboardComponent } from './dashboard/games/gameboard/gameboard.component';
 import { KeyboardComponent } from './dashboard/games/gameboard/keyboard/keyboard.component';
+import { BoardRowComponent } from './dashboard/games/gameboard/board-row/board-row.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { KeyboardComponent } from './dashboard/games/gameboard/keyboard/keyboard
     ThemeToggleComponent,
     GameboardComponent,
     KeyboardComponent,
+    BoardRowComponent,
   ],
   imports: [
     AppRoutingModule,
