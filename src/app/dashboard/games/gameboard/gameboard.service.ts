@@ -11,7 +11,9 @@ export class GameState {
 })
 export class GameboardService {
   gameState!: GameState;
-  private subject = new Subject<any>();
+  answer: string = 'testy'; // TODO: add answer population
+
+  private gameStateSubject = new Subject<any>();
 
   constructor(private storeService: StoreService) {}
 
@@ -29,7 +31,7 @@ export class GameboardService {
       this.storeService.setData('gameState', gameState);
     }
     this.gameState = gameState as GameState;
-    this.subject.next(this.gameState);
+    this.gameStateSubject.next(this.gameState);
   }
 
   updateGuess(guess: string, activeRow: number, output?: string[]) {
@@ -38,10 +40,10 @@ export class GameboardService {
       output: output ? output : [],
     };
     this.storeService.setData('gameState', this.gameState);
-    this.subject.next(this.gameState);
+    this.gameStateSubject.next(this.gameState);
   }
 
   watchGameState(): Observable<any> {
-    return this.subject.asObservable();
+    return this.gameStateSubject.asObservable();
   }
 }
