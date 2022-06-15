@@ -30,7 +30,7 @@ export class GameboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.tempInit(); // REMOVE, initializes answer until added
+    this.answer = this.gameboardService.answer.toLowerCase();
     this.gameboardService.initializeGameState(this.totalGuesses, this.wordSize);
     this.initialize();
   }
@@ -98,6 +98,7 @@ export class GameboardComponent implements OnInit {
 
   handleGuess(guess: string): void {
     console.log('handling guess');
+    guess = guess.toLowerCase();
     if (guess === this.answer) {
       this.onWin();
       return;
@@ -117,9 +118,5 @@ export class GameboardComponent implements OnInit {
 
   getKeyColor(key: string) {
     return this.keyboardService.getKeyColor(key);
-  }
-
-  tempInit() {
-    this.answer = 'TESTY';
   }
 }
