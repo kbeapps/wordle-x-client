@@ -3,12 +3,16 @@ import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { StoreService } from '../utils/store.service';
 
-interface IAuthStore {
-  loggedIn?: boolean;
+class IUserStore {
+  _id: string = '';
+  friends: string[] = [];
+  games: string[] = [];
+  groups: string[] = [];
 }
 
-interface IUserStore {
-  
+interface IAuthStore {
+  loggedIn?: boolean;
+  user?: IUserStore;
 }
 
 @Injectable({
@@ -48,8 +52,9 @@ export class AuthService {
     this.router.navigateByUrl('dashboard');
   }
 
-  storeUser(user: object) {
-    console.log('user: ', user);
+  storeUser(userStore: object) {
+    console.log('user: ', userStore);
+    this.authStore.user = userStore as IUserStore;
   }
 
   watchIsLoggedIn(): Observable<any> {
