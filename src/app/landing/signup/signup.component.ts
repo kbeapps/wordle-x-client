@@ -49,20 +49,20 @@ export class SignupComponent implements OnInit {
   }
 
   async onSignup(): Promise<void> {
-    this.isLoading = true;
-    try {
-      await this.signupService.requestSignup(
-        this.signupForm.value.email,
-        this.signupForm.value.username,
-        this.signupForm.value.password
-      );
-    } catch (error) {
-      if (error instanceof Error) {
-        this.errorMessage = error.message;
-      }
-    } finally {
-      this.isLoading = false;
-    }
+    // this.isLoading = true;
+    // try {
+    //   await this.signupService.requestSignup(
+    //     this.signupForm.value.email,
+    //     this.signupForm.value.username,
+    //     this.signupForm.value.password
+    //   );
+    // } catch (error) {
+    //   if (error instanceof Error) {
+    //     this.errorMessage = error.message;
+    //   }
+    // } finally {
+    //   this.isLoading = false;
+    // }
   }
 
   validateField(fieldKey: string): string {

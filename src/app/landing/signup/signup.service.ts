@@ -17,28 +17,28 @@ export class SignupService {
     private http: HttpRequestService
   ) {}
 
-  async requestSignup(
-    email: string,
-    username: string,
-    password: string
-  ): Promise<void> {
-    const signupRequestPayload: ISignupPayload = {
-      email: email,
-      username: username,
-      password: password,
-    };
-    try {
-      const res: IResponse | void = await this.http.post(
-        'auth/signup',
-        signupRequestPayload
-      );
-      if (res) {
-        // add return user on signup to backend
-        this.authService.storeUser(res.data);
-        this.authService.toggleIsLoggedIn(true);
-      }
-    } catch (error) {
-      throw new Error(error instanceof Error ? error.message : undefined);
-    }
-  }
+  // async requestSignup(
+  //   email: string,
+  //   username: string,
+  //   password: string
+  // ): Promise<void> {
+  //   const signupRequestPayload: ISignupPayload = {
+  //     email: email,
+  //     username: username,
+  //     password: password,
+  //   };
+  //   try {
+  //     const res: IResponse | void = await this.http.post(
+  //       'auth/signup',
+  //       signupRequestPayload
+  //     );
+  //     if (res) {
+  //       // add return user on signup to backend
+  //       this.authService.storeUser(res.data);
+  //       this.authService.toggleIsLoggedIn(true);
+  //     }
+  //   } catch (error) {
+  //     throw new Error(error instanceof Error ? error.message : undefined);
+  //   }
+  // }
 }

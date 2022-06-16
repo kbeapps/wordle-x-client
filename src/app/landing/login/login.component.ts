@@ -5,8 +5,8 @@ import {
   Validators,
   ValidationErrors,
 } from '@angular/forms';
-import { CustomValidationService } from 'src/app/shared/services/custom-validation.service';
-import { AuthService } from '../../shared/services/auth.service';
+import { AuthService, CustomValidationService } from '../../shared/services';
+import { finalize } from 'rxjs/operators';
 import { LoginService } from './login.service';
 
 @Component({
@@ -32,20 +32,20 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  async onLogin(): Promise<void> {
+  onLogin() {
     this.isLoading = true;
-    try {
-      await this.loginService.requestLogin(
+    this.loginService
+      .requestLogin(
         this.loginForm.value.emailOrUsername,
         this.loginForm.value.password
-      );
-    } catch (error) {
-      if (error instanceof Error) {
-        this.errorMessage = error.message;
-      }
-    } finally {
-      this.isLoading = false;
-    }
+      )
+      .pipe(finalize(() => (this.isLoading = false)))
+      .subscribe({
+        next: (res) => {},
+        error: (error) => {
+          this.errorMessage = error.message;
+        },
+      });
   }
 
   validateField(fieldKey: string): string {
