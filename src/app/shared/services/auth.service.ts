@@ -7,15 +7,13 @@ interface IAuthStore {
   loggedIn: boolean;
 }
 
-interface IUserStore {}
-
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   redirectUrl: string | null = null;
-  private subject = new Subject<any>();
-  authStore: IAuthStore = {
+  private loggedInSubject = new Subject<boolean>();
+  private authStore: IAuthStore = {
     loggedIn: false,
   };
 
@@ -23,7 +21,7 @@ export class AuthService {
     this.initStore();
   }
 
-  initStore(): void {
+  private initStore(): void {
     const authStore = this.storeService.getData('auth');
     if (authStore) {
       this.authStore = authStore as IAuthStore;
@@ -31,9 +29,13 @@ export class AuthService {
     }
   }
 
-  toggleIsLoggedIn(login: boolean): void {
+  public get isLoggedIn() {
+    return this.authStore.loggedIn;
+  }
+
+  public toggleIsLoggedIn(login: boolean): void {
     this.authStore.loggedIn = login;
-    this.subject.next(this.authStore.loggedIn);
+    this.loggedInSubject.next(this.authStore.loggedIn);
 
     if (!login) {
       this.router.navigateByUrl('login');
@@ -44,11 +46,7 @@ export class AuthService {
     this.router.navigateByUrl('dashboard');
   }
 
-  storeUser(user: object) {
-    console.log('user: ', user);
-  }
-
-  watchIsLoggedIn(): Observable<any> {
-    return this.subject.asObservable();
+  public watchIsLoggedIn(): Observable<any> {
+    return this.loggedInSubject.asObservable();
   }
 }
