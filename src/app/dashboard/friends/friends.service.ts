@@ -3,7 +3,7 @@ import { catchError, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpRequestService } from 'src/app/shared/services';
 import { Observable } from 'rxjs';
-import { User } from '../../core/model/user';
+import { User } from '../../core/models/user';
 
 @Injectable({
   providedIn: 'root',
