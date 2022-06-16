@@ -2,11 +2,9 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import { StoreService } from './store.service';
-import { User } from 'src/app/core';
 
 interface IAuthStore {
   loggedIn: boolean;
-  user
 }
 
 @Injectable({
@@ -14,17 +12,16 @@ interface IAuthStore {
 })
 export class AuthService {
   redirectUrl: string | null = null;
-  private subject = new Subject<any>();
-  authStore: IAuthStore = {
+  private loggedInSubject = new Subject<boolean>();
+  private authStore: IAuthStore = {
     loggedIn: false,
-    user: (User = new User()),
   };
 
   constructor(private router: Router, private storeService: StoreService) {
     this.initStore();
   }
 
-  initStore(): void {
+  private initStore(): void {
     const authStore = this.storeService.getData('auth');
     if (authStore) {
       this.authStore = authStore as IAuthStore;
@@ -32,9 +29,13 @@ export class AuthService {
     }
   }
 
-  toggleIsLoggedIn(login: boolean): void {
+  public get isLoggedIn() {
+    return this.authStore.loggedIn;
+  }
+
+  public toggleIsLoggedIn(login: boolean): void {
     this.authStore.loggedIn = login;
-    this.subject.next(this.authStore.loggedIn);
+    this.loggedInSubject.next(this.authStore.loggedIn);
 
     if (!login) {
       this.router.navigateByUrl('login');
@@ -45,11 +46,7 @@ export class AuthService {
     this.router.navigateByUrl('dashboard');
   }
 
-  storeUser(user: User) {
-    this.authStore.user = user;
-  }
-
-  watchIsLoggedIn(): Observable<any> {
-    return this.subject.asObservable();
+  public watchIsLoggedIn(): Observable<any> {
+    return this.loggedInSubject.asObservable();
   }
 }

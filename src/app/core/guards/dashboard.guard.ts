@@ -24,13 +24,9 @@ export class DashboardGuard implements CanActivate {
   }
 
   checkLogin(url: string): true | UrlTree {
-    if (this.authService.authStore.loggedIn) {
+    if (this.authService.isLoggedIn) {
       return true;
     }
-
-    // Store the attempted URL for redirecting
-    this.authService.redirectUrl = url;
-
     // Redirect to the login page
     return this.router.parseUrl('/login');
   }
