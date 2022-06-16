@@ -6,7 +6,6 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { AuthService, CustomValidationService } from '../../shared/services';
-import { finalize } from 'rxjs/operators';
 import { LoginService } from './login.service';
 
 @Component({
@@ -15,8 +14,8 @@ import { LoginService } from './login.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  loginForm!: FormGroup;
   isLoading: boolean = false;
+  loginForm!: FormGroup;
   errorMessage: string = '';
 
   constructor(
@@ -39,12 +38,12 @@ export class LoginComponent implements OnInit {
         this.loginForm.value.emailOrUsername,
         this.loginForm.value.password
       )
-      .pipe(finalize(() => (this.isLoading = false)))
       .subscribe({
         next: (res) => {},
         error: (error) => {
           this.errorMessage = error.message;
         },
+        complete: () => (this.isLoading = false),
       });
   }
 

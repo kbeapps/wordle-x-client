@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpRequestService, IResponse } from 'src/app/shared';
 import { AuthService } from '../../shared/services/auth.service';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, finalize, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 interface ILoginPayload {
@@ -19,7 +19,7 @@ export class LoginService {
     private http: HttpRequestService
   ) {}
 
-  requestLogin(emailOrUsername: string, password: string) {
+  public requestLogin(emailOrUsername: string, password: string) {
     const loginRequestPayload: ILoginPayload = {
       password: password,
     };
@@ -30,7 +30,14 @@ export class LoginService {
       catchError((error) => {
         throw new Error(error.error.message);
       }),
-      map((res) => (res ? true : false))
+      map((res) => {
+        if (res) {
+          this.authService.storeUser(res.data);
+          this.authService.toggleIsLoggedIn(true);
+          return true;
+        }
+        return false;
+      })
     );
   }
 }
