@@ -8,8 +8,7 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError, EMPTY } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AuthService } from 'src/app/shared/services/auth.service';
-import { logError } from 'src/app/shared';
+import { AuthService } from 'src/app/shared/services';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -30,7 +29,6 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return source.pipe(
       catchError((error: HttpErrorResponse) => {
-        logError('auth interceptor', error);
         if (error.status === 401) {
           // test with error status
           this.authService.toggleIsLoggedIn(false);
