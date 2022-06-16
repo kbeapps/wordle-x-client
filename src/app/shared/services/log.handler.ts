@@ -12,6 +12,6 @@ export function logError(
   error?: Error | HttpErrorResponse | string
 ): void {
   if (!environment.production) {
-    console.log(`[error] ${label}: ${error}`);
+    console.log(`[error] ${label}: `, error);
   }
 }

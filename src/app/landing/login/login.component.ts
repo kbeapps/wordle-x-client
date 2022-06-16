@@ -1,13 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormGroup,
   FormControl,
   Validators,
   ValidationErrors,
 } from '@angular/forms';
-import { CustomValidationService } from 'src/app/shared/services/custom-validation.service';
-import { AuthService } from '../../shared/services/auth.service';
+import { CustomValidationService } from '../../shared/services';
 import { LoginService } from './login.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -15,12 +15,11 @@ import { LoginService } from './login.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  loginForm!: FormGroup;
   isLoading: boolean = false;
+  loginForm!: FormGroup;
   errorMessage: string = '';
 
   constructor(
-    private authService: AuthService,
     private loginService: LoginService,
     private validationService: CustomValidationService
   ) {}
@@ -32,20 +31,18 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  async onLogin(): Promise<void> {
+  onLogin(): void {
     this.isLoading = true;
-    try {
-      await this.loginService.requestLogin(
+    this.loginService
+      .requestLogin(
         this.loginForm.value.emailOrUsername,
         this.loginForm.value.password
-      );
-    } catch (error) {
-      if (error instanceof Error) {
-        this.errorMessage = error.message;
-      }
-    } finally {
-      this.isLoading = false;
-    }
+      )
+      .pipe(finalize(() => (this.isLoading = false)))
+      .subscribe({
+        next: (res) => {},
+        error: (error) => (this.errorMessage = error.message),
+      });
   }
 
   validateField(fieldKey: string): string {
