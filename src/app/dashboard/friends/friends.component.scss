@@ -44,16 +44,18 @@ $container-width: 75vw;
     align-items: center;
     justify-content: space-around;
     height: calc($container-height * 0.5);
-    border: 1px solid teal;
 
     .section-table {
       height: 80%;
       width: 80%;
-      overflow: scroll;
+      overflow: auto;
 
       mat-selection-list {
         mat-list-option {
-          border: 1px black;
+          &:focus {
+            background-color: #512da8;
+            font-weight: 700;
+          }
         }
       }
 

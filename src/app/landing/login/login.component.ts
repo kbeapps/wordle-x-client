@@ -5,7 +5,6 @@ import {
   Validators,
   ValidationErrors,
 } from '@angular/forms';
-import { firstValueFrom } from 'rxjs';
 import { CustomValidationService } from 'src/app/shared/services/custom-validation.service';
 import { AuthService } from '../../shared/services/auth.service';
 import { LoginService } from './login.service';
@@ -33,18 +32,20 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  async onLogin() {
+  async onLogin(): Promise<void> {
     this.isLoading = true;
-
-    await firstValueFrom(
-      this.loginService.requestLogin(
+    try {
+      await this.loginService.requestLogin(
         this.loginForm.value.emailOrUsername,
         this.loginForm.value.password
-      )
-    )
-      .then((res) => this.authService.toggleIsLoggedIn())
-      .catch((err) => (this.errorMessage = err.error.message))
-      .finally(() => (this.isLoading = false));
+      );
+    } catch (error) {
+      if (error instanceof Error) {
+        this.errorMessage = error.message;
+      }
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   validateField(fieldKey: string): string {

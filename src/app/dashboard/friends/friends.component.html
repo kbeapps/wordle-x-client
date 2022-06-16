@@ -5,7 +5,7 @@
       <form>
         <mat-form-field appearance="fill">
           <mat-label>Email or Username</mat-label>
-          <input matInput type="text" />
+          <input matInput type="text" [formControl]="emailOrUsername" />
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
       </form>
@@ -14,7 +14,7 @@
         <app-request-button
           color="primary"
           label="Add Friend"
-          (click)="onAddFriend()"
+          (click)="onSendFriendRequest()"
           [isLoading]="isLoading"
         ></app-request-button>
       </div>
@@ -43,7 +43,6 @@
         </mat-list-option>
       </mat-selection-list>
     </div>
-
-    <p>Option selected: {{ friends.selectedOptions.selected[0]?.value }}</p>
   </div>
+  <p>Option selected: {{ friends.selectedOptions.selected[0]?.value }}</p>
 </mat-card>

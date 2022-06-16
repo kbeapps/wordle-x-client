@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormGroup,
-  FormControl,
-  Validators,
-  ValidationErrors,
-} from '@angular/forms';
+import { FormControl, Validators, ValidationErrors } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
+import { FriendsService } from './friends.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-friends',
@@ -13,31 +11,46 @@ import {
 })
 export class FriendsComponent implements OnInit {
   isLoading: boolean = false;
+  // friendsList: string[] = [];
+  emailOrUsername!: FormControl;
 
   friendsList: string[] = [
-    'friend1',
-    'friend2',
-    'friend2',
-    'friend2',
-    'friend2',
-    'friend2',
-    'friend2',
+    'friend',
+    'friend',
+    'friend',
+    'friend',
+    'friend',
+    'friend',
+    'friend',
+    'friend',
   ];
-  addFriendForm!: FormGroup;
 
-  constructor() {}
+  constructor(
+    private friendsService: FriendsService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-    this.addFriendForm = new FormGroup({
-      emailOrUsername: new FormControl('', Validators.required),
-    });
+    this.emailOrUsername = new FormControl('', Validators.required);
+    // this.friendsList = this.authService.authStore;
   }
 
-  onAddFriend() {}
+  async onSendFriendRequest(): Promise<void> {
+    if (!this.emailOrUsername) {
+      return;
+    }
 
-  onDeleteFriend(friend: string): void {
+    await firstValueFrom(
+      this.friendsService.sendFriendRequest(this.emailOrUsername.value)
+    )
+      .then((res) => console.log('res: ', res))
+      .catch((err) => console.log('err: ', err))
+      .finally(() => console.log('complete'));
+  }
+
+  async onDeleteFriend(friend: string): Promise<void> {
     console.log(
-      `You blocked me on facebook, now youre going to die: ${friend} `
+      `You blocked me on facebook, now youre going to die: ${friend}`
     );
   }
 }
