@@ -38,7 +38,7 @@ export class SignupService {
       if (res) {
         // add return user on signup to backend
         this.authService.storeUser(res.data);
-        this.authService.toggleIsLoggedIn();
+        this.authService.toggleIsLoggedIn(true);
       }
     } catch (error) {
       throw new Error(error instanceof Error ? error.message : undefined);
