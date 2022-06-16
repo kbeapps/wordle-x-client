@@ -6,7 +6,7 @@ import {
 } from 'src/app/shared/services';
 import { catchError, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { User } from 'src/app/core';
+import { IUser } from 'src/app/core';
 
 interface ILoginPayload {
   email?: string;
@@ -40,7 +40,7 @@ export class LoginService {
       }),
       map((res) => {
         if (res) {
-          this.userService.user = res.data as User;
+          this.userService.user = res.data as IUser;
           this.authService.toggleIsLoggedIn(true);
           return true;
         }
