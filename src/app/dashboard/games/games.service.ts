@@ -24,7 +24,7 @@ export class GamesService {
   public create(game: IGame): Observable<boolean> {
     return this.http.post('game/create', game).pipe(
       catchError((error) => {
-        throw new Error(error.error.message);
+        throw new Error(error.message);
       }),
       map((res) => {
         if (res) {
@@ -39,7 +39,7 @@ export class GamesService {
   public get(gameId: string): Observable<boolean> {
     return this.http.get('game/get', '_id', gameId).pipe(
       catchError((error) => {
-        throw new Error(error.error.message);
+        throw new Error(error.message);
       }),
       map((res) => {
         if (res) {
@@ -54,7 +54,7 @@ export class GamesService {
   public getAll(ownerId: string): Observable<boolean> {
     return this.http.get('game/getAll', 'ownerId', ownerId).pipe(
       catchError((error) => {
-        throw new Error(error.error.message);
+        throw new Error(error.message);
       }),
       map((res) => {
         if (res) {
@@ -74,7 +74,7 @@ export class GamesService {
       })
       .pipe(
         catchError((error) => {
-          throw new Error(error.error.message);
+          throw new Error(error.message);
         }),
         map((res) => {
           if (res) {
@@ -89,7 +89,7 @@ export class GamesService {
   public delete(gameId: string): Observable<boolean> {
     return this.http.delete('game/remove', gameId).pipe(
       catchError((error) => {
-        throw new Error(error.error.message);
+        throw new Error(error.message);
       }),
       map((res) => {
         if (res) {

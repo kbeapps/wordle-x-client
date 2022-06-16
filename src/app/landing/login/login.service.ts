@@ -31,7 +31,7 @@ export class LoginService {
 
     return this.http.post('auth/signin', loginRequestPayload).pipe(
       catchError((error) => {
-        throw new Error(error.error.message);
+        throw new Error(error.message);
       }),
       map((res) => {
         if (res) {

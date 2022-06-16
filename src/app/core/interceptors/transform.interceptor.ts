@@ -4,9 +4,10 @@ import {
   HttpHandler,
   HttpInterceptor,
   HttpResponse,
+  HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { ResponseBody } from '../model';
 
 @Injectable()
@@ -15,6 +16,12 @@ export class TransformInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
     return next.handle(req).pipe(
+      catchError((error) => {
+        if (error instanceof HttpErrorResponse) {
+          return throwError(() => new Error(error.message));
+        }
+        return error;
+      }),
       map((event) => {
         if (event instanceof HttpResponse) {
           const body = new ResponseBody();
