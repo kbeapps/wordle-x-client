@@ -49,13 +49,12 @@ $container-width: 75vw;
       height: 80%;
       width: 80%;
       overflow: auto;
+      border: 1px solid teal;
 
-      mat-selection-list {
-        mat-list-option {
-          &:focus {
-            background-color: #512da8;
-            font-weight: 700;
-          }
+      mat-list-option {
+        &:focus {
+          background-color: #512da8;
+          font-size: 1.3rem;
         }
       }
 

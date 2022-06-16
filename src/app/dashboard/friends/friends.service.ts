@@ -1,5 +1,6 @@
+import { catchError, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { HttpRequestService } from 'src/app/shared/utils/http-request.service';
+import { HttpRequestService } from 'src/app/shared/services';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -8,20 +9,28 @@ import { Observable } from 'rxjs';
 export class FriendsService {
   constructor(private http: HttpRequestService) {}
 
-  // Check if a user exists before sending a friend request
-  userExists(emailOrUsername: string) {
-    const key = emailOrUsername.includes('@') ? 'email' : 'username';
-
-    // return this.http.get('user/get', key, emailOrUsername);
+  findUserId(key: string, emailOrUsername: string): Observable<string> {
+    return this.http.get('user/get', key, emailOrUsername).pipe(
+      catchError((error) => {
+        // TODO intercept errors and return only error message in error handler
+        throw new Error(error.error.message);
+      }),
+      map((res) => {
+        if (res) {
+          res.data
+          return '';
+        }
+        return '';
+      })
+    );
   }
 
-  // Send a friend request to a user
   sendFriendRequest(emailOrUsername: string) {
     const key = emailOrUsername.includes('@') ? 'email' : 'username';
-    // return this.http.patch('notification/create', {});
+
+    return this.http.patch('notification/create', {});
   }
 
-  // Deletes a user from friend list
   deleteFriend(userId: string) {
     return this.http.delete('user/update', userId);
   }
