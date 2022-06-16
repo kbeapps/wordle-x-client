@@ -4,8 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { MaterialModule } from './core/modules/material.module';
-import { httpInterceptorProviders } from './core/interceptors';
+import { httpInterceptorProviders, MaterialModule } from './core';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -49,7 +48,7 @@ import { BoardRowComponent } from './dashboard/games/gameboard/board-row/board-r
     ReactiveFormsModule,
     MaterialModule,
   ],
-  providers: [],
+  providers: [httpInterceptorProviders],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
