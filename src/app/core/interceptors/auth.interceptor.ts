@@ -19,7 +19,10 @@ export class AuthInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     // test & implement with auth header
-    return next.handle(request).pipe((source) => this.handleAuthErrors(source));
+    return next.handle(request).pipe((source) => {
+      console.log('in auth');
+      return this.handleAuthErrors(source);
+    });
   }
 
   handleAuthErrors(
@@ -27,6 +30,7 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return source.pipe(
       catchError((error: HttpErrorResponse) => {
+        console.log('out auth');
         if (error.status === 401) {
           // test with error status
           this.authService.toggleIsLoggedIn(false);

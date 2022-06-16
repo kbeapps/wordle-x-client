@@ -33,6 +33,7 @@ export class LoginService {
         loginRequestPayload
       );
       if (res) {
+        console.log('res: ', res);
         this.authService.storeUser(res.data);
         this.authService.toggleIsLoggedIn(true);
       }
