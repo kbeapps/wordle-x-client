@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpRequestService,
-  IResponse,
-} from 'src/app/shared/utils/http-request.service';
+import { HttpRequestService, IResponse } from 'src/app/shared';
 
 interface IGame {
   _id?: string;
@@ -21,7 +18,6 @@ interface IGame {
 })
 export class GamesService {
   constructor(private http: HttpRequestService) {}
-
   async create(game: IGame): Promise<void | undefined> {
     // const game: IGame = {
     //   name: name,
@@ -32,14 +28,12 @@ export class GamesService {
     //   winCondition: winCondition,
     //   wordSize: wordSize,
     // };
-
     try {
       const res: IResponse | void = await this.http.post('game/create', game);
     } catch (error) {
       throw new Error(error instanceof Error ? error.message : undefined);
     }
   }
-
   async get(gameId: string): Promise<void | undefined> {
     try {
       const res: IResponse | void = await this.http.get(
@@ -51,7 +45,6 @@ export class GamesService {
       throw new Error(error instanceof Error ? error.message : undefined);
     }
   }
-
   async getAll(ownerId: string): Promise<void | undefined> {
     try {
       const res: IResponse | void = await this.http.get(
@@ -63,7 +56,6 @@ export class GamesService {
       throw new Error(error instanceof Error ? error.message : undefined);
     }
   }
-
   async update(gameId: string, query: object): Promise<void | undefined> {
     try {
       const res: IResponse | void = await this.http.patch('game/update', {
@@ -74,7 +66,6 @@ export class GamesService {
       throw new Error(error instanceof Error ? error.message : undefined);
     }
   }
-
   async delete(gameId: string): Promise<void | undefined> {
     try {
       const res: IResponse | void = await this.http.delete(

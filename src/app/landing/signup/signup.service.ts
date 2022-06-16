@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpRequestService,
-  IResponse,
-} from 'src/app/shared/utils/http-request.service';
+import { HttpRequestService, IResponse } from 'src/app/shared';
 import { AuthService } from '../../shared/services/auth.service';
 
 interface ISignupPayload {
