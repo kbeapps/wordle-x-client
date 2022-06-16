@@ -9,6 +9,7 @@ import {
 import { Observable, throwError, EMPTY } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { logError } from 'src/app/shared';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -20,7 +21,6 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     // test & implement with auth header
     return next.handle(request).pipe((source) => {
-      console.log('in auth');
       return this.handleAuthErrors(source);
     });
   }
@@ -30,7 +30,7 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return source.pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log('out auth');
+        logError('auth interceptor', error);
         if (error.status === 401) {
           // test with error status
           this.authService.toggleIsLoggedIn(false);

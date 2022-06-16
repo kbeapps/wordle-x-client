@@ -1,4 +1,5 @@
 import { environment } from 'src/environments/environment';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export function logInfo(label: string, message?: string): void {
   if (!environment.production) {
@@ -6,7 +7,10 @@ export function logInfo(label: string, message?: string): void {
   }
 }
 
-export function logError(label: string, error?: string): void {
+export function logError(
+  label: string,
+  error?: Error | HttpErrorResponse | string
+): void {
   if (!environment.production) {
     console.log(`[error] ${label}: ${error}`);
   }
