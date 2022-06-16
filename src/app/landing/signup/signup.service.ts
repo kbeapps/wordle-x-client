@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpRequestService } from 'src/app/shared/services';
-import { AuthService } from '../../shared/services/auth.service';
+import {
+  AuthService,
+  HttpRequestService,
+  UserService,
+} from '../../shared/services';
 import { catchError, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { User } from 'src/app/core';
 
 interface ISignupPayload {
   email: string;
@@ -16,7 +20,8 @@ interface ISignupPayload {
 export class SignupService {
   constructor(
     private authService: AuthService,
-    private http: HttpRequestService
+    private http: HttpRequestService,
+    private userService: UserService
   ) {}
 
   public requestSignup(
@@ -36,7 +41,7 @@ export class SignupService {
       }),
       map((res) => {
         if (res) {
-          this.authService.storeUser(res.data);
+          this.userService.user = res.data as User;
           this.authService.toggleIsLoggedIn(true);
           return true;
         }

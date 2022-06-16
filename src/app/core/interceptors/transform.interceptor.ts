@@ -8,7 +8,7 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { ResponseBody } from '../model';
+import { ResponseBody } from '../models';
 
 @Injectable()
 export class TransformInterceptor implements HttpInterceptor {
