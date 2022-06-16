@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { User } from 'src/app/core';
+import { IUser } from 'src/app/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private currentUser: User = new User();
+  private currentUser: IUser = ;
   private userSubject = new Subject<User>();
   constructor() {}
 
