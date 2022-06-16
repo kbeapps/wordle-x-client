@@ -1,7 +1,13 @@
+import { environment } from 'src/environments/environment';
+
 export function logInfo(label: string, message?: string): void {
-  console.log(`${label}: ${message}`);
+  if (!environment.production) {
+    console.log(`[info] ${label}: ${message}`);
+  }
 }
 
 export function logError(label: string, error?: string): void {
-  console.log(`${label}: ${error}`);
+  if (!environment.production) {
+    console.log(`[error] ${label}: ${error}`);
+  }
 }
