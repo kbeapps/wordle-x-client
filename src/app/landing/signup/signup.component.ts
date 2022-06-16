@@ -5,10 +5,10 @@ import {
   Validators,
   ValidationErrors,
 } from '@angular/forms';
-import { firstValueFrom } from 'rxjs';
-import { CustomValidationService } from 'src/app/shared/services/custom-validation.service';
-import { AuthService } from '../../shared/services/auth.service';
+import { CustomValidationService } from '../../shared/services';
 import { SignupService } from './signup.service';
+import { finalize } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-signup',
@@ -22,7 +22,6 @@ export class SignupComponent implements OnInit {
   errorMessage: string = '';
 
   constructor(
-    private authService: AuthService,
     private signupService: SignupService,
     private validationService: CustomValidationService
   ) {}
@@ -48,21 +47,19 @@ export class SignupComponent implements OnInit {
     this.signupForm.addValidators(this.validationService.doesMatchValidator());
   }
 
-  async onSignup(): Promise<void> {
+  onSignup(): void {
     this.isLoading = true;
-    try {
-      await this.signupService.requestSignup(
+    this.signupService
+      .requestSignup(
         this.signupForm.value.email,
         this.signupForm.value.username,
         this.signupForm.value.password
-      );
-    } catch (error) {
-      if (error instanceof Error) {
-        this.errorMessage = error.message;
-      }
-    } finally {
-      this.isLoading = false;
-    }
+      )
+      .pipe(finalize(() => (this.isLoading = false)))
+      .subscribe({
+        next: (res) => {},
+        error: (error) => (this.errorMessage = error.message),
+      });
   }
 
   validateField(fieldKey: string): string {

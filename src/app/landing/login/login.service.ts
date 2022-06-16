@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpRequestService,
-  IResponse,
-} from 'src/app/shared/utils/http-request.service';
+import { HttpRequestService } from 'src/app/shared/services';
 import { AuthService } from '../../shared/services/auth.service';
+import { catchError, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 interface ILoginPayload {
   email?: string;
@@ -20,24 +19,28 @@ export class LoginService {
     private http: HttpRequestService
   ) {}
 
-  async requestLogin(emailOrUsername: string, password: string): Promise<void> {
+  public requestLogin(
+    emailOrUsername: string,
+    password: string
+  ): Observable<boolean> {
     const loginRequestPayload: ILoginPayload = {
       password: password,
     };
     loginRequestPayload[emailOrUsername.includes('@') ? 'email' : 'username'] =
       emailOrUsername;
 
-    try {
-      const res: IResponse | void = await this.http.post(
-        'auth/signin',
-        loginRequestPayload
-      );
-      if (res) {
-        this.authService.storeUser(res.data);
-        this.authService.toggleIsLoggedIn();
-      }
-    } catch (error) {
-      throw new Error(error instanceof Error ? error.message : undefined);
-    }
+    return this.http.post('auth/signin', loginRequestPayload).pipe(
+      catchError((error) => {
+        throw new Error(error.message);
+      }),
+      map((res) => {
+        if (res) {
+          this.authService.storeUser(res.data);
+          this.authService.toggleIsLoggedIn(true);
+          return true;
+        }
+        return false;
+      })
+    );
   }
 }
