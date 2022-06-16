@@ -34,11 +34,11 @@ export class GamesService {
   }
 
   get(gameId: string) {
-    return this.http.get('game/get', gameId);
+    return this.http.get('game/get', '_id', gameId);
   }
 
   getAll(ownerId: string) {
-    return this.http.get('game/getAll', ownerId);
+    return this.http.get('game/getAll', 'ownerId', ownerId);
   }
 
   update(gameId: string, query: object) {
