@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpErrorResponse,
+} from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
-interface IResponse {
-  message?: string;
-  data?: object;
+export interface IResponse {
+  message: string;
+  data: object;
 }
 
 const httpOptions = {
@@ -21,24 +25,60 @@ export class HttpRequestService {
   private apiUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
 
-  get(route: string, paramKey: string, paramValue: string): Observable<object> {
-    return this.http.get<IResponse>(
-      `${this.apiUrl}${route}/${paramKey}/${paramValue}`
-    );
+  async get(
+    route: string,
+    paramKey: string,
+    paramValue: string
+  ): Promise<IResponse | void> {
+    try {
+      return await firstValueFrom(
+        this.http.get<IResponse>(
+          `${this.apiUrl}${route}/${paramKey}/${paramValue}`
+        )
+      );
+    } catch (error) {
+      throw new Error(
+        error instanceof HttpErrorResponse ? error.error.message : undefined
+      );
+    }
   }
 
-  post(route: string, payload: object): Observable<object> {
-    return this.http.post<IResponse>(this.apiUrl + route, payload, httpOptions);
+  async post(route: string, payload: object): Promise<IResponse | void> {
+    try {
+      return await firstValueFrom(
+        this.http.post<IResponse>(this.apiUrl + route, payload, httpOptions)
+      );
+    } catch (error) {
+      throw new Error(
+        error instanceof HttpErrorResponse ? error.error.message : undefined
+      );
+    }
   }
 
-  patch(route: string, payload: object): Observable<object> {
-    return this.http.patch<object>(this.apiUrl + route, payload, httpOptions);
+  async patch(route: string, payload: object): Promise<IResponse | void> {
+    try {
+      return await firstValueFrom(
+        this.http.patch<IResponse>(this.apiUrl + route, payload, httpOptions)
+      );
+    } catch (error) {
+      throw new Error(
+        error instanceof HttpErrorResponse ? error.error.message : undefined
+      );
+    }
   }
 
-  delete(route: string, params: string): Observable<object> {
-    return this.http.delete<IResponse>(
-      `${this.apiUrl}${route}/${params}`,
-      httpOptions
-    );
+  async delete(route: string, params: string): Promise<IResponse | void> {
+    try {
+      return await firstValueFrom(
+        this.http.delete<IResponse>(
+          `${this.apiUrl}${route}/${params}`,
+          httpOptions
+        )
+      );
+    } catch (error) {
+      throw new Error(
+        error instanceof HttpErrorResponse ? error.error.message : undefined
+      );
+    }
   }
 }

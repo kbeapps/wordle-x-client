@@ -7,6 +7,10 @@ interface IAuthStore {
   loggedIn?: boolean;
 }
 
+interface IUserStore {
+  
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -42,6 +46,10 @@ export class AuthService {
     }
     this.storeService.setData('auth', this.authStore);
     this.router.navigateByUrl('dashboard');
+  }
+
+  storeUser(user: object) {
+    console.log('user: ', user);
   }
 
   watchIsLoggedIn(): Observable<any> {
