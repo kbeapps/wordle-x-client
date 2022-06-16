@@ -3,16 +3,38 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
+  HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError, EMPTY } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+  constructor(private authService: AuthService) {}
 
-  constructor() {}
+  intercept(
+    request: HttpRequest<unknown>,
+    next: HttpHandler
+  ): Observable<HttpEvent<unknown>> {
+    // test & implement with auth header
+    return next.handle(request).pipe((source) => this.handleAuthErrors(source));
+  }
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    return next.handle(request);
+  handleAuthErrors(
+    source: Observable<HttpEvent<any>>
+  ): Observable<HttpEvent<any>> {
+    return source.pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          // test with error status
+          this.authService.toggleIsLoggedIn(false);
+          return EMPTY;
+        } else {
+          return throwError(() => error);
+        }
+      })
+    );
   }
 }

@@ -34,7 +34,7 @@ export class LoginService {
       );
       if (res) {
         this.authService.storeUser(res.data);
-        this.authService.toggleIsLoggedIn();
+        this.authService.toggleIsLoggedIn(true);
       }
     } catch (error) {
       throw new Error(error instanceof Error ? error.message : undefined);

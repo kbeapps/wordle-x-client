@@ -4,12 +4,10 @@ import { Observable, Subject } from 'rxjs';
 import { StoreService } from '../utils/store.service';
 
 interface IAuthStore {
-  loggedIn?: boolean;
+  loggedIn: boolean;
 }
 
-interface IUserStore {
-  
-}
+interface IUserStore {}
 
 @Injectable({
   providedIn: 'root',
@@ -33,13 +31,11 @@ export class AuthService {
     }
   }
 
-  toggleIsLoggedIn(): void {
-    // simulate until request is added
-    const isLoggedIn: boolean = !this.authStore.loggedIn;
-    this.authStore.loggedIn = isLoggedIn;
-    this.subject.next(isLoggedIn);
-    console.log('isLogged: ', isLoggedIn);
-    if (!isLoggedIn) {
+  toggleIsLoggedIn(login: boolean): void {
+    this.authStore.loggedIn = login;
+    this.subject.next(this.authStore.loggedIn);
+
+    if (!login) {
       this.router.navigateByUrl('login');
       this.storeService.clearData();
       return;
