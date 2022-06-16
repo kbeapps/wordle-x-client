@@ -2,10 +2,15 @@
 @include mat.core(); // required mat-core mixin
 @import "themes/light-theme";
 @import "themes/dark-theme";
+@import "./variables.scss";
 
 @include mat.core-theme($dark-theme);
 // include all used mat components in classes:
 .main-light-theme {
+  // $primary-color: $dark-primary-color;
+  // $accent-color: $dark-accent-color;
+  // $warn-color: $dark-warn-color;
+
   @include mat.autocomplete-color($light-theme);
   @include mat.badge-color($light-theme);
   @include mat.bottom-sheet-color($light-theme);
@@ -43,6 +48,9 @@
 }
 
 .main-dark-theme {
+  $primary-color: $light-primary-color;
+  $accent-color: $light-accent-color;
+  $warn-color: $light-warn-color;
   @include mat.autocomplete-color($dark-theme);
   @include mat.badge-color($dark-theme);
   @include mat.bottom-sheet-color($dark-theme);
