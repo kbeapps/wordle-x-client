@@ -9,16 +9,16 @@ export class FriendsService {
   constructor(private http: HttpRequestService) {}
 
   // Check if a user exists before sending a friend request
-  userExists(emailOrUsername: string): Observable<object> {
+  userExists(emailOrUsername: string) {
     const key = emailOrUsername.includes('@') ? 'email' : 'username';
 
-    return this.http.get('user/get', key, emailOrUsername);
+    // return this.http.get('user/get', key, emailOrUsername);
   }
 
   // Send a friend request to a user
-  sendFriendRequest(emailOrUsername: string): Observable<object> {
+  sendFriendRequest(emailOrUsername: string) {
     const key = emailOrUsername.includes('@') ? 'email' : 'username';
-    return this.http.patch('notification/create', {});
+    // return this.http.patch('notification/create', {});
   }
 
   // Deletes a user from friend list

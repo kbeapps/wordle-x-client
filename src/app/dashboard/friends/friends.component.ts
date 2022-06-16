@@ -40,12 +40,12 @@ export class FriendsComponent implements OnInit {
       return;
     }
 
-    await firstValueFrom(
-      this.friendsService.sendFriendRequest(this.emailOrUsername.value)
-    )
-      .then((res) => console.log('res: ', res))
-      .catch((err) => console.log('err: ', err))
-      .finally(() => console.log('complete'));
+    // await firstValueFrom(
+    //   this.friendsService.sendFriendRequest(this.emailOrUsername.value)
+    // )
+    //   .then((res) => console.log('res: ', res))
+    //   .catch((err) => console.log('err: ', err))
+    //   .finally(() => console.log('complete'));
   }
 
   async onDeleteFriend(friend: string): Promise<void> {
