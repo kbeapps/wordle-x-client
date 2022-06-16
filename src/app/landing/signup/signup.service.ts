@@ -32,7 +32,7 @@ export class SignupService {
 
     return this.http.post('auth/signup', signupRequestPayload).pipe(
       catchError((error) => {
-        throw new Error(error.error.message);
+        throw new Error(error.message);
       }),
       map((res) => {
         if (res) {
