@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpRequestService,
-  IResponse,
-} from 'src/app/shared/utils/http-request.service';
+import { HttpRequestService } from 'src/app/shared';
 import { AuthService } from '../../shared/services/auth.service';
+import { catchError, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 interface ISignupPayload {
   email: string;
@@ -20,28 +19,29 @@ export class SignupService {
     private http: HttpRequestService
   ) {}
 
-  async requestSignup(
+  public requestSignup(
     email: string,
     username: string,
     password: string
-  ): Promise<void> {
+  ): Observable<boolean> {
     const signupRequestPayload: ISignupPayload = {
       email: email,
       username: username,
       password: password,
     };
-    try {
-      const res: IResponse | void = await this.http.post(
-        'auth/signup',
-        signupRequestPayload
-      );
-      if (res) {
-        // add return user on signup to backend
-        this.authService.storeUser(res.data);
-        this.authService.toggleIsLoggedIn();
-      }
-    } catch (error) {
-      throw new Error(error instanceof Error ? error.message : undefined);
-    }
+
+    return this.http.post('auth/signup', signupRequestPayload).pipe(
+      catchError((error) => {
+        throw new Error(error.error.message);
+      }),
+      map((res) => {
+        if (res) {
+          this.authService.storeUser(res.data);
+          this.authService.toggleIsLoggedIn(true);
+          return true;
+        }
+        return false;
+      })
+    );
   }
 }

@@ -12,6 +12,6 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {}
 
   logOut(): void {
-    this.authService.toggleIsLoggedIn();
+    this.authService.toggleIsLoggedIn(false);
   }
 }
