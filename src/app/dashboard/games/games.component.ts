@@ -23,34 +23,18 @@ export class GamesComponent implements OnInit {
       wordSize: 4,
     };
 
-    await firstValueFrom(this.gamesService.create(game))
-      .then((res) => console.log('res: ', res))
-      .catch((err) => console.log('err: ', err))
-      .finally(() => console.log('complete'));
+    // Add request
   }
 
   async onGetGame() {
-    await firstValueFrom(this.gamesService.getAll('62a608842d4492d0c7eacfec'))
-      .then((res) => console.log('res: ', res))
-      .catch((err) => console.log('err: ', err))
-      .finally(() => console.log('complete'));
+    // Add request
   }
 
   async onUpdateGame() {
-    await firstValueFrom(
-      this.gamesService.update('62a62f60366ec8afa877952c', {
-        name: 'updated name',
-      })
-    )
-      .then((res) => console.log('res: ', res))
-      .catch((err) => console.log('err: ', err))
-      .finally(() => console.log('complete'));
+    // Add request
   }
 
   async onDeleteGame() {
-    await firstValueFrom(this.gamesService.delete('62a63066366ec8afa8779535'))
-      .then((res) => console.log('res: ', res))
-      .catch((err) => console.log('err: ', err))
-      .finally(() => console.log('complete'));
+    // Add request
   }
 }
