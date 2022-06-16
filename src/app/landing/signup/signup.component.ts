@@ -50,17 +50,19 @@ export class SignupComponent implements OnInit {
 
   async onSignup(): Promise<void> {
     this.isLoading = true;
-
-    await firstValueFrom(
-      this.signupService.requestSignup(
+    try {
+      await this.signupService.requestSignup(
         this.signupForm.value.email,
         this.signupForm.value.username,
         this.signupForm.value.password
-      )
-    )
-      .then((res) => this.authService.toggleIsLoggedIn())
-      .catch((err) => (this.errorMessage = err.error.message))
-      .finally(() => (this.isLoading = false));
+      );
+    } catch (error) {
+      if (error instanceof Error) {
+        this.errorMessage = error.message;
+      }
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   validateField(fieldKey: string): string {
