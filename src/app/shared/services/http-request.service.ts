@@ -40,12 +40,7 @@ export class HttpRequestService {
   // }
 
   post(route: string, payload: object) {
-    // try {
     return this.http.post<any>(this.apiUrl + route, payload, httpOptions);
-    // } catch (error) {
-    //   throw new Error(
-    //     error instanceof HttpErrorResponse ? error.error.message : undefined
-    //   );
   }
 }
 

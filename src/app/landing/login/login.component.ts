@@ -1,12 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormGroup,
   FormControl,
   Validators,
   ValidationErrors,
 } from '@angular/forms';
-import { AuthService, CustomValidationService } from '../../shared/services';
+import { CustomValidationService } from '../../shared/services';
 import { LoginService } from './login.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,6 @@ export class LoginComponent implements OnInit {
   errorMessage: string = '';
 
   constructor(
-    private authService: AuthService,
     private loginService: LoginService,
     private validationService: CustomValidationService
   ) {}
@@ -31,19 +31,17 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onLogin() {
+  onLogin(): void {
     this.isLoading = true;
     this.loginService
       .requestLogin(
         this.loginForm.value.emailOrUsername,
         this.loginForm.value.password
       )
+      .pipe(finalize(() => (this.isLoading = false)))
       .subscribe({
         next: (res) => {},
-        error: (error) => {
-          this.errorMessage = error.message;
-        },
-        complete: () => (this.isLoading = false),
+        error: (error) => (this.errorMessage = error.message),
       });
   }
 
