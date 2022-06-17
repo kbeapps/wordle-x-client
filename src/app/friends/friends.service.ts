@@ -8,21 +8,17 @@ import { Observable, Subscription } from 'rxjs';
   providedIn: 'root',
 })
 export class FriendsService {
-  
-
   constructor(
-    private notificationService: NotificationService;
+    // private notificationService: NotificationService;
     private userService: UserService,
     private http: HttpRequestService
-  ) {
-
-  }
+  ) {}
 
   private getUserId(key: string, emailOrUsername: string): string {
-    const user: IUser = this.userService.getUser(key, emailOrUsername); 
-    if(user) {
-      return '';
-    }
+    // const user: IUser = this.userService.getUser(key, emailOrUsername);
+    // if(user) {
+    //   return '';
+    // }
     return '';
   }
 
@@ -49,7 +45,7 @@ export class FriendsService {
         return friend !== friendId;
       });
 
-      this.userService.updateUser(requestingUser);
+      // this.userService.updateUser(requestingUser);
     }
   }
 }
