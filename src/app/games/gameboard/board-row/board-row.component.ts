@@ -8,8 +8,6 @@ import {
   keyframes,
   transition,
 } from '@angular/animations';
-import { Subscription } from 'rxjs';
-import { GameboardService } from '../gameboard.service';
 
 @Component({
   selector: 'app-board-row',
@@ -51,16 +49,11 @@ import { GameboardService } from '../gameboard.service';
 })
 export class BoardRowComponent implements OnInit {
   public state: boolean = false;
-  @Input() guess: string[] = ['', '', ''];
+  @Input() guess: string[] = [];
   @Input() guessEvaluation: string[] = [];
   public delayTimes: string[] = [];
-  private gameStoreSubscription: Subscription = new Subscription();
 
-  constructor(private gameboardService: GameboardService) {
-    // this.gameStoreSubscription = this.gameboardService.watchGameState((gameState) => {
-    //   this.guessEvaluation = gameState.guesses
-    // })
-  }
+  constructor() {}
 
   ngOnInit(): void {
     let delay: number = 0;

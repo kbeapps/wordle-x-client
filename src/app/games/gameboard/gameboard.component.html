@@ -3,12 +3,15 @@
     <div
       class="board-row"
       *ngFor="
-        let guess of gameState.guesses;
+        let guess of gameStore.guesses;
         index as rowIndex;
         first as isFirstRow
       "
     >
-      <app-board-row></app-board-row>
+      <app-board-row
+        [guess]="guess.guess"
+        [guessEvaluation]="guess.output"
+      ></app-board-row>
     </div>
   </div>
 

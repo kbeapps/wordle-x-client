@@ -11,12 +11,12 @@ import { checkWord } from 'check-if-word-partial';
   styleUrls: ['./gameboard.component.scss'],
 })
 export class GameboardComponent implements OnInit {
-  gameState: GameStore = new GameStore();
+  gameStore: GameStore = new GameStore();
   wordSize: number = 5;
   totalGuesses: number = 6;
   initializedWordSize: string[] = [];
   activeRow: number = 0;
-  gameStateSubscription: Subscription = new Subscription();
+  gameStoreSubscription: Subscription = new Subscription();
   loading: boolean = true;
   answer: string = '';
 
@@ -24,28 +24,32 @@ export class GameboardComponent implements OnInit {
     private gameboardService: GameboardService,
     private keyboardService: KeyboardService
   ) {
-    this.gameStateSubscription = this.gameboardService
-      .watchGameState()
-      .subscribe((gameState: GameStore) => (this.gameState = gameState));
+    this.gameStoreSubscription = this.gameboardService
+      .watchGameStore()
+      .subscribe((gameStore: GameStore) => (this.gameStore = gameStore));
   }
 
   ngOnInit(): void {
     this.answer = this.gameboardService.answer.toLowerCase();
-    this.gameboardService.initializeGameState(this.totalGuesses, this.wordSize);
+    this.gameboardService.initializeGameStore(this.totalGuesses, this.wordSize);
     this.initialize();
   }
 
   initialize(): void {
     this.initializedWordSize = Array(this.wordSize).fill('');
-    this.activeRow = this.gameState.guesses.filter(
+    this.activeRow = this.gameStore.guesses.filter(
       (elem) => elem.guess.length === this.wordSize
     ).length;
     this.loading = false;
   }
 
   onKeyInput(key: string): void {
-    let currentGuess: string = this.gameState.guesses[this.activeRow].guess;
-    const currentGuessLength: number = currentGuess.length;
+    let currentGuess: string[] = this.gameStore.guesses[this.activeRow].guess;
+    let lastFilledGuessIndex: number =
+      currentGuess.findIndex((char) => char === '') - 1;
+    const currentGuessLength: number = currentGuess.filter(
+      (char) => char != ''
+    ).length;
 
     switch (key) {
       case 'ENTER':
@@ -54,30 +58,32 @@ export class GameboardComponent implements OnInit {
         }
         break;
       case 'BACKSPACE':
-        if (currentGuessLength) {
-          currentGuess = currentGuess.slice(0, -1);
+        if (currentGuessLength && lastFilledGuessIndex >= 0) {
+          currentGuess[lastFilledGuessIndex] = '';
           this.gameboardService.updateGuess(currentGuess, this.activeRow);
+          lastFilledGuessIndex -= 1;
         }
         break;
 
       default:
-        if (currentGuessLength < this.wordSize) {
-          currentGuess += key;
+        if (currentGuessLength < this.wordSize && lastFilledGuessIndex >= 0) {
+          // console.log('test');
+          lastFilledGuessIndex += 1;
+          currentGuess[lastFilledGuessIndex] = key;
           this.gameboardService.updateGuess(currentGuess, this.activeRow);
         }
         break;
     }
   }
 
-  colorOnGuess(guess: string, answer: string): void {
-    const separatedGuess = guess.split('');
+  colorOnGuess(guess: string[], answer: string): void {
     let keyMap: IKey[] = [];
     let guessOutput: string[] = [];
     let key: string = '';
     let evaluation: string = '';
 
-    for (let i in separatedGuess) {
-      key = separatedGuess[i];
+    for (let i in guess) {
+      key = guess[i];
       evaluation =
         key === answer[i]
           ? 'correct'
@@ -96,9 +102,8 @@ export class GameboardComponent implements OnInit {
     console.log('game won!');
   }
 
-  handleGuess(guess: string): void {
-    console.log('handling guess');
-    guess = guess.toLowerCase();
+  handleGuess(guessArray: string[]): void {
+    const guess: string = guessArray.join('').toLowerCase();
     if (guess === this.answer) {
       this.onWin();
       return;
@@ -112,7 +117,7 @@ export class GameboardComponent implements OnInit {
     }
 
     // handle valid word guess
-    this.colorOnGuess(guess, this.answer);
+    this.colorOnGuess(guessArray, this.answer);
     this.activeRow += 1;
   }
 
