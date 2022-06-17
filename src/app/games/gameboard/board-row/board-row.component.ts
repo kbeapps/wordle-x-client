@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { Input } from '@angular/core';
 import {
   animate,
-  stagger,
   state,
   style,
   trigger,
   keyframes,
   transition,
-  query,
 } from '@angular/animations';
-import { of } from 'rxjs';
 
 @Component({
   selector: 'app-board-row',
@@ -19,7 +17,7 @@ import { of } from 'rxjs';
     trigger('tileAnimationState', [
       state('uncolored', style({})),
       state('colored', style({ backgroundColor: '{{color}}' }), {
-        params: { color: 'red' },
+        params: { color: '' },
       }),
 
       transition(
@@ -43,7 +41,7 @@ import { of } from 'rxjs';
           ])
         ),
         {
-          params: { delay: '300ms', color: 'blue' },
+          params: { delay: '0ms', color: '' },
         }
       ),
     ]),
@@ -82,7 +80,7 @@ export class BoardRowComponent implements OnInit {
         ? '#4caf50'
         : colorState === 'close'
         ? '#ffa000'
-        : '#212121'
+        : ''
       : '';
   }
 

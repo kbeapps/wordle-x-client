@@ -1,6 +1,5 @@
 <div *ngIf="!loading" class="gameboard-container">
   <div class="board-section">
-    <app-board-row></app-board-row>
     <div
       class="board-row"
       *ngFor="
@@ -9,22 +8,7 @@
         first as isFirstRow
       "
     >
-      <mat-card
-        class="{{
-          gameState.guesses[rowIndex].output[colIndex]
-            ? 'board-square ' +
-              gameState.guesses[rowIndex].output[colIndex] +
-              '-key'
-            : 'board-square'
-        }}"
-        *ngFor="
-          let letter of initializedWordSize;
-          index as colIndex;
-          first as isFirstCol
-        "
-      >
-        {{ gameState.guesses[rowIndex].guess[colIndex] }}</mat-card
-      >
+      <app-board-row></app-board-row>
     </div>
   </div>
 
