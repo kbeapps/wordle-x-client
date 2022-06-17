@@ -8,16 +8,16 @@ import { HttpRequestService } from '../shared-services';
   providedIn: 'root',
 })
 export class UserService {
-  private currentUser: IUser = new User();
+  private userStore: IUser = new User();
   private userSubject = new Subject<IUser>();
   constructor(private http: HttpRequestService) {}
 
   public get user(): IUser {
-    return this.currentUser;
+    return this.userStore;
   }
 
   public set user(user: IUser) {
-    this.currentUser = user;
+    this.userStore = user;
     this.userSubject.next(this.user);
   }
 
@@ -43,14 +43,16 @@ export class UserService {
   ): Observable<IUser | void> {
     return this.http
       .patch('user/update', {
-        _id: this.currentUser._id,
+        _id: this.userStore._id,
         [updateField]: updateValue,
       })
       .pipe(
         catchError((error) => {
           throw new Error(error.message);
         }),
-        map((res) => res.data as IUser)
+        map((res) => {
+          this.user = res.data as IUser;
+        })
       );
   }
 }
