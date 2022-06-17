@@ -9,21 +9,23 @@ import {
   transition,
   query,
 } from '@angular/animations';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-board-row',
   templateUrl: './board-row.component.html',
   styleUrls: ['./board-row.component.scss'],
   animations: [
-    trigger('rowAnimationState', [
+    trigger('tileAnimationState', [
       state('uncolored', style({})),
-      state('correct', style({ backgroundColor: '#4caf50' })),
-      state('close', style({ backgroundColor: '#ffa000' })),
-      state('incorrect', style({ backgroundColor: '#212121' })),
+      state('colored', style({ backgroundColor: '{{color}}' }), {
+        params: { color: 'red' },
+      }),
+
       transition(
-        'uncolored => correct',
+        'uncolored => colored',
         animate(
-          '2000ms',
+          '2000ms {{delay}} ease-in-out',
           keyframes([
             style({
               transform: 'rotateY(0)',
@@ -36,73 +38,55 @@ import {
             style({
               transform: 'rotateY(360deg)',
               offset: 1,
-              backgroundColor: '#4caf50',
+              backgroundColor: '{{color}}',
             }),
           ])
-        )
-      ),
-      transition(
-        'uncolored => close',
-        animate(
-          '2000ms',
-          keyframes([
-            style({ transform: 'rotateY(0)', offset: 0 }),
-            style({
-              transform: ' rotateY(180deg)',
-              offset: 0.5,
-            }),
-            style({
-              transform: 'rotateY(360deg)',
-              offset: 1,
-              backgroundColor: '#ffa000',
-            }),
-          ])
-        )
-      ),
-      transition(
-        'uncolored => incorrect',
-        animate(
-          '2000ms',
-          keyframes([
-            style({ transform: 'rotateY(0)', offset: 0 }),
-            style({
-              transform: ' rotateY(180deg)',
-              offset: 0.5,
-            }),
-            style({
-              transform: 'rotateY(360deg)',
-              offset: 1,
-              backgroundColor: '#212121',
-            }),
-          ])
-        )
+        ),
+        {
+          params: { delay: '300ms', color: 'blue' },
+        }
       ),
     ]),
   ],
 })
 export class BoardRowComponent implements OnInit {
-  private state: boolean = false;
+  public state: boolean = false;
   public guess: string[] = ['T', 'E', 'S', 'T', 'Y'];
-  private guessEvaluation: string[] = [
+  public guessEvaluation: string[] = [
     'correct',
     'correct',
     'close',
     'close',
     'incorrect',
   ];
+  public delayTimes: string[] = [];
+
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    let delay: number = 0;
+    for (const guess of this.guessEvaluation) {
+      delay += 300;
+      this.delayTimes.push(`${delay}ms`);
+    }
+  }
 
-  public set coloredState(state: boolean) {
+  public setState(state: boolean) {
     this.state = state;
   }
 
-  getColorState(index: number): string {
-    return this.state ? this.guessEvaluation[index] : 'uncolored';
+  public getColor(index: number): string {
+    const colorState: string = this.guessEvaluation[index];
+    return this.state
+      ? colorState === 'correct'
+        ? '#4caf50'
+        : colorState === 'close'
+        ? '#ffa000'
+        : '#212121'
+      : '';
   }
 
-  changeVisualState() {
-    this.state = !this.state;
+  public startRowAnimation() {
+    this.setState(true);
   }
 }
