@@ -1,0 +1,34 @@
+@import "../../../../assets/styles/variables.scss";
+@import "../gameboard.component.scss";
+
+$key-width: 40px;
+$key-height: 60px;
+$key-margin: 2px;
+$key-color: silver;
+$font-size: 0.7em;
+$key-color: none;
+
+.keyboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.keyboard-row {
+  display: flex;
+}
+
+.key-base {
+  margin: $key-margin;
+  height: $key-height !important;
+  width: $key-width !important;
+  min-width: unset !important;
+  font-size: $font-size;
+  background-color: $key-color;
+}
+
+.delete-base {
+  @extend .key-base;
+  width: calc($key-width * 1.5) !important;
+}

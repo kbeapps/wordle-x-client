@@ -3,6 +3,20 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "firefox",
+      "request": "launch",
+      "name": "Launch Firefox against localhost",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}",
+      "enableCRAWorkaround": true,
+      "reAttach": true,
+      "reloadOnAttach": true,
+      "reloadOnChange": {
+        "watch": "${workspaceFolder}/**/*.ts",
+        "ignore": "**/node_modules/**"
+      }
+    },
+    {
       "name": "ng serve",
       "type": "pwa-chrome",
       "request": "launch",
