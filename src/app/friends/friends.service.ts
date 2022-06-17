@@ -1,7 +1,7 @@
 import { catchError, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { IUser } from 'src/app/core/models/user';
-import { HttpRequestService, UserService } from 'src/app/shared/services';
+import { IUser } from 'src/app/core/models';
+import { HttpRequestService, UserService, NotificationService } from 'src/app/shared/services';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,32 +9,24 @@ import { Observable } from 'rxjs';
 })
 export class FriendsService {
   constructor(
+    private notificationService: NotificationService;
     private userService: UserService,
     private http: HttpRequestService
   ) {}
 
-  // private findUserId(key: string, emailOrUsername: string): Observable<string> {
-  //   return this.http.get('user/get', key, emailOrUsername).pipe(
-  //     catchError((error) => {
-  //       // TODO intercept errors and return only error message in error handler
-  //       throw new Error(error.message);
-  //     }),
-  //     map((res) => {
-  //       if (res) {
-  //         let user: User = res.data as User;
-  //         return user._id;
-  //       }
-  //       return '';
-  //     })
-  //   );
-  // }
+  private getUserId(key: string, emailOrUsername: string): string {
+    const user: IUser = this.userService.getUser(key, emailOrUsername); 
+    if(user) {
+      return '';
+    }
+    return '';
+  }
 
   public sendFriendRequest(emailOrUsername: string) {
     const key = emailOrUsername.includes('@') ? 'email' : 'username';
     let message = '';
 
-    const recipientUserId = '';
-    // const recipientUserId = this.findUserId(key, emailOrUsername);
+    const recipientUserId = this.getUserId(key, emailOrUsername);
 
     if (recipientUserId) {
       const requestingUsername = this.userService.user.username;
@@ -45,7 +37,15 @@ export class FriendsService {
     return;
   }
 
-  public deleteFriend(userId: string) {
-    return this.http.delete('user/update', userId);
+  public deleteFriend(friendId: string): void {
+    const requestingUser: IUser = this.userService.user;
+
+    if (requestingUser.friends.includes(friendId)) {
+      requestingUser.friends.filter((friend) => {
+        return friend !== friendId;
+      });
+
+      this.userService.updateUser(requestingUser);
+    }
   }
 }
