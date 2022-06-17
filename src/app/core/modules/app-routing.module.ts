@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { DashboardComponent } from 'src/app/core/components/dashboard.component';
 import { LandingComponent } from 'src/app/core/components/landing.component';
-import { LoginComponent } from 'src/app/login/login.component';
-import { SignupComponent } from 'src/app/signup/signup.component';
+import { LoginComponent } from 'src/app/auth/login/login.component';
+import { SignupComponent } from 'src/app/auth/signup/signup.component';
 
 import { DashboardGuard } from '../guards/dashboard.guard';
 import { LandingGuard } from '../guards/landing.guard';

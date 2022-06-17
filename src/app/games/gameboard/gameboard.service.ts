@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { StoreService } from 'src/app/shared/services';
+import { StoreService } from 'src/app/shared-services';
 
 export class GameState {
   guesses: { guess: string; output: string[] }[] = [];

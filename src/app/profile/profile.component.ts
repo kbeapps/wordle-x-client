@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/shared/services';
+import { AuthService } from 'src/app/auth';
 
 @Component({
   selector: 'app-profile',
@@ -11,7 +11,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  logOut(): void {
+  public logOut(): void {
     this.authService.toggleIsLoggedIn(false);
   }
 }

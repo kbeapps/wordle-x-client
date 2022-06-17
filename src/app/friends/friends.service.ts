@@ -1,18 +1,22 @@
-import { catchError, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { IUser } from 'src/app/core/models';
-import { HttpRequestService, UserService, NotificationService } from 'src/app/shared/services';
-import { Observable } from 'rxjs';
+import { IUser, User } from 'src/app/core/models/user';
+import { HttpRequestService } from 'src/app/shared-services';
+import { UserService } from '../auth';
+import { Observable, Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FriendsService {
+  
+
   constructor(
     private notificationService: NotificationService;
     private userService: UserService,
     private http: HttpRequestService
-  ) {}
+  ) {
+
+  }
 
   private getUserId(key: string, emailOrUsername: string): string {
     const user: IUser = this.userService.getUser(key, emailOrUsername); 
