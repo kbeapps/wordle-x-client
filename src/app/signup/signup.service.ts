@@ -3,7 +3,7 @@ import {
   AuthService,
   HttpRequestService,
   UserService,
-} from '../../shared/services';
+} from '../shared/services';
 import { catchError, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/core';

@@ -1,6 +1,6 @@
 import { catchError, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { IUser } from '../../core/models/user';
+import { IUser } from 'src/app/core/models/user';
 import { HttpRequestService, UserService } from 'src/app/shared/services';
 import { Observable } from 'rxjs';
 
