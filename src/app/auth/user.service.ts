@@ -36,4 +36,21 @@ export class UserService {
       map((res) => res.data as IUser)
     );
   }
+
+  public requestUserUpdate(
+    updateField: string,
+    updateValue: any
+  ): Observable<IUser | void> {
+    return this.http
+      .patch('user/update', {
+        _id: this.currentUser._id,
+        [updateField]: updateValue,
+      })
+      .pipe(
+        catchError((error) => {
+          throw new Error(error.message);
+        }),
+        map((res) => res.data as IUser)
+      );
+  }
 }
