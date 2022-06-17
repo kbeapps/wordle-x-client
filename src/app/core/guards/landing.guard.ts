@@ -7,12 +7,17 @@ import {
   UrlTree,
 } from '@angular/router';
 import { AuthService } from 'src/app/auth';
+import { LoadService } from '../load.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LandingGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private loadService: LoadService,
+    private router: Router
+  ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -24,9 +29,12 @@ export class LandingGuard implements CanActivate {
 
   checkLogin(url: string): true | UrlTree {
     if (!this.authService.isLoggedIn) {
+      // set app ready
+      this.loadService.appIsReady = true;
+      // continue to path
       return true;
     }
-    // Redirect to the login page
+    // else redirect to the dashboard
     return this.router.parseUrl('/dashboard');
   }
 }

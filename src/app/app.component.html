@@ -1,5 +1,18 @@
 <div class="main-{{ selectedTheme }}-theme mat-app-background layout-container">
-  <router-outlet></router-outlet>
+  <router-outlet *ngIf="appIsReady && !appHasError"></router-outlet>
+  <div *ngIf="!appIsReady || appHasError" class="loading-container">
+    <mat-progress-bar
+      class="loading-bar"
+      color="accent"
+      mode="indeterminate"
+    ></mat-progress-bar>
+    <div *ngIf="appHasError">
+      <p>
+        There was an error connect to our services, please refresh the page and
+        try again. Have a cup of coffee, maybe some tea, then try again.
+      </p>
+    </div>
+  </div>
   <div class="footer">
     <p>Footer</p>
   </div>
