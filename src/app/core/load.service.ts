@@ -17,6 +17,7 @@ export class LoadService {
     if (!this.loadingStates.includes(name)) {
       this.loadingStates.push(name);
     }
+    console.log(this.loadingStates);
   }
 
   public finishLoad(name: string): void {
@@ -24,6 +25,7 @@ export class LoadService {
       (loadedName) => loadedName === name
     );
     this.subject.next(this.appIsReady);
+    console.log(this.loadingStates);
   }
 
   public watchAppIsReady(): Observable<boolean> {

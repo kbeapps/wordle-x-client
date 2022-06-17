@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { User, IUser } from 'src/app/core';
-import { catchError, map } from 'rxjs';
+import { catchError, finalize, map } from 'rxjs';
 import { HttpRequestService } from '../shared-services';
 import { StoreService } from '../shared-services';
 import { AuthService } from './auth.service';
@@ -13,12 +13,16 @@ import { LoadService } from 'src/app/core';
 export class UserService {
   private userStore: IUser = new User();
   private userSubject = new Subject<IUser>();
+  private loadIdentifier = 'userLoad';
+
   constructor(
     private authService: AuthService,
     private http: HttpRequestService,
     private loadService: LoadService,
     private storeService: StoreService
-  ) {}
+  ) {
+    this.loadService.startLoad(this.loadIdentifier);
+  }
 
   public get user(): IUser {
     return this.userStore;
@@ -30,29 +34,37 @@ export class UserService {
   }
 
   public initializeUserStore(user?: IUser): void {
-    if (this.user._id) {
-      return;
+    let isLoaded: boolean = false;
+
+    if (!isLoaded && this.user._id) {
+      isLoaded = true;
     }
-    if (user) {
+    if (!isLoaded && user) {
       this.user = user;
       this.storeService.setData('_id', this.user._id);
-      return;
+      isLoaded = true;
     }
     const userId = this.storeService.getData('_id', true);
 
-    if (!userId) {
+    if (!isLoaded && !userId) {
       this.authService.toggleIsLoggedIn(false);
-      return;
+      isLoaded = true;
     }
 
-    this.requestUser('_id', String(userId)).subscribe({
-      next: (res) => {
-        if (res) {
-          this.user = res;
-        }
-      },
-      error: (error) => this.authService.toggleIsLoggedIn(false),
-    });
+    if (!isLoaded) {
+      this.requestUser('_id', String(userId))
+        .pipe(finalize(() => this.loadService.finishLoad(this.loadIdentifier)))
+        .subscribe({
+          next: (res) => {
+            if (res) {
+              this.user = res;
+            }
+          },
+          error: (error) => this.authService.toggleIsLoggedIn(false),
+        });
+    } else {
+      this.loadService.finishLoad(this.loadIdentifier);
+    }
   }
 
   public watchUser(): Observable<IUser> {
