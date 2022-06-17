@@ -1,5 +1,12 @@
 <div class="main-{{ selectedTheme }}-theme mat-app-background layout-container">
-  <router-outlet></router-outlet>
+  <router-outlet *ngIf="appIsReady"></router-outlet>
+  <div *ngIf="!appIsReady" class="loading-container">
+    <mat-progress-bar
+      class="loading-bar"
+      color="accent"
+      mode="indeterminate"
+    ></mat-progress-bar>
+  </div>
   <div class="footer">
     <p>Footer</p>
   </div>
