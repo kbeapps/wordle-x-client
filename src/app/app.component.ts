@@ -22,7 +22,7 @@ export class AppComponent {
   ) {
     this.loadService
       .watchAppIsReady()
-      .subscribe((readyState) => (this.appIsReady = readyState));
+      .subscribe((readyState) => (this.appIsReady = readyState.isReady));
     this.selectedThemeSubscription = this.profileService
       .watchSelectedTheme()
       .subscribe((theme: string) => (this.selectedTheme = theme));

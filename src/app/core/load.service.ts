@@ -1,16 +1,35 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
+interface appState {
+  isReady: boolean;
+  hasError: boolean;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class LoadService {
+  private state: appState = {
+    isReady: false,
+    hasError: false,
+  };
   private loadingStates: string[] = [];
-  private subject = new Subject<boolean>();
+  private appStateSubject = new Subject<appState>();
   constructor() {}
 
-  public get appIsReady(): boolean {
-    return !this.loadingStates.length;
+  public get appState(): appState {
+    return this.state;
+  }
+
+  public set appIsReady(isReady: boolean) {
+    this.state.isReady = isReady;
+    this.appStateSubject.next(this.state);
+  }
+
+  public set appHasError(hasError: boolean) {
+    this.state.hasError = hasError;
+    this.appStateSubject.next(this.state);
   }
 
   public startLoad(name: string): void {
@@ -26,10 +45,10 @@ export class LoadService {
     if (nameIndex > -1) {
       this.loadingStates.splice(nameIndex, 1);
     }
-    this.subject.next(this.appIsReady);
+    this.appIsReady = !this.loadingStates.length;
   }
 
-  public watchAppIsReady(): Observable<boolean> {
-    return this.subject.asObservable();
+  public watchAppIsReady(): Observable<appState> {
+    return this.appStateSubject.asObservable();
   }
 }
