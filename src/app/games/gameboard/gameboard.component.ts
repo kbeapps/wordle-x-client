@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { IKey } from './keyboard/keyboard.service';
-import { GameboardService, GameState } from './gameboard.service';
+import { GameboardService, GameStore } from './gameboard.service';
 import { KeyboardService } from './keyboard/keyboard.service';
 import { checkWord } from 'check-if-word-partial';
 
@@ -11,7 +11,7 @@ import { checkWord } from 'check-if-word-partial';
   styleUrls: ['./gameboard.component.scss'],
 })
 export class GameboardComponent implements OnInit {
-  gameState: GameState = new GameState();
+  gameState: GameStore = new GameStore();
   wordSize: number = 5;
   totalGuesses: number = 6;
   initializedWordSize: string[] = [];
@@ -26,7 +26,7 @@ export class GameboardComponent implements OnInit {
   ) {
     this.gameStateSubscription = this.gameboardService
       .watchGameState()
-      .subscribe((gameState: GameState) => (this.gameState = gameState));
+      .subscribe((gameState: GameStore) => (this.gameState = gameState));
   }
 
   ngOnInit(): void {
