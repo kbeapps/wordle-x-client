@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  AuthService,
-  HttpRequestService,
-  UserService,
-} from 'src/app/shared/services';
+import { HttpRequestService } from 'src/app/shared-services';
+import { AuthService, UserService } from '../index';
 import { catchError, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { IUser } from 'src/app/core';
@@ -40,8 +37,8 @@ export class LoginService {
       }),
       map((res) => {
         if (res) {
-          this.userService.user = res.data as IUser;
-          this.authService.toggleIsLoggedIn(true);
+          // this.userService.user = res.data as IUser;
+          // this.authService.toggleIsLoggedIn(true);
           return true;
         }
         return false;

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, ValidationErrors } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import { FriendsService } from './friends.service';
-import { AuthService } from 'src/app/shared/services/auth.service';
+import { AuthService } from 'src/app/auth/';
 
 @Component({
   selector: 'app-friends',

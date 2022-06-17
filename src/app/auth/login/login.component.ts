@@ -5,7 +5,7 @@ import {
   Validators,
   ValidationErrors,
 } from '@angular/forms';
-import { CustomValidationService } from '../shared/services';
+import { CustomValidationService } from '../../shared-services';
 import { LoginService } from './login.service';
 import { finalize } from 'rxjs/operators';
 
