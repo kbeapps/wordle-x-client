@@ -37,8 +37,8 @@ export class LoginService {
       }),
       map((res) => {
         if (res) {
-          // this.userService.user = res.data as IUser;
-          // this.authService.toggleIsLoggedIn(true);
+          this.userService.initializeUserStore(res.data as IUser);
+          this.authService.toggleIsLoggedIn(true);
           return true;
         }
         return false;

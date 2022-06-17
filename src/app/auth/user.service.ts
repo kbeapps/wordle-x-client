@@ -3,6 +3,8 @@ import { Observable, Subject } from 'rxjs';
 import { User, IUser } from 'src/app/core';
 import { catchError, map } from 'rxjs';
 import { HttpRequestService } from '../shared-services';
+import { StoreService } from '../shared-services';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,15 +12,45 @@ import { HttpRequestService } from '../shared-services';
 export class UserService {
   private userStore: IUser = new User();
   private userSubject = new Subject<IUser>();
-  constructor(private http: HttpRequestService) {}
+  constructor(
+    private authService: AuthService,
+    private http: HttpRequestService,
+    private storeService: StoreService
+  ) {}
 
   public get user(): IUser {
     return this.userStore;
   }
 
-  public set user(user: IUser) {
+  private set user(user: IUser) {
     this.userStore = user;
     this.userSubject.next(this.user);
+  }
+
+  public initializeUserStore(user?: IUser): void {
+    if (this.user._id) {
+      return;
+    }
+    if (user) {
+      this.user = user;
+      this.storeService.setData('_id', this.user._id);
+      return;
+    }
+    const userId = this.storeService.getData('_id', true);
+
+    if (!userId) {
+      this.authService.toggleIsLoggedIn(false);
+      return;
+    }
+
+    this.requestUser('_id', String(userId)).subscribe({
+      next: (res) => {
+        if (res) {
+          this.user = res;
+        }
+      },
+      error: (error) => this.authService.toggleIsLoggedIn(false),
+    });
   }
 
   public watchUser(): Observable<IUser> {

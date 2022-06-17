@@ -12,9 +12,9 @@ export class StoreService {
     localStorage.setItem(key, jsonData);
   }
 
-  getData(key: string): object | undefined {
+  getData(key: string, isString?: boolean): object | string | undefined {
     const data: string | null = localStorage.getItem(key);
-    return data ? JSON.parse(data) : undefined;
+    return data ? (isString ? data : JSON.parse(data)) : undefined;
   }
 
   removeData(key: string) {
