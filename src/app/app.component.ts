@@ -12,7 +12,8 @@ import { LoadService } from './core';
 export class AppComponent {
   title: string = environment.appTitle;
   appIsReady: boolean = false;
-  appReadySubscription: Subscription = new Subscription();
+  appHasError: boolean = false;
+  appStateSubscription: Subscription = new Subscription();
   selectedTheme: string = this.profileService.getSelectedTheme();
   selectedThemeSubscription: Subscription = new Subscription();
 
@@ -20,9 +21,12 @@ export class AppComponent {
     private loadService: LoadService,
     private profileService: ProfileService
   ) {
-    this.loadService
+    this.appStateSubscription = this.loadService
       .watchAppIsReady()
-      .subscribe((readyState) => (this.appIsReady = readyState.isReady));
+      .subscribe((readyState) => {
+        this.appIsReady = readyState.isReady;
+        this.appHasError = readyState.hasError;
+      });
     this.selectedThemeSubscription = this.profileService
       .watchSelectedTheme()
       .subscribe((theme: string) => (this.selectedTheme = theme));

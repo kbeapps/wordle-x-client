@@ -8,10 +8,11 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError, EMPTY } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { LoadService } from '../load.service';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
-  constructor() {}
+  constructor(private loadService: LoadService) {}
 
   intercept(
     request: HttpRequest<unknown>,
@@ -28,8 +29,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     return source.pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 0) {
-          
-
+          this.loadService.appHasError = true;
           return EMPTY;
         } else {
           return throwError(() => error);

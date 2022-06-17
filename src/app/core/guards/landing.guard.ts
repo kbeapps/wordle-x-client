@@ -9,8 +9,6 @@ import {
 import { AuthService } from 'src/app/auth';
 import { LoadService } from '../load.service';
 
-import { UserService } from 'src/app/auth';
-
 @Injectable({
   providedIn: 'root',
 })
