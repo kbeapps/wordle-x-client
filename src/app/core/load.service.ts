@@ -17,24 +17,19 @@ export class LoadService {
     if (!this.loadingStates.includes(name)) {
       this.loadingStates.push(name);
     }
-    console.log(this.loadingStates);
   }
 
   public finishLoad(name: string): void {
-    this.loadingStates = this.loadingStates.filter(
-      (loadedName) => loadedName === name
+    const nameIndex = this.loadingStates.findIndex(
+      (loadName) => loadName === name
     );
+    if (nameIndex > -1) {
+      this.loadingStates.splice(nameIndex, 1);
+    }
     this.subject.next(this.appIsReady);
-    console.log(this.loadingStates);
   }
 
   public watchAppIsReady(): Observable<boolean> {
     return this.subject.asObservable();
   }
-
-  // TODO:
-  // add start & finish loads to applicable components
-  // add subscription for appIsReady to app.component
-  // create loading screen based on state
-  //
 }
