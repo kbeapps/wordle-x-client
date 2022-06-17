@@ -13,10 +13,10 @@ import { GamesComponent } from './games/games.component';
 import { GroupsComponent } from './groups/groups.component';
 import { ProfileComponent } from './profile/profile.component';
 import { LandingComponent } from './core/components/landing.component';
-import { LoginComponent } from './login/login.component';
-import { SignupComponent } from './signup/signup.component';
+import { LoginComponent } from './auth/login/login.component';
+import { SignupComponent } from './auth/signup/signup.component';
 
-import { RequestButtonComponent } from './shared/components/request-button/request-button.component';
+import { RequestButtonComponent } from './shared-components/request-button/request-button.component';
 import { ThemeToggleComponent } from './profile/components/theme-toggle/theme-toggle.component';
 import { GameboardComponent } from './games/gameboard/gameboard.component';
 import { KeyboardComponent } from './games/gameboard/keyboard/keyboard.component';

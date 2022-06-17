@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  AuthService,
-  HttpRequestService,
-  UserService,
-} from '../shared/services';
+import { HttpRequestService } from '../../shared-services';
+import { AuthService, UserService } from '../index';
 import { catchError, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/core';
