@@ -5,6 +5,7 @@ import { catchError, map } from 'rxjs';
 import { HttpRequestService } from '../shared-services';
 import { StoreService } from '../shared-services';
 import { AuthService } from './auth.service';
+import { LoadService } from 'src/app/core';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,7 @@ export class UserService {
   constructor(
     private authService: AuthService,
     private http: HttpRequestService,
+    private loadService: LoadService,
     private storeService: StoreService
   ) {}
 
