@@ -1,12 +1,9 @@
 import { Injectable } from '@angular/core';
-import {
-  AuthService,
-  HttpRequestService,
-  UserService,
-} from '../shared/services';
+import { HttpRequestService } from '../../shared-services';
+import { AuthService, UserService } from '../index';
 import { catchError, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { User } from 'src/app/core';
+import { IUser } from 'src/app/core';
 
 interface ISignupPayload {
   email: string;
@@ -41,7 +38,7 @@ export class SignupService {
       }),
       map((res) => {
         if (res) {
-          this.userService.user = res.data as User;
+          this.userService.initializeUserStore(res.data as IUser);
           this.authService.toggleIsLoggedIn(true);
           return true;
         }

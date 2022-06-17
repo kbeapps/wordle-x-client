@@ -1,7 +1,8 @@
 import { catchError, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { IUser } from 'src/app/core/models/user';
-import { HttpRequestService, UserService } from 'src/app/shared/services';
+import { HttpRequestService } from 'src/app/shared-services';
+import { UserService } from '../auth';
 import { Observable } from 'rxjs';
 
 @Injectable({

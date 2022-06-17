@@ -8,30 +8,28 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError, EMPTY } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AuthService } from 'src/app/auth';
+import { LoadService } from '../load.service';
 
 @Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+export class HttpErrorInterceptor implements HttpInterceptor {
+  constructor(private loadService: LoadService) {}
 
   intercept(
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    // test & implement with auth header
     return next.handle(request).pipe((source) => {
-      return this.handleAuthErrors(source);
+      return this.handleHttpErrors(source);
     });
   }
 
-  handleAuthErrors(
+  handleHttpErrors(
     source: Observable<HttpEvent<any>>
   ): Observable<HttpEvent<any>> {
     return source.pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.status === 401) {
-          // test with error status
-          this.authService.toggleIsLoggedIn(false);
+        if (error.status === 0) {
+          this.loadService.appHasError = true;
           return EMPTY;
         } else {
           return throwError(() => error);
