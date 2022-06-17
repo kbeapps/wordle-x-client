@@ -17,24 +17,73 @@ import {
   animations: [
     trigger('rowAnimationState', [
       state('uncolored', style({})),
-      state(
-        'colored',
-        style({ height: '100px', opacity: 0.8, backgroundColor: 'blue' })
+      state('correct', style({ backgroundColor: '#4caf50' })),
+      state('close', style({ backgroundColor: '#ffa000' })),
+      state('incorrect', style({ backgroundColor: '#212121' })),
+      transition(
+        'uncolored => correct',
+        animate(
+          '2000ms',
+          keyframes([
+            style({
+              transform: 'rotateY(0)',
+              offset: 0,
+            }),
+            style({
+              transform: ' rotateY(180deg)',
+              offset: 0.5,
+            }),
+            style({
+              transform: 'rotateY(360deg)',
+              offset: 1,
+              backgroundColor: '#4caf50',
+            }),
+          ])
+        )
       ),
-      // transition('uncolored => colored', [
-      //   stagger('600ms', [
-      //     animate('900ms', keyframes([
-
-      //     ]) style({ transform: 'translateX(0)' })),
-      //   ]),
-      // ]),
+      transition(
+        'uncolored => close',
+        animate(
+          '2000ms',
+          keyframes([
+            style({ transform: 'rotateY(0)', offset: 0 }),
+            style({
+              transform: ' rotateY(180deg)',
+              offset: 0.5,
+            }),
+            style({
+              transform: 'rotateY(360deg)',
+              offset: 1,
+              backgroundColor: '#ffa000',
+            }),
+          ])
+        )
+      ),
+      transition(
+        'uncolored => incorrect',
+        animate(
+          '2000ms',
+          keyframes([
+            style({ transform: 'rotateY(0)', offset: 0 }),
+            style({
+              transform: ' rotateY(180deg)',
+              offset: 0.5,
+            }),
+            style({
+              transform: 'rotateY(360deg)',
+              offset: 1,
+              backgroundColor: '#212121',
+            }),
+          ])
+        )
+      ),
     ]),
   ],
 })
 export class BoardRowComponent implements OnInit {
-  coloredState: string = 'uncolored';
-  guess: string[] = ['T', 'E', 'S', 'T', 'Y'];
-  guessEvaluation: string[] = [
+  private state: boolean = false;
+  public guess: string[] = ['T', 'E', 'S', 'T', 'Y'];
+  private guessEvaluation: string[] = [
     'correct',
     'correct',
     'close',
@@ -45,10 +94,15 @@ export class BoardRowComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  changeVisualState() {
-    const colorState = this.coloredState;
-    this.coloredState = colorState === 'uncolored' ? 'colored' : 'uncolored';
+  public set coloredState(state: boolean) {
+    this.state = state;
+  }
 
-    console.log('changing visual state to: ', this.coloredState);
+  getColorState(index: number): string {
+    return this.state ? this.guessEvaluation[index] : 'uncolored';
+  }
+
+  changeVisualState() {
+    this.state = !this.state;
   }
 }
