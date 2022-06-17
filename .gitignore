@@ -44,5 +44,5 @@ Thumbs.db
 # Notes
 NOTES.md
 
-environment.prod.ts
-environment.ts
+/src/environments/environment.prod.ts
+/src/environments/environment.ts
