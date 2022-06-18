@@ -81,21 +81,40 @@ export class GameboardComponent implements OnInit {
     }
   }
 
-  private colorOnGuess(guessArray: string[], inputAnswer: string): void {
+  private evaluateGuess(guessArray: string[], inputAnswer: string): void {
     let keyMap: IKey[] = [];
     let guessOutput: string[] = [];
     let key: string = '';
     let evaluation: string = '';
     const answer: string[] = inputAnswer.split('');
+    let answerLetterCount: number = 0;
+    let letterCount: number = 0;
 
     for (const [index, char] of guessArray.entries()) {
-      key = guessArray[index].toLowerCase();
-      evaluation =
-        key === answer[index]
-          ? 'correct'
-          : answer.includes(key)
-          ? 'close'
-          : 'incorrect';
+      key = char.toLowerCase();
+      answerLetterCount = answer.filter(
+        (char) => char.toLowerCase() === key
+      ).length;
+      letterCount = guessArray.filter(
+        (char) => char.toLowerCase() === key
+      ).length;
+
+      switch (true) {
+        case key === answer[index]:
+          evaluation = 'correct';
+          break;
+        case answer.includes(key) &&
+          letterCount === 1 &&
+          answerLetterCount === 1:
+          evaluation = 'close';
+          break;
+        case answer.includes(key) && letterCount > 1 && answerLetterCount > 1:
+          evaluation = 'close';
+          break;
+        default:
+          evaluation = 'incorrect';
+          break;
+      }
 
       keyMap.push({ key: key, color: evaluation });
       guessOutput.push(evaluation);
@@ -125,7 +144,7 @@ export class GameboardComponent implements OnInit {
       return;
     }
     // handle valid word guess
-    this.colorOnGuess(guessArray, this.answer);
+    this.evaluateGuess(guessArray, this.answer);
     this.activeRow += 1;
   }
 
