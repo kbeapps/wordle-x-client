@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
-export class IKey {
-  key: string = '';
-  color: string = '';
+export interface IKey {
+  key: string;
+  color: string;
 }
 
 @Injectable({
@@ -40,9 +40,7 @@ export class KeyboardService {
     const keyIndex: number = this.initializedKeys.findIndex(
       (item) => item.key === key
     );
-
     const item = this.initializedKeys[keyIndex];
-
     return keyIndex >= 0 ? item.color + '-key' : '';
   }
 

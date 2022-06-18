@@ -20,6 +20,7 @@ export class GameboardComponent implements OnInit {
   public loading: boolean = true;
   private answer: string = '';
   public animateRowNumber: number = -1;
+
   @ViewChildren(BoardRowComponent)
   private BoardRowList!: QueryList<BoardRowComponent>;
 
@@ -81,7 +82,7 @@ export class GameboardComponent implements OnInit {
     }
   }
 
-  private evaluateGuess(guessArray: string[], inputAnswer: string): void {
+  private evaluateGuess(guessArray: string[], inputAnswer: string): IKey[] {
     let keyMap: IKey[] = [];
     let guessOutput: string[] = [];
     let key: string = '';
@@ -105,11 +106,8 @@ export class GameboardComponent implements OnInit {
           evaluation = 'correct';
           break;
 
-        case answer.includes(key) &&
-          letterCount === 1 &&
-          answerLetterCount === 1:
+        case answer.includes(key) && letterCount <= answerLetterCount:
         case answer.includes(key) && letterCount > 1 && !isDuplicate:
-        case answer.includes(key) && letterCount > 1 && answerLetterCount > 1:
           if (letterCount > 1 && answerLetterCount <= 1) {
             isDuplicate = true;
           }
@@ -125,15 +123,16 @@ export class GameboardComponent implements OnInit {
     }
 
     this.gameboardService.updateGuessEvaluation(this.activeRow, guessOutput);
-    this.keyboardService.setKeyColor(keyMap);
+    return keyMap;
   }
 
   private handleGuess(guessArray: string[]): void {
     const guess: string = guessArray.join('').toLowerCase();
+    let keyMap: IKey[] = [];
 
     const isValidWord: boolean = checkWord(guess);
     if (isValidWord) {
-      this.evaluateGuess(guessArray, this.answer);
+      keyMap = this.evaluateGuess(guessArray, this.answer);
     }
 
     const wonGame = guess === this.answer;
@@ -145,9 +144,6 @@ export class GameboardComponent implements OnInit {
     if (isValidWord && !wonGame) {
       this.activeRow += 1;
     }
-  }
-
-  getKeyColor(key: string) {
-    return this.keyboardService.getKeyColor(key);
+    this.keyboardService.setKeyColor(keyMap);
   }
 }
