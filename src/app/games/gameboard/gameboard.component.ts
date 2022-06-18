@@ -38,38 +38,44 @@ export class GameboardComponent implements OnInit {
   initialize(): void {
     this.initializedWordSize = Array(this.wordSize).fill('');
     this.activeRow = this.gameStore.guesses.filter(
-      (elem) => elem.guess.length === this.wordSize
+      (item) => item.guess[0] !== ''
     ).length;
     this.loading = false;
   }
 
   onKeyInput(key: string): void {
     let currentGuess: string[] = this.gameStore.guesses[this.activeRow].guess;
-    let lastFilledGuessIndex: number =
-      currentGuess.findIndex((char) => char === '') - 1;
+    let currentPosition: number = currentGuess.findIndex((char) => char === '');
+
+    if (currentPosition === -1) {
+      currentPosition = this.wordSize;
+    }
+
     const currentGuessLength: number = currentGuess.filter(
       (char) => char != ''
     ).length;
-
+    console.log(key, this.activeRow);
     switch (key) {
       case 'ENTER':
+        console.log(currentGuessLength, this.wordSize);
         if (currentGuessLength === this.wordSize) {
           this.handleGuess(currentGuess);
         }
         break;
       case 'BACKSPACE':
-        if (currentGuessLength && lastFilledGuessIndex >= 0) {
-          currentGuess[lastFilledGuessIndex] = '';
+        console.log(currentGuessLength, currentPosition);
+        if (currentGuessLength && currentPosition >= 0) {
+          currentGuess[currentPosition - 1] = '';
           this.gameboardService.updateGuess(currentGuess, this.activeRow);
-          lastFilledGuessIndex -= 1;
+          currentPosition -= 1;
         }
         break;
 
       default:
-        if (currentGuessLength < this.wordSize && lastFilledGuessIndex >= 0) {
-          // console.log('test');
-          lastFilledGuessIndex += 1;
-          currentGuess[lastFilledGuessIndex] = key;
+        console.log(currentGuessLength, currentPosition);
+        if (currentGuessLength < this.wordSize && currentPosition >= 0) {
+          currentGuess[currentPosition] = key;
+          currentPosition += 1;
           this.gameboardService.updateGuess(currentGuess, this.activeRow);
         }
         break;
@@ -104,6 +110,7 @@ export class GameboardComponent implements OnInit {
 
   handleGuess(guessArray: string[]): void {
     const guess: string = guessArray.join('').toLowerCase();
+    console.log(guess);
     if (guess === this.answer) {
       this.onWin();
       return;
@@ -115,7 +122,7 @@ export class GameboardComponent implements OnInit {
       console.log('word is invalid');
       return;
     }
-
+    console.log('is this happening?');
     // handle valid word guess
     this.colorOnGuess(guessArray, this.answer);
     this.activeRow += 1;
