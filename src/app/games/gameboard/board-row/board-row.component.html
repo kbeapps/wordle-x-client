@@ -2,9 +2,10 @@
   <div *ngFor="let char of guess; index as index">
     <mat-card
       [@tileAnimationState]="{
-        value: state ? 'colored' : 'uncolored',
+        value: state,
         params: { color: getColor(index), delay: getDelay(index) }
       }"
+      (@tileAnimationState.done)="startWinAnimation()"
       class="board-square"
     >
       <div class="test-box">

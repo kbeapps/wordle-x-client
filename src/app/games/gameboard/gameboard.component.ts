@@ -21,7 +21,7 @@ export class GameboardComponent implements OnInit {
   private answer: string = '';
   public animateRowNumber: number = -1;
   @ViewChildren(BoardRowComponent)
-  BoardRowList!: QueryList<BoardRowComponent>;
+  private BoardRowList!: QueryList<BoardRowComponent>;
 
   constructor(
     private gameboardService: GameboardService,
@@ -89,6 +89,7 @@ export class GameboardComponent implements OnInit {
     const answer: string[] = inputAnswer.split('');
     let answerLetterCount: number = 0;
     let letterCount: number = 0;
+    let isDuplicate: boolean = false;
 
     for (const [index, char] of guessArray.entries()) {
       key = char.toLowerCase();
@@ -103,12 +104,15 @@ export class GameboardComponent implements OnInit {
         case key === answer[index]:
           evaluation = 'correct';
           break;
+
         case answer.includes(key) &&
           letterCount === 1 &&
           answerLetterCount === 1:
-          evaluation = 'close';
-          break;
+        case answer.includes(key) && letterCount > 1 && !isDuplicate:
         case answer.includes(key) && letterCount > 1 && answerLetterCount > 1:
+          if (letterCount > 1 && answerLetterCount <= 1) {
+            isDuplicate = true;
+          }
           evaluation = 'close';
           break;
         default:
@@ -122,30 +126,27 @@ export class GameboardComponent implements OnInit {
 
     this.gameboardService.updateGuessEvaluation(this.activeRow, guessOutput);
     this.keyboardService.setKeyColor(keyMap);
-    this.BoardRowList.find(
-      (item, index) => index === this.activeRow
-    )?.startRowAnimation();
-  }
-
-  onWin(): void {
-    console.log('game won!');
   }
 
   private handleGuess(guessArray: string[]): void {
     const guess: string = guessArray.join('').toLowerCase();
-    if (guess === this.answer) {
-      this.onWin();
-      return;
-    }
 
     const isValidWord: boolean = checkWord(guess);
     if (!isValidWord) {
-      // handle invalid word
       return;
     }
-    // handle valid word guess
+
     this.evaluateGuess(guessArray, this.answer);
-    this.activeRow += 1;
+
+    const wonGame = guess === this.answer;
+
+    this.BoardRowList.find(
+      (item, index) => index === this.activeRow
+    )?.startAnimation(wonGame);
+
+    if (!wonGame) {
+      this.activeRow += 1;
+    }
   }
 
   getKeyColor(key: string) {
