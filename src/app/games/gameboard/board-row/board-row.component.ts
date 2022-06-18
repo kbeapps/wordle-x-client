@@ -21,7 +21,7 @@ interface BoardRowChanges {
   animations: [
     trigger('tileAnimationState', [
       state('uncolored', style({})),
-      state('colored', style({ backgroundColor: '#4caf50' }), {
+      state('colored', style({ backgroundColor: '{{color}}' }), {
         params: { color: '' },
       }),
 
@@ -41,7 +41,7 @@ interface BoardRowChanges {
             style({
               transform: 'rotateY(360deg)',
               offset: 1,
-              backgroundColor: '#4caf50',
+              backgroundColor: '{{color}}',
             }),
           ])
         ),
@@ -57,8 +57,6 @@ export class BoardRowComponent implements OnInit {
   @Input() guess: string[] = [];
   @Input() guessEvaluation: string[] = [];
   @Input() startAnimation: boolean = false;
-  // @Input() animationPosition: number = -1;
-  // public delayTimes: string = [];¸
 
   constructor() {}
 
@@ -86,5 +84,4 @@ export class BoardRowComponent implements OnInit {
   public startRowAnimation() {
     this.setState(true);
   }
-
 }

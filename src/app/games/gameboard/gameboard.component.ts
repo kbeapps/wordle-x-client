@@ -20,6 +20,8 @@ export class GameboardComponent implements OnInit {
   public loading: boolean = true;
   private answer: string = '';
   public animateRowNumber: number = -1;
+  @ViewChildren(BoardRowComponent)
+  BoardRowList!: QueryList<BoardRowComponent>;
 
   constructor(
     private gameboardService: GameboardService,
@@ -35,9 +37,6 @@ export class GameboardComponent implements OnInit {
     this.gameboardService.initializeGameStore(this.totalGuesses, this.wordSize);
     this.initialize();
   }
-
-  @ViewChildren(BoardRowComponent)
-  BoardRowList!: QueryList<BoardRowComponent>;
 
   private initialize(): void {
     this.activeRow = this.gameStore.guesses.filter(
@@ -82,15 +81,15 @@ export class GameboardComponent implements OnInit {
     }
   }
 
-  private colorOnGuess(guess: string[], inputAnswer: string): void {
+  private colorOnGuess(guessArray: string[], inputAnswer: string): void {
     let keyMap: IKey[] = [];
     let guessOutput: string[] = [];
     let key: string = '';
     let evaluation: string = '';
     const answer: string[] = inputAnswer.split('');
 
-    for (const [index, char] of guess.entries()) {
-      key = guess[index].toLowerCase();
+    for (const [index, char] of guessArray.entries()) {
+      key = guessArray[index].toLowerCase();
       evaluation =
         key === answer[index]
           ? 'correct'
@@ -101,9 +100,12 @@ export class GameboardComponent implements OnInit {
       keyMap.push({ key: key, color: evaluation });
       guessOutput.push(evaluation);
     }
-    this.gameboardService.updateGuess(guess, this.activeRow, guessOutput);
+
+    this.gameboardService.updateGuessEvaluation(this.activeRow, guessOutput);
     this.keyboardService.setKeyColor(keyMap);
-    this.BoardRowList.first.startRowAnimation();
+    this.BoardRowList.find(
+      (item, index) => index === this.activeRow
+    )?.startRowAnimation();
   }
 
   onWin(): void {
@@ -129,9 +131,5 @@ export class GameboardComponent implements OnInit {
 
   getKeyColor(key: string) {
     return this.keyboardService.getKeyColor(key);
-  }
-
-  ngAfterViewInit() {
-    console.log(this.BoardRowList);
   }
 }

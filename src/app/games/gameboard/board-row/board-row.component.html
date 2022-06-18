@@ -1,5 +1,4 @@
 <div class="board-row">
-  {{ startAnimation }}
   <div *ngFor="let char of guess; index as index">
     <mat-card
       [@tileAnimationState]="{
@@ -13,5 +12,4 @@
       </div>
     </mat-card>
   </div>
-  <button (click)="startRowAnimation()">Test</button>
 </div>

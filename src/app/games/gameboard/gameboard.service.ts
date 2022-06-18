@@ -10,18 +10,22 @@ export class GameStore {
   providedIn: 'root',
 })
 export class GameboardService {
-  gameStore!: GameStore;
-  answer: string = 'testy'; // TODO: add answer population
+  private gameStore!: GameStore;
+  private finalAnswer: string = 'testy'; // TODO: add answer population
 
   private gameStoreSubject = new Subject<any>();
 
   constructor(private storeService: StoreService) {}
 
+  public get answer() {
+    return this.finalAnswer;
+  }
+
   public get store(): GameStore {
     return this.gameStore;
   }
 
-  initializeGameStore(totalGuesses: number, wordSize: number): void {
+  public initializeGameStore(totalGuesses: number, wordSize: number): void {
     let gameStore = this.storeService.getData('gameStore') as GameStore;
     if (!gameStore) {
       gameStore = new GameStore();
@@ -38,17 +42,22 @@ export class GameboardService {
     this.gameStoreSubject.next(this.gameStore);
   }
 
-  updateGuess(guess: string[], activeRow: number, output?: string[]) {
-    this.gameStore.guesses[activeRow] = {
-      guess: guess,
-      output: output ? output : [],
-    };
+  public updateGuess(guessArray: string[], activeRow: number): void {
+    this.gameStore.guesses[activeRow].guess = guessArray;
+    this.updateStore();
+  }
 
+  public updateGuessEvaluation(activeRow: number, output: string[]): void {
+    this.gameStore.guesses[activeRow].output = output;
+    this.updateStore();
+  }
+
+  private updateStore(): void {
     this.storeService.setData('gameStore', this.gameStore);
     this.gameStoreSubject.next(this.gameStore);
   }
 
-  watchGameStore(): Observable<any> {
+  public watchGameStore(): Observable<any> {
     return this.gameStoreSubject.asObservable();
   }
 }
