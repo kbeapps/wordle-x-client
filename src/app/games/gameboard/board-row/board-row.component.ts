@@ -1,18 +1,14 @@
-import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Input } from '@angular/core';
 import {
-  animate,
   state,
   style,
   trigger,
-  keyframes,
   transition,
+  useAnimation,
 } from '@angular/animations';
 
-interface BoardRowChanges {
-  startAnimation: { currentValue: boolean };
-  animationPosition: { currentValue: boolean };
-}
+import { revealAnimation, wonAnimation } from './animations';
 
 @Component({
   selector: 'app-board-row',
@@ -30,53 +26,18 @@ interface BoardRowChanges {
 
       transition(
         'uncolored => colored',
-        animate(
-          '2000ms {{delay}} ease-in-out',
-          keyframes([
-            style({
-              transform: 'rotateY(0)',
-              offset: 0,
-            }),
-            style({
-              transform: ' rotateY(180deg)',
-              offset: 0.5,
-            }),
-            style({
-              transform: 'rotateY(360deg)',
-              offset: 1,
-              backgroundColor: '{{color}}',
-            }),
-          ])
-        ),
-        {
-          params: { delay: '0ms', color: '' },
-        }
+        useAnimation(revealAnimation, {
+          params: { delay: '{{delay}}', color: '{{color}}' },
+        })
       ),
 
       transition(
         'colored => won',
-        animate(
-          '2000ms {{delay}} ease-in-out',
-          keyframes([
-            style({
-              transform: 'rotateY(0)',
-              offset: 0,
-            }),
-            style({
-              transform: 'scale(1.5) translateY(-25px)',
-              offset: 0.5,
-            }),
-            style({
-              transform: 'rotateY(360deg)',
-              offset: 1,
-              backgroundColor: '{{color}}',
-            }),
-          ])
-        ),
-        {
-          params: { delay: '0ms', color: '' },
-        }
+        useAnimation(wonAnimation, {
+          params: { delay: '{{delay}}', color: '{{color}}' },
+        })
       ),
+
     ]),
   ],
 })
