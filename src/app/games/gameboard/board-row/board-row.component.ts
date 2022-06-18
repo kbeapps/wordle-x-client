@@ -8,7 +8,7 @@ import {
   useAnimation,
 } from '@angular/animations';
 
-import { revealAnimation, wonAnimation } from './animations';
+import { invalidAnimation, revealAnimation, wonAnimation } from './animations';
 
 @Component({
   selector: 'app-board-row',
@@ -16,7 +16,6 @@ import { revealAnimation, wonAnimation } from './animations';
   styleUrls: ['./board-row.component.scss'],
   animations: [
     trigger('tileAnimationState', [
-      state('uncolored', style({})),
       state('colored', style({ backgroundColor: '{{color}}' }), {
         params: { color: '' },
       }),
@@ -32,17 +31,23 @@ import { revealAnimation, wonAnimation } from './animations';
       ),
 
       transition(
+        '* => invalid',
+        useAnimation(invalidAnimation, {
+          params: { delay: '{{delay}}' },
+        })
+      ),
+
+      transition(
         'colored => won',
         useAnimation(wonAnimation, {
           params: { delay: '{{delay}}', color: '{{color}}' },
         })
       ),
-
     ]),
   ],
 })
 export class BoardRowComponent implements OnInit {
-  public state: 'uncolored' | 'colored' | 'won' = 'uncolored';
+  public state: 'uncolored' | 'colored' | 'invalid' | 'won' = 'uncolored';
   public won: boolean = false;
   @Input() guess: string[] = [];
   @Input() guessEvaluation: string[] = [];
@@ -66,13 +71,19 @@ export class BoardRowComponent implements OnInit {
     return `${index * 300}ms`;
   }
 
-  public startAnimation(wonGame: boolean): void {
+  public startAnimation(wonGame: boolean, isValidWord: boolean): void {
+    if (!isValidWord) {
+      this.state = 'invalid';
+      return;
+    }
     this.state = 'colored';
     this.won = wonGame;
   }
-  public startWinAnimation(): void {
-    if (this.won) {
-      this.state = 'won';
-    }
+  public finalizeState(): void {
+    this.state = this.won
+      ? 'won'
+      : this.state !== 'colored'
+      ? 'uncolored'
+      : 'colored';
   }
 }

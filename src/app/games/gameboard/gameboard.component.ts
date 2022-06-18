@@ -132,19 +132,17 @@ export class GameboardComponent implements OnInit {
     const guess: string = guessArray.join('').toLowerCase();
 
     const isValidWord: boolean = checkWord(guess);
-    if (!isValidWord) {
-      return;
+    if (isValidWord) {
+      this.evaluateGuess(guessArray, this.answer);
     }
-
-    this.evaluateGuess(guessArray, this.answer);
 
     const wonGame = guess === this.answer;
 
     this.BoardRowList.find(
       (item, index) => index === this.activeRow
-    )?.startAnimation(wonGame);
+    )?.startAnimation(wonGame, isValidWord);
 
-    if (!wonGame) {
+    if (isValidWord && !wonGame) {
       this.activeRow += 1;
     }
   }
