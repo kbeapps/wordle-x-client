@@ -54,16 +54,13 @@ export class GameboardComponent implements OnInit {
     const currentGuessLength: number = currentGuess.filter(
       (char) => char != ''
     ).length;
-    console.log(key, this.activeRow);
     switch (key) {
       case 'ENTER':
-        console.log(currentGuessLength, this.wordSize);
         if (currentGuessLength === this.wordSize) {
           this.handleGuess(currentGuess);
         }
         break;
       case 'BACKSPACE':
-        console.log(currentGuessLength, currentPosition);
         if (currentGuessLength && currentPosition >= 0) {
           currentGuess[currentPosition - 1] = '';
           this.gameboardService.updateGuess(currentGuess, this.activeRow);
@@ -72,7 +69,6 @@ export class GameboardComponent implements OnInit {
         break;
 
       default:
-        console.log(currentGuessLength, currentPosition);
         if (currentGuessLength < this.wordSize && currentPosition >= 0) {
           currentGuess[currentPosition] = key;
           currentPosition += 1;
@@ -82,16 +78,17 @@ export class GameboardComponent implements OnInit {
     }
   }
 
-  colorOnGuess(guess: string[], answer: string): void {
+  colorOnGuess(guess: string[], inputAnswer: string): void {
     let keyMap: IKey[] = [];
     let guessOutput: string[] = [];
     let key: string = '';
     let evaluation: string = '';
+    const answer: string[] = inputAnswer.split('');
 
-    for (let i in guess) {
-      key = guess[i];
+    for (const [index, char] of guess.entries()) {
+      key = guess[index].toLowerCase();
       evaluation =
-        key === answer[i]
+        key === answer[index]
           ? 'correct'
           : answer.includes(key)
           ? 'close'
@@ -110,7 +107,6 @@ export class GameboardComponent implements OnInit {
 
   handleGuess(guessArray: string[]): void {
     const guess: string = guessArray.join('').toLowerCase();
-    console.log(guess);
     if (guess === this.answer) {
       this.onWin();
       return;
@@ -119,10 +115,8 @@ export class GameboardComponent implements OnInit {
     const isValidWord: boolean = checkWord(guess);
     if (!isValidWord) {
       // handle invalid word
-      console.log('word is invalid');
       return;
     }
-    console.log('is this happening?');
     // handle valid word guess
     this.colorOnGuess(guessArray, this.answer);
     this.activeRow += 1;
