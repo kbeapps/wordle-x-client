@@ -1,108 +1,89 @@
 import { Component, OnInit } from '@angular/core';
+import { Input } from '@angular/core';
 import {
-  animate,
-  stagger,
   state,
   style,
   trigger,
-  keyframes,
   transition,
-  query,
+  useAnimation,
 } from '@angular/animations';
+
+import { invalidAnimation, revealAnimation, wonAnimation } from './animations';
 
 @Component({
   selector: 'app-board-row',
   templateUrl: './board-row.component.html',
   styleUrls: ['./board-row.component.scss'],
   animations: [
-    trigger('rowAnimationState', [
-      state('uncolored', style({})),
-      state('correct', style({ backgroundColor: '#4caf50' })),
-      state('close', style({ backgroundColor: '#ffa000' })),
-      state('incorrect', style({ backgroundColor: '#212121' })),
+    trigger('tileAnimationState', [
+      state('colored', style({ backgroundColor: '{{color}}' }), {
+        params: { color: '' },
+      }),
+      state('won', style({ backgroundColor: '{{color}}' }), {
+        params: { color: '' },
+      }),
+
       transition(
-        'uncolored => correct',
-        animate(
-          '2000ms',
-          keyframes([
-            style({
-              transform: 'rotateY(0)',
-              offset: 0,
-            }),
-            style({
-              transform: ' rotateY(180deg)',
-              offset: 0.5,
-            }),
-            style({
-              transform: 'rotateY(360deg)',
-              offset: 1,
-              backgroundColor: '#4caf50',
-            }),
-          ])
-        )
+        'uncolored => colored',
+        useAnimation(revealAnimation, {
+          params: { delay: '{{delay}}', color: '{{color}}' },
+        })
       ),
+
       transition(
-        'uncolored => close',
-        animate(
-          '2000ms',
-          keyframes([
-            style({ transform: 'rotateY(0)', offset: 0 }),
-            style({
-              transform: ' rotateY(180deg)',
-              offset: 0.5,
-            }),
-            style({
-              transform: 'rotateY(360deg)',
-              offset: 1,
-              backgroundColor: '#ffa000',
-            }),
-          ])
-        )
+        '* => invalid',
+        useAnimation(invalidAnimation, {
+          params: { delay: '{{delay}}' },
+        })
       ),
+
       transition(
-        'uncolored => incorrect',
-        animate(
-          '2000ms',
-          keyframes([
-            style({ transform: 'rotateY(0)', offset: 0 }),
-            style({
-              transform: ' rotateY(180deg)',
-              offset: 0.5,
-            }),
-            style({
-              transform: 'rotateY(360deg)',
-              offset: 1,
-              backgroundColor: '#212121',
-            }),
-          ])
-        )
+        'colored => won',
+        useAnimation(wonAnimation, {
+          params: { delay: '{{delay}}', color: '{{color}}' },
+        })
       ),
     ]),
   ],
 })
 export class BoardRowComponent implements OnInit {
-  private state: boolean = false;
-  public guess: string[] = ['T', 'E', 'S', 'T', 'Y'];
-  private guessEvaluation: string[] = [
-    'correct',
-    'correct',
-    'close',
-    'close',
-    'incorrect',
-  ];
+  public state: 'uncolored' | 'colored' | 'invalid' | 'won' = 'uncolored';
+  public won: boolean = false;
+  @Input() guess: string[] = [];
+  @Input() guessEvaluation: string[] = [];
+
   constructor() {}
 
   ngOnInit(): void {}
 
-  public set coloredState(state: boolean) {
-    this.state = state;
+  public getColor(index: number): string {
+    const colorState: string = this.guessEvaluation[index];
+    return this.state !== 'uncolored'
+      ? colorState === 'correct'
+        ? '#4caf50'
+        : colorState === 'close'
+        ? '#ffa000'
+        : ''
+      : '';
   }
 
-  getColorState(index: number): string {
-    return this.state ? this.guessEvaluation[index] : 'uncolored';
+  public getDelay(index: number): string {
+    return `${index * 300}ms`;
   }
 
-  changeVisualState() {
-    this.state = !this.state;
+  public startAnimation(wonGame: boolean, isValidWord: boolean): void {
+    if (!isValidWord) {
+      this.state = 'invalid';
+      return;
+    }
+    this.state = 'colored';
+    this.won = wonGame;
+  }
+  public finalizeState(): void {
+    this.state = this.won
+      ? 'won'
+      : this.state !== 'colored'
+      ? 'uncolored'
+      : 'colored';
   }
 }

@@ -2,48 +2,62 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { StoreService } from 'src/app/shared-services';
 
-export class GameState {
-  guesses: { guess: string; output: string[] }[] = [];
+export class GameStore {
+  guesses: { guess: string[]; output: string[] }[] = [];
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class GameboardService {
-  gameState!: GameState;
-  answer: string = 'testy'; // TODO: add answer population
+  private gameStore!: GameStore;
+  private finalAnswer: string = 'testy'; // TODO: add answer population
 
-  private gameStateSubject = new Subject<any>();
+  private gameStoreSubject = new Subject<any>();
 
   constructor(private storeService: StoreService) {}
 
-  initializeGameState(totalGuesses: number, wordSize: number): void {
-    let gameState = this.storeService.getData('gameState') as GameState;
-    if (!gameState) {
-      gameState = new GameState();
+  public get answer() {
+    return this.finalAnswer;
+  }
+
+  public get store(): GameStore {
+    return this.gameStore;
+  }
+
+  public initializeGameStore(totalGuesses: number, wordSize: number): void {
+    let gameStore = this.storeService.getData('gameStore') as GameStore;
+    if (!gameStore) {
+      gameStore = new GameStore();
       const outputArray = new Array(wordSize).fill(null).map(() => {
         return '';
       });
-      gameState.guesses = new Array(totalGuesses).fill(null).map(() => {
-        return { guess: '', output: outputArray };
+      gameStore.guesses = new Array(totalGuesses).fill(null).map(() => {
+        return { guess: new Array(wordSize).fill(''), output: outputArray };
       });
 
-      this.storeService.setData('gameState', gameState);
+      this.storeService.setData('gameStore', gameStore);
     }
-    this.gameState = gameState as GameState;
-    this.gameStateSubject.next(this.gameState);
+    this.gameStore = gameStore as GameStore;
+    this.gameStoreSubject.next(this.gameStore);
   }
 
-  updateGuess(guess: string, activeRow: number, output?: string[]) {
-    this.gameState.guesses[activeRow] = {
-      guess: guess,
-      output: output ? output : [],
-    };
-    this.storeService.setData('gameState', this.gameState);
-    this.gameStateSubject.next(this.gameState);
+  public updateGuess(guessArray: string[], activeRow: number): void {
+    this.gameStore.guesses[activeRow].guess = guessArray;
+    this.updateStore();
   }
 
-  watchGameState(): Observable<any> {
-    return this.gameStateSubject.asObservable();
+  public updateGuessEvaluation(activeRow: number, output: string[]): void {
+    this.gameStore.guesses[activeRow].output = output;
+    this.updateStore();
+  }
+
+  private updateStore(): void {
+    this.storeService.setData('gameStore', this.gameStore);
+    this.gameStoreSubject.next(this.gameStore);
+  }
+
+  public watchGameStore(): Observable<any> {
+    return this.gameStoreSubject.asObservable();
   }
 }

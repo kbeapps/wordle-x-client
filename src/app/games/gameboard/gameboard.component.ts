@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { IKey } from './keyboard/keyboard.service';
-import { GameboardService, GameState } from './gameboard.service';
+import { GameboardService, GameStore } from './gameboard.service';
 import { KeyboardService } from './keyboard/keyboard.service';
 import { checkWord } from 'check-if-word-partial';
+import { BoardRowComponent } from './board-row/board-row.component';
 
 @Component({
   selector: 'app-gameboard',
@@ -11,42 +12,52 @@ import { checkWord } from 'check-if-word-partial';
   styleUrls: ['./gameboard.component.scss'],
 })
 export class GameboardComponent implements OnInit {
-  gameState: GameState = new GameState();
-  wordSize: number = 5;
-  totalGuesses: number = 6;
-  initializedWordSize: string[] = [];
-  activeRow: number = 0;
-  gameStateSubscription: Subscription = new Subscription();
-  loading: boolean = true;
-  answer: string = '';
+  public gameStore: GameStore = new GameStore();
+  private wordSize: number = 5;
+  private totalGuesses: number = 6;
+  private activeRow: number = 0;
+  private gameStoreSubscription: Subscription = new Subscription();
+  public loading: boolean = true;
+  private answer: string = '';
+  public animateRowNumber: number = -1;
+
+  @ViewChildren(BoardRowComponent)
+  private BoardRowList!: QueryList<BoardRowComponent>;
 
   constructor(
     private gameboardService: GameboardService,
     private keyboardService: KeyboardService
   ) {
-    this.gameStateSubscription = this.gameboardService
-      .watchGameState()
-      .subscribe((gameState: GameState) => (this.gameState = gameState));
+    this.gameStoreSubscription = this.gameboardService
+      .watchGameStore()
+      .subscribe((gameStore: GameStore) => (this.gameStore = gameStore));
   }
 
   ngOnInit(): void {
     this.answer = this.gameboardService.answer.toLowerCase();
-    this.gameboardService.initializeGameState(this.totalGuesses, this.wordSize);
+    this.gameboardService.initializeGameStore(this.totalGuesses, this.wordSize);
     this.initialize();
   }
 
-  initialize(): void {
-    this.initializedWordSize = Array(this.wordSize).fill('');
-    this.activeRow = this.gameState.guesses.filter(
-      (elem) => elem.guess.length === this.wordSize
+  private initialize(): void {
+    this.activeRow = this.gameStore.guesses.filter(
+      (item) => item.guess[0] !== ''
     ).length;
     this.loading = false;
+    setInterval(() => {}, 500);
   }
 
-  onKeyInput(key: string): void {
-    let currentGuess: string = this.gameState.guesses[this.activeRow].guess;
-    const currentGuessLength: number = currentGuess.length;
+  public onKeyInput(key: string): void {
+    let currentGuess: string[] = this.gameStore.guesses[this.activeRow].guess;
+    let currentPosition: number = currentGuess.findIndex((char) => char === '');
 
+    if (currentPosition === -1) {
+      currentPosition = this.wordSize;
+    }
+
+    const currentGuessLength: number = currentGuess.filter(
+      (char) => char != ''
+    ).length;
     switch (key) {
       case 'ENTER':
         if (currentGuessLength === this.wordSize) {
@@ -54,69 +65,85 @@ export class GameboardComponent implements OnInit {
         }
         break;
       case 'BACKSPACE':
-        if (currentGuessLength) {
-          currentGuess = currentGuess.slice(0, -1);
+        if (currentGuessLength && currentPosition >= 0) {
+          currentGuess[currentPosition - 1] = '';
           this.gameboardService.updateGuess(currentGuess, this.activeRow);
+          currentPosition -= 1;
         }
         break;
 
       default:
-        if (currentGuessLength < this.wordSize) {
-          currentGuess += key;
+        if (currentGuessLength < this.wordSize && currentPosition >= 0) {
+          currentGuess[currentPosition] = key;
+          currentPosition += 1;
           this.gameboardService.updateGuess(currentGuess, this.activeRow);
         }
         break;
     }
   }
 
-  colorOnGuess(guess: string, answer: string): void {
-    const separatedGuess = guess.split('');
+  private evaluateGuess(guessArray: string[], inputAnswer: string): IKey[] {
     let keyMap: IKey[] = [];
     let guessOutput: string[] = [];
     let key: string = '';
     let evaluation: string = '';
+    const answer: string[] = inputAnswer.split('');
+    let answerLetterCount: number = 0;
+    let letterCount: number = 0;
+    let isDuplicate: boolean = false;
 
-    for (let i in separatedGuess) {
-      key = separatedGuess[i];
-      evaluation =
-        key === answer[i]
-          ? 'correct'
-          : answer.includes(key)
-          ? 'close'
-          : 'incorrect';
+    for (const [index, char] of guessArray.entries()) {
+      key = char.toLowerCase();
+      answerLetterCount = answer.filter(
+        (char) => char.toLowerCase() === key
+      ).length;
+      letterCount = guessArray.filter(
+        (char) => char.toLowerCase() === key
+      ).length;
+
+      switch (true) {
+        case key === answer[index]:
+          evaluation = 'correct';
+          break;
+
+        case answer.includes(key) && letterCount <= answerLetterCount:
+        case answer.includes(key) && letterCount > 1 && !isDuplicate:
+          if (letterCount > 1 && answerLetterCount <= 1) {
+            isDuplicate = true;
+          }
+          evaluation = 'close';
+          break;
+        default:
+          evaluation = 'incorrect';
+          break;
+      }
 
       keyMap.push({ key: key, color: evaluation });
       guessOutput.push(evaluation);
     }
-    this.keyboardService.setKeyColor(keyMap);
-    this.gameboardService.updateGuess(guess, this.activeRow, guessOutput);
+
+    this.gameboardService.updateGuessEvaluation(this.activeRow, guessOutput);
+    return keyMap;
   }
 
-  onWin(): void {
-    console.log('game won!');
-  }
-
-  handleGuess(guess: string): void {
-    console.log('handling guess');
-    guess = guess.toLowerCase();
-    if (guess === this.answer) {
-      this.onWin();
-      return;
-    }
+  private handleGuess(guessArray: string[]): void {
+    const guess: string = guessArray.join('').toLowerCase();
+    let keyMap: IKey[] = [];
 
     const isValidWord: boolean = checkWord(guess);
-    if (!isValidWord) {
-      // handle invalid word
-      console.log('word is invalid');
-      return;
+    if (isValidWord) {
+      keyMap = this.evaluateGuess(guessArray, this.answer);
     }
 
-    // handle valid word guess
-    this.colorOnGuess(guess, this.answer);
-    this.activeRow += 1;
-  }
+    const wonGame = guess === this.answer;
 
-  getKeyColor(key: string) {
-    return this.keyboardService.getKeyColor(key);
+    this.BoardRowList.find(
+      (item, index) => index === this.activeRow
+    )?.startAnimation(wonGame, isValidWord);
+
+    if (isValidWord && !wonGame) {
+      this.activeRow += 1;
+    }
+    this.keyboardService.setKeyColor(keyMap);
   }
 }
