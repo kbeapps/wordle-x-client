@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { BoardRowComponent } from './board-row/board-row.component';
 import { GameboardComponent } from './gameboard.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { KeyboardComponent } from './keyboard/keyboard.component';
 
 describe('GameboardComponent', () => {
   let component: GameboardComponent;
@@ -8,7 +10,8 @@ describe('GameboardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GameboardComponent],
+      imports: [BrowserAnimationsModule],
+      declarations: [GameboardComponent, BoardRowComponent, KeyboardComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(GameboardComponent);
