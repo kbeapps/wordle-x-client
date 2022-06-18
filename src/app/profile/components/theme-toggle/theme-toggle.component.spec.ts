@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MaterialModule } from 'src/app/core';
 import { ThemeToggleComponent } from './theme-toggle.component';
 
 describe('ThemeToggleComponent', () => {
@@ -8,9 +8,9 @@ describe('ThemeToggleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ThemeToggleComponent ]
-    })
-    .compileComponents();
+      imports: [MaterialModule],
+      declarations: [ThemeToggleComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ThemeToggleComponent);
     component = fixture.componentInstance;

@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { BoardRowComponent } from './board-row.component';
 
 describe('BoardRowComponent', () => {
@@ -8,9 +7,8 @@ describe('BoardRowComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BoardRowComponent ]
-    })
-    .compileComponents();
+      declarations: [BoardRowComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(BoardRowComponent);
     component = fixture.componentInstance;

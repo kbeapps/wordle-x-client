@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MaterialModule } from 'src/app/core';
 import { KeyboardComponent } from './keyboard.component';
 
 describe('KeyboardComponent', () => {
@@ -8,9 +8,9 @@ describe('KeyboardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ KeyboardComponent ]
-    })
-    .compileComponents();
+      imports: [MaterialModule],
+      declarations: [KeyboardComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(KeyboardComponent);
     component = fixture.componentInstance;

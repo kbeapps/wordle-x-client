@@ -1,12 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-
+import { AppRoutingModule } from '../modules';
 import { LandingGuard } from './landing.guard';
 
 describe('LandingGuard', () => {
   let guard: LandingGuard;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [AppRoutingModule],
+    });
     guard = TestBed.inject(LandingGuard);
   });
 

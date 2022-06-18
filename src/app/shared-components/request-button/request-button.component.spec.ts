@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { MaterialModule } from 'src/app/core';
 import { RequestButtonComponent } from './request-button.component';
 
 describe('RequestButtonComponent', () => {
@@ -8,9 +8,9 @@ describe('RequestButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RequestButtonComponent ]
-    })
-    .compileComponents();
+      imports: [MaterialModule],
+      declarations: [RequestButtonComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(RequestButtonComponent);
     component = fixture.componentInstance;

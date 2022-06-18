@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientModule } from '@angular/common/http';
 import { GamesComponent } from './games.component';
 
 describe('GamesComponent', () => {
@@ -8,9 +8,9 @@ describe('GamesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GamesComponent ]
-    })
-    .compileComponents();
+      imports: [HttpClientModule],
+      declarations: [GamesComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(GamesComponent);
     component = fixture.componentInstance;
