@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { Input } from '@angular/core';
 import {
   animate,
@@ -9,6 +9,11 @@ import {
   transition,
 } from '@angular/animations';
 
+interface BoardRowChanges {
+  startAnimation: { currentValue: boolean };
+  animationPosition: { currentValue: boolean };
+}
+
 @Component({
   selector: 'app-board-row',
   templateUrl: './board-row.component.html',
@@ -16,7 +21,7 @@ import {
   animations: [
     trigger('tileAnimationState', [
       state('uncolored', style({})),
-      state('colored', style({ backgroundColor: '{{color}}' }), {
+      state('colored', style({ backgroundColor: '#4caf50' }), {
         params: { color: '' },
       }),
 
@@ -36,7 +41,7 @@ import {
             style({
               transform: 'rotateY(360deg)',
               offset: 1,
-              backgroundColor: '{{color}}',
+              backgroundColor: '#4caf50',
             }),
           ])
         ),
@@ -51,17 +56,13 @@ export class BoardRowComponent implements OnInit {
   public state: boolean = false;
   @Input() guess: string[] = [];
   @Input() guessEvaluation: string[] = [];
-  public delayTimes: string[] = [];
+  @Input() startAnimation: boolean = false;
+  // @Input() animationPosition: number = -1;
+  // public delayTimes: string = [];¸
 
   constructor() {}
 
-  ngOnInit(): void {
-    let delay: number = 0;
-    for (const guess of this.guessEvaluation) {
-      delay += 300;
-      this.delayTimes.push(`${delay}ms`);
-    }
-  }
+  ngOnInit(): void {}
 
   public setState(state: boolean) {
     this.state = state;
@@ -78,7 +79,12 @@ export class BoardRowComponent implements OnInit {
       : '';
   }
 
+  public getDelay(index: number): string {
+    return `${index * 300}ms`;
+  }
+
   public startRowAnimation() {
     this.setState(true);
   }
+
 }

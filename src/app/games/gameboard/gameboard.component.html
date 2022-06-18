@@ -2,15 +2,12 @@
   <div class="board-section">
     <div
       class="board-row"
-      *ngFor="
-        let guess of gameStore.guesses;
-        index as rowIndex;
-        first as isFirstRow
-      "
+      *ngFor="let guess of gameStore.guesses; index as rowIndex"
     >
       <app-board-row
         [guess]="guess.guess"
         [guessEvaluation]="guess.output"
+        [startAnimation]="animateRowNumber === rowIndex"
       ></app-board-row>
     </div>
   </div>

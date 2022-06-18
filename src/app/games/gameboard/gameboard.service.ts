@@ -43,6 +43,7 @@ export class GameboardService {
       guess: guess,
       output: output ? output : [],
     };
+
     this.storeService.setData('gameStore', this.gameStore);
     this.gameStoreSubject.next(this.gameStore);
   }

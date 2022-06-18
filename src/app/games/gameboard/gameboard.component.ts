@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { IKey } from './keyboard/keyboard.service';
 import { GameboardService, GameStore } from './gameboard.service';
 import { KeyboardService } from './keyboard/keyboard.service';
 import { checkWord } from 'check-if-word-partial';
+import { BoardRowComponent } from './board-row/board-row.component';
 
 @Component({
   selector: 'app-gameboard',
@@ -11,14 +12,14 @@ import { checkWord } from 'check-if-word-partial';
   styleUrls: ['./gameboard.component.scss'],
 })
 export class GameboardComponent implements OnInit {
-  gameStore: GameStore = new GameStore();
-  wordSize: number = 5;
-  totalGuesses: number = 6;
-  initializedWordSize: string[] = [];
-  activeRow: number = 0;
-  gameStoreSubscription: Subscription = new Subscription();
-  loading: boolean = true;
-  answer: string = '';
+  public gameStore: GameStore = new GameStore();
+  private wordSize: number = 5;
+  private totalGuesses: number = 6;
+  private activeRow: number = 0;
+  private gameStoreSubscription: Subscription = new Subscription();
+  public loading: boolean = true;
+  private answer: string = '';
+  public animateRowNumber: number = -1;
 
   constructor(
     private gameboardService: GameboardService,
@@ -35,15 +36,18 @@ export class GameboardComponent implements OnInit {
     this.initialize();
   }
 
-  initialize(): void {
-    this.initializedWordSize = Array(this.wordSize).fill('');
+  @ViewChildren(BoardRowComponent)
+  BoardRowList!: QueryList<BoardRowComponent>;
+
+  private initialize(): void {
     this.activeRow = this.gameStore.guesses.filter(
       (item) => item.guess[0] !== ''
     ).length;
     this.loading = false;
+    setInterval(() => {}, 500);
   }
 
-  onKeyInput(key: string): void {
+  public onKeyInput(key: string): void {
     let currentGuess: string[] = this.gameStore.guesses[this.activeRow].guess;
     let currentPosition: number = currentGuess.findIndex((char) => char === '');
 
@@ -78,7 +82,7 @@ export class GameboardComponent implements OnInit {
     }
   }
 
-  colorOnGuess(guess: string[], inputAnswer: string): void {
+  private colorOnGuess(guess: string[], inputAnswer: string): void {
     let keyMap: IKey[] = [];
     let guessOutput: string[] = [];
     let key: string = '';
@@ -97,15 +101,16 @@ export class GameboardComponent implements OnInit {
       keyMap.push({ key: key, color: evaluation });
       guessOutput.push(evaluation);
     }
-    this.keyboardService.setKeyColor(keyMap);
     this.gameboardService.updateGuess(guess, this.activeRow, guessOutput);
+    this.keyboardService.setKeyColor(keyMap);
+    this.BoardRowList.first.startRowAnimation();
   }
 
   onWin(): void {
     console.log('game won!');
   }
 
-  handleGuess(guessArray: string[]): void {
+  private handleGuess(guessArray: string[]): void {
     const guess: string = guessArray.join('').toLowerCase();
     if (guess === this.answer) {
       this.onWin();
@@ -124,5 +129,9 @@ export class GameboardComponent implements OnInit {
 
   getKeyColor(key: string) {
     return this.keyboardService.getKeyColor(key);
+  }
+
+  ngAfterViewInit() {
+    console.log(this.BoardRowList);
   }
 }
