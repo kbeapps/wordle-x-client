@@ -1,13 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { DashboardComponent } from 'src/app/core/components/dashboard.component';
 import { LandingComponent } from 'src/app/core/components/landing.component';
 import { LoginComponent } from 'src/app/auth/login/login.component';
 import { SignupComponent } from 'src/app/auth/signup/signup.component';
 
-import { DashboardGuard } from '../guards/dashboard.guard';
-import { LandingGuard } from '../guards/landing.guard';
+import { LandingGuard } from './core/guards/landing.guard';
 
 const routes: Routes = [
   {
@@ -17,8 +15,8 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
-    component: DashboardComponent,
-    canActivate: [DashboardGuard],
+    loadChildren: () =>
+      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
   {
     path: 'login',

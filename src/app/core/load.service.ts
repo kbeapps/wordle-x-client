@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
-interface appState {
+interface AppState {
   isReady: boolean;
   hasError: boolean;
 }
@@ -10,15 +10,15 @@ interface appState {
   providedIn: 'root',
 })
 export class LoadService {
-  private state: appState = {
+  private state: AppState = {
     isReady: false,
     hasError: false,
   };
   private loadingStates: string[] = [];
-  private appStateSubject = new Subject<appState>();
+  private appStateSubject = new Subject<AppState>();
   constructor() {}
 
-  public get appState(): appState {
+  public get appState(): AppState {
     return this.state;
   }
 
@@ -48,7 +48,7 @@ export class LoadService {
     this.appIsReady = !this.loadingStates.length;
   }
 
-  public watchAppIsReady(): Observable<appState> {
+  public watchAppIsReady(): Observable<AppState> {
     return this.appStateSubject.asObservable();
   }
 }

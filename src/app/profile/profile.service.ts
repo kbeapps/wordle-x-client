@@ -1,26 +1,22 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProfileService {
-  selectedTheme: string = 'dark';
-  private subject = new Subject<any>();
-  constructor() {
-    this.subject.next(this.selectedTheme);
-  }
+  private selectedThemeSubject$ = new BehaviorSubject<string>('dark');
 
   toggleTheme(darkModeEnabled: boolean): void {
-    this.selectedTheme = darkModeEnabled ? 'dark' : 'light';
-    this.subject.next(this.selectedTheme);
+    const theme = darkModeEnabled ? 'dark' : 'light';
+    this.selectedThemeSubject$.next(theme);
   }
 
-  getSelectedTheme(): string {
-    return this.selectedTheme;
+  get selectedTheme(): string {
+    return this.selectedThemeSubject$.value;
   }
 
-  watchSelectedTheme(): Observable<any> {
-    return this.subject.asObservable();
+  watchSelectedTheme(): Observable<string> {
+    return this.selectedThemeSubject$.asObservable();
   }
 }
