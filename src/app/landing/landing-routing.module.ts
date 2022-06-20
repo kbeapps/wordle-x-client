@@ -4,7 +4,6 @@ import { LandingGuard } from './guards/landing.guard';
 import { LandingComponent } from './components/landing.component';
 import { LoginComponent } from 'src/app/auth/login/login.component';
 import { SignupComponent } from 'src/app/auth/signup/signup.component';
-import { DashboardGuard } from '../dashboard/guards/dashboard.guard';
 
 const routes: Routes = [
   {

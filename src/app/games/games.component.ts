@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { GamesService } from './games.service';
-import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-games',

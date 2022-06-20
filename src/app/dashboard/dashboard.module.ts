@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/core';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { GamesModule } from '../games/games.module';
+import { SharedModule } from '../shared/shared.module';
 
 import { DashboardComponent } from './components/dashboard.component';
 import { FriendsComponent } from '../friends/friends.component';
@@ -18,7 +19,13 @@ import { ThemeToggleComponent } from '../profile/components/theme-toggle/theme-t
     ProfileComponent,
     ThemeToggleComponent,
   ],
-  imports: [CommonModule, DashboardRoutingModule, MaterialModule, GamesModule],
+  imports: [
+    CommonModule,
+    DashboardRoutingModule,
+    MaterialModule,
+    GamesModule,
+    SharedModule,
+  ],
   providers: [],
 })
 export class DashboardModule {}

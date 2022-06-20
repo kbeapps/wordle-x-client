@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IUser, User } from 'src/app/core/models/user';
-import { HttpRequestService } from 'src/app/shared-services';
+import { HttpRequestService } from '../shared/services';
 import { UserService } from '../auth';
 import { Observable, Subscription } from 'rxjs';
 

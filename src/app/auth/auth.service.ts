@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
-import { StoreService } from '../shared-services/store.service';
+import { StoreService } from 'src/app/shared/services';
 
 interface IAuthStore {
   loggedIn: boolean;
