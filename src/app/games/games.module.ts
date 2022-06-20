@@ -4,7 +4,7 @@ import { MaterialModule } from '../core';
 import { SharedModule } from '../shared/shared.module';
 
 import { BoardRowComponent } from './gameboard/board-row/board-row.component';
-import { GamesComponent } from './games.component';
+import { GamesComponent } from './components/games.component';
 import { GameboardComponent } from './gameboard/gameboard.component';
 import { KeyboardComponent } from './gameboard/keyboard/keyboard.component';
 

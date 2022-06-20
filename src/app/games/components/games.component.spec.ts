@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { GamesComponent } from './games.component';
-import { GameboardComponent } from './gameboard/gameboard.component';
+import { GameboardComponent } from '../gameboard/gameboard.component';
 
 describe('GamesComponent', () => {
   let component: GamesComponent;
