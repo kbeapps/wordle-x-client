@@ -1,41 +1,43 @@
 @import "../../../assets/styles/variables.scss";
 
 .gameboard-container {
-  height: 80vh;
-  width: 100vw;
-  max-width: 600px;
-  max-height: 900px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: relative;
 }
 
 .board-section {
-  height: 60%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  position: absolute;
+  width: $breakpoint-mobile;
+  top: 10%;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (max-width: $breakpoint-mobile) {
+    width: 100vw;
+    top: 15%;
+  }
 }
 
 .board-row {
   width: 100%;
-  height: 14%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.board-square {
-  width: 25px;
-  height: 25px;
-  margin: 2px;
-  text-align: center;
 }
 
 .keyboard-section {
-  height: 40%;
-  text-align: center;
+  position: absolute;
+  bottom: 15%;
+  left: 0;
+  right: 0;
+  height: 250px;
+  width: $breakpoint-mobile;
+  margin-left: auto;
+  margin-right: auto;
+
+  @media (max-width: $breakpoint-mobile) {
+    width: 100vw;
+    pading: 10px;
+    bottom: 0;
+  }
 }
 
 .correct-key {
