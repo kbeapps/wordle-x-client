@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ProfileService } from './profile/profile.service';
+import { ProfileService } from './manage/profile/profile.service';
 import { environment } from 'src/environments/environment';
 import { LoadService } from './core';
 

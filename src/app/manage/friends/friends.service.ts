@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IUser } from 'src/app/core/models/user';
-import { HttpRequestService } from '../shared/services';
-import { UserService } from '../auth';
+import { HttpRequestService } from '../../shared/services';
+import { UserService } from '../../auth';
 
 @Injectable({
   providedIn: 'root',

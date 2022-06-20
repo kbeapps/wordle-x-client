@@ -2,8 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { FriendsService } from './friends.service';
-import { UserService } from '../auth';
-import { IUser } from '../core';
+import { UserService } from '../../auth';
+import { IUser } from '../../core';
 
 @Component({
   selector: 'app-friends',

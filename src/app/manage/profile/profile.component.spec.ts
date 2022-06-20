@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppRoutingModule, MaterialModule } from '../core';
+import { AppRoutingModule, MaterialModule } from '../../core';
 import { ProfileComponent } from './profile.component';
 
 describe('ProfileComponent', () => {

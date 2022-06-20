@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppRoutingModule } from '../core';
+import { AppRoutingModule } from '../../core';
 import { HttpClientModule } from '@angular/common/http';
 import { FriendsComponent } from './friends.component';
 
