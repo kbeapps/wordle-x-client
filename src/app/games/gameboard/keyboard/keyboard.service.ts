@@ -11,9 +11,10 @@ export interface IKey {
 })
 export class KeyboardService {
   initializedKeys: IKey[] = [];
-  private subject = new Subject();
+  private keyboardSubject$ = new Subject();
+
   constructor() {
-    this.subject.next(this.initializedKeys);
+    this.keyboardSubject$.next(this.initializedKeys);
   }
 
   setKeyColor(keyMap: IKey[]): void {
@@ -29,7 +30,7 @@ export class KeyboardService {
         };
       }
     }
-    this.subject.next(this.initializedKeys);
+    this.keyboardSubject$.next(this.initializedKeys);
   }
 
   setInitializedKeys(initializedKeys: IKey[]): void {
@@ -45,6 +46,6 @@ export class KeyboardService {
   }
 
   watchInitializedKeys(): Observable<any> {
-    return this.subject.asObservable();
+    return this.keyboardSubject$.asObservable();
   }
 }
