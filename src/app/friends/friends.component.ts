@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators, ValidationErrors } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
+import { Component, OnInit, Input } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { FriendsService } from './friends.service';
 import { UserService } from '../auth';
 import { IUser } from '../core';
@@ -13,7 +13,7 @@ import { IUser } from '../core';
 export class FriendsComponent implements OnInit {
   public isLoading: boolean = false;
   public friendsList: string[] = [];
-  public emailOrUsername!: FormControl;
+  @Input() public emailOrUsername!: FormControl;
 
   private userSubscription$: Subscription = new Subscription();
 
@@ -34,12 +34,11 @@ export class FriendsComponent implements OnInit {
     if (!this.emailOrUsername) {
       return;
     }
+    // implement
   }
 
   public onDeleteFriend(friend: string): void {
-    console.log(
-      `You blocked me on facebook, now youre going to die: ${friend}`
-    );
+    // implement
   }
 
   ngOnDestroy() {

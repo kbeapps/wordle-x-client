@@ -1,24 +1,19 @@
 import { Injectable } from '@angular/core';
-import { IUser, User } from 'src/app/core/models/user';
+import { IUser } from 'src/app/core/models/user';
 import { HttpRequestService } from '../shared/services';
 import { UserService } from '../auth';
-import { Observable, Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FriendsService {
   constructor(
-    // private notificationService: NotificationService;
     private userService: UserService,
     private http: HttpRequestService
   ) {}
 
   private getUserId(key: string, emailOrUsername: string): string {
-    // const user: IUser = this.userService.getUser(key, emailOrUsername);
-    // if(user) {
-    //   return '';
-    // }
+    // implement
     return '';
   }
 
@@ -45,6 +40,7 @@ export class FriendsService {
         return friend !== friendId;
       });
 
+      // implement
       // this.userService.updateUser(requestingUser);
     }
   }
