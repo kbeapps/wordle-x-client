@@ -1,8 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppRoutingModule, MaterialModule } from 'src/app/core';
+import { MaterialModule } from 'src/app/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { SignupComponent } from './signup.component';
+import { LandingRoutingModule } from 'src/app/landing/landing-routing.module';
 
 describe('SignupComponent', () => {
   let component: SignupComponent;
@@ -11,7 +12,7 @@ describe('SignupComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        AppRoutingModule,
+        LandingRoutingModule,
         HttpClientModule,
         MaterialModule,
         BrowserAnimationsModule,

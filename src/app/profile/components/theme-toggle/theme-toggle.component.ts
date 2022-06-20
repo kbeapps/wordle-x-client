@@ -8,7 +8,7 @@ import { ProfileService } from '../../profile.service';
 })
 export class ThemeToggleComponent implements OnInit {
   @Input() darkModeEnabled: boolean =
-    this.profileService.getSelectedTheme() === 'dark';
+    this.profileService.selectedTheme === 'dark';
 
   constructor(private profileService: ProfileService) {}
 

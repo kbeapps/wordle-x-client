@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { AppRoutingModule } from '../core';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from './auth.service';
+import { LandingRoutingModule } from '../landing/landing-routing.module';
 
 describe('AuthService', () => {
   let service: AuthService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppRoutingModule, HttpClientModule],
+      imports: [LandingRoutingModule, HttpClientModule],
       providers: [AuthService],
     });
     service = TestBed.inject(AuthService);

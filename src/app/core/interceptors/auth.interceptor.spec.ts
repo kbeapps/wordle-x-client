@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { AppRoutingModule } from '../modules';
+import { AppRoutingModule } from 'src/app/app-routing.module';
 import { AuthInterceptor } from './auth.interceptor';
 
 describe('AuthInterceptor', () => {

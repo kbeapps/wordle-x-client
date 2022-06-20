@@ -6,15 +6,16 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { AuthService, UserService } from 'src/app/auth';
+import { AuthService } from 'src/app/auth';
+import { LoadService } from 'src/app/core/load.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DashboardGuard implements CanActivate {
+export class LandingGuard implements CanActivate {
   constructor(
     private authService: AuthService,
-    private userService: UserService,
+    private loadService: LoadService,
     private router: Router
   ) {}
 
@@ -23,20 +24,18 @@ export class DashboardGuard implements CanActivate {
     state: RouterStateSnapshot
   ): true | UrlTree {
     const url: string = state.url;
-
     return this.checkLogin(url);
   }
 
   checkLogin(url: string): true | UrlTree {
-    if (this.authService.isLoggedIn) {
-      if (!this.userService.user._id) {
-        // if logged in and no populated user
-        this.userService.initializeUserStore();
-      }
+    if (!this.authService.isLoggedIn) {
+      // set app ready
+      this.loadService.appIsReady = true;
       // continue to path
       return true;
     }
-    // else redirect to the login page
-    return this.router.parseUrl('/login');
+    // else redirect to the dashboard
+    // return this.router.parseUrl('/dashboard');
+    return true;
   }
 }

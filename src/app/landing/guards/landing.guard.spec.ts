@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { AppRoutingModule } from '../modules';
+import { AppRoutingModule } from '../../core/modules';
 import { LandingGuard } from './landing.guard';
 
 describe('LandingGuard', () => {
