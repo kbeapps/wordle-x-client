@@ -7,7 +7,7 @@ import {
   UrlTree,
 } from '@angular/router';
 import { AuthService } from 'src/app/auth';
-import { LoadService } from 'src/app/core/load.service';
+import { LoadService } from 'src/app/core';
 
 @Injectable({
   providedIn: 'root',
@@ -34,8 +34,8 @@ export class LandingGuard implements CanActivate {
       // continue to path
       return true;
     }
-    // else redirect to the dashboard
-    // return this.router.parseUrl('/dashboard');
-    return true;
+
+    // else redirect to dashboard
+    return this.router.parseUrl('/dashboard');
   }
 }

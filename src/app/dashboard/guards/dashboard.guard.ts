@@ -30,14 +30,13 @@ export class DashboardGuard implements CanActivate {
   checkLogin(url: string): true | UrlTree {
     if (this.authService.isLoggedIn) {
       if (!this.userService.user._id) {
-        // if logged in and no populated user
+        // initialize store if logged in and no populated user
         this.userService.initializeUserStore();
       }
       // continue to path
       return true;
     }
-    // else redirect to the login page
-    // return this.router.parseUrl('/login');
-    return true;
+    // else redirect to login
+    return this.router.parseUrl('/login');
   }
 }

@@ -10,6 +10,7 @@ const routes: Routes = [
   {
     path: '',
     component: LandingComponent,
+    canActivate: [LandingGuard],
   },
   {
     path: 'login',
@@ -25,7 +26,6 @@ const routes: Routes = [
     path: 'dashboard',
     loadChildren: () =>
       import('../dashboard/dashboard.module').then((m) => m.DashboardModule),
-    canActivate: [DashboardGuard],
   },
 ];
 

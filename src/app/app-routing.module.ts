@@ -7,7 +7,6 @@ const routes: Routes = [
     path: '',
     loadChildren: () =>
       import('src/app/landing/landing.module').then((m) => m.LandingModule),
-    canActivate: [LandingGuard],
   },
 ];
 
