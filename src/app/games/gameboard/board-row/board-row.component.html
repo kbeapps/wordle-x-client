@@ -1,17 +1,16 @@
 <div class="board-row">
   <div *ngFor="let char of guess; index as index">
     <mat-card
-      [@rowAnimationState]="coloredState"
-      class="{{
-        char
-          ? 'board-square ' + guessEvaluation[index] + '-key'
-          : 'board-square'
-      }}"
+      [@tileAnimationState]="{
+        value: state,
+        params: { color: getColor(index), delay: getDelay(index) }
+      }"
+      (@tileAnimationState.done)="finalizeState()"
+      class="board-square"
     >
       <div class="test-box">
         {{ char }}
       </div>
     </mat-card>
   </div>
-  <button (click)="changeVisualState()">Test</button>
 </div>

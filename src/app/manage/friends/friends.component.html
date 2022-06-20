@@ -1,0 +1,48 @@
+<mat-card class="container-card">
+  <!-- add friend section -->
+  <div class="upper-section">
+    <div class="add-friend-section">
+      <form>
+        <mat-form-field appearance="fill">
+          <mat-label>Email or Username</mat-label>
+          <input matInput type="text" formControl="emailOrUsername" />
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </form>
+
+      <div class="confirm-button">
+        <app-request-button
+          color="primary"
+          label="Add Friend"
+          (click)="onSendFriendRequest()"
+          [isLoading]="isLoading"
+        ></app-request-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- friends list section  -->
+  <div class="lower-section">
+    <h2>My Friends</h2>
+
+    <div class="section-table">
+      <mat-selection-list #friends [multiple]="false">
+        <mat-list-option
+          color="primary"
+          *ngFor="let friend of friendsList"
+          [value]="friend"
+        >
+          <div class="table-item">
+            <div class="friend-name">
+              {{ friend }}
+            </div>
+            <mat-icon (click)="onDeleteFriend(friend)" type="button"
+              >delete_forever</mat-icon
+            >
+          </div>
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+  </div>
+  <p>Option selected: {{ friends.selectedOptions.selected[0]?.value }}</p>
+</mat-card>

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { GamesModule } from '../../games.module';
 import { BoardRowComponent } from './board-row.component';
 
 describe('BoardRowComponent', () => {
@@ -8,9 +8,8 @@ describe('BoardRowComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BoardRowComponent ]
-    })
-    .compileComponents();
+      imports: [GamesModule],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(BoardRowComponent);
     component = fixture.componentInstance;

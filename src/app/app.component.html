@@ -1,12 +1,17 @@
-<div class="main-{{ selectedTheme }}-theme mat-app-background layout-container">
-  <router-outlet *ngIf="appIsReady && !appHasError"></router-outlet>
-  <div *ngIf="!appIsReady || appHasError" class="loading-container">
+<div
+  *ngIf="appState$ | async; let appState"
+  class="main-{{
+    selectedTheme$ | async
+  }}-theme mat-app-background layout-container"
+>
+  <router-outlet *ngIf="appState.isReady && !appState.hasError"></router-outlet>
+  <div *ngIf="!appState.isReady || appState.hasError" class="loading-container">
     <mat-progress-bar
       class="loading-bar"
       color="accent"
       mode="indeterminate"
     ></mat-progress-bar>
-    <div *ngIf="appHasError">
+    <div *ngIf="appState.hasError">
       <p>
         There was an error connect to our services, please refresh the page and
         try again. Have a cup of coffee, maybe some tea, then try again.

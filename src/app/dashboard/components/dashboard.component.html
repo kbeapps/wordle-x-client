@@ -1,0 +1,33 @@
+<div class="dashboard-container">
+  <nav
+    mat-tab-nav-bar
+    mat-stretch-tabs
+    backgroundColor="primary"
+    class="dashboard-nav-container"
+  >
+    <a
+      mat-tab-link
+      routerLink="play"
+      (click)="activeLink = 'play'"
+      [active]="activeLink === 'play'"
+    >
+      Play
+    </a>
+    <a
+      *ngIf="activeLink !== 'manage'; else disabledManage"
+      mat-tab-link
+      routerLink="manage/friends"
+      (click)="activeLink = 'manage'"
+      [active]="activeLink === 'manage'"
+    >
+      Manage
+    </a>
+    <ng-template #disabledManage>
+      <a mat-tab-link> Manage </a>
+    </ng-template>
+  </nav>
+
+  <mat-tab-nav-panel #tabPanel class="page-container">
+    <router-outlet></router-outlet>
+  </mat-tab-nav-panel>
+</div>

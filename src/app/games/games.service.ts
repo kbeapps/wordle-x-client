@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpRequestService } from 'src/app/shared-services';
+import { HttpRequestService } from '../shared/services';
 import { catchError, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 

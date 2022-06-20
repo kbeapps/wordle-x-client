@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
-export class IKey {
-  key: string = '';
-  color: string = '';
+export interface IKey {
+  key: string;
+  color: string;
 }
 
 @Injectable({
@@ -11,20 +11,26 @@ export class IKey {
 })
 export class KeyboardService {
   initializedKeys: IKey[] = [];
-  private subject = new Subject();
+  private keyboardSubject$ = new Subject();
+
   constructor() {
-    this.subject.next(this.initializedKeys);
+    this.keyboardSubject$.next(this.initializedKeys);
   }
 
   setKeyColor(keyMap: IKey[]): void {
     let index: number = -1;
     for (let key of keyMap) {
-      index = this.initializedKeys.findIndex((item) => item.key === key.key);
+      index = this.initializedKeys.findIndex(
+        (item) => item.key.toLowerCase() === key.key.toLowerCase()
+      );
       if (index !== -1) {
-        this.initializedKeys[index] = { key: key.key, color: key.color };
+        this.initializedKeys[index] = {
+          key: key.key.toUpperCase(),
+          color: key.color,
+        };
       }
     }
-    this.subject.next(this.initializedKeys);
+    this.keyboardSubject$.next(this.initializedKeys);
   }
 
   setInitializedKeys(initializedKeys: IKey[]): void {
@@ -32,13 +38,14 @@ export class KeyboardService {
   }
 
   getKeyColor(key: string): string {
-    const foundColor: IKey | undefined = this.initializedKeys.find(
+    const keyIndex: number = this.initializedKeys.findIndex(
       (item) => item.key === key
     );
-    return foundColor ? foundColor.color + '-key' : '';
+    const item = this.initializedKeys[keyIndex];
+    return keyIndex >= 0 ? item.color + '-key' : '';
   }
 
   watchInitializedKeys(): Observable<any> {
-    return this.subject.asObservable();
+    return this.keyboardSubject$.asObservable();
   }
 }

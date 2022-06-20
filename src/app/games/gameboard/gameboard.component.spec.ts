@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { GamesModule } from '../games.module';
 import { GameboardComponent } from './gameboard.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('GameboardComponent', () => {
   let component: GameboardComponent;
@@ -8,9 +9,8 @@ describe('GameboardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GameboardComponent ]
-    })
-    .compileComponents();
+      imports: [GamesModule, BrowserAnimationsModule],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(GameboardComponent);
     component = fixture.componentInstance;

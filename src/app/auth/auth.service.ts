@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
-import { StoreService } from '../shared-services/store.service';
+import { StoreService } from 'src/app/shared/services';
 
 interface IAuthStore {
   loggedIn: boolean;
@@ -43,7 +43,7 @@ export class AuthService {
       return;
     }
     this.storeService.setData('auth', this.authStore);
-    this.router.navigateByUrl('dashboard');
+    this.router.navigateByUrl('dashboard/play');
   }
 
   public watchIsLoggedIn(): Observable<any> {
