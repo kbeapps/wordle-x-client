@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MaterialModule } from 'src/app/core';
 import { RequestButtonComponent } from './request-button.component';
+import { SharedModule } from '../../shared.module';
 
 describe('RequestButtonComponent', () => {
   let component: RequestButtonComponent;
@@ -8,8 +8,7 @@ describe('RequestButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MaterialModule],
-      declarations: [RequestButtonComponent],
+      imports: [SharedModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(RequestButtonComponent);

@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
+import { GamesModule } from '../games.module';
 import { GamesComponent } from './games.component';
-import { GameboardComponent } from '../gameboard/gameboard.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('GamesComponent', () => {
   let component: GamesComponent;
@@ -9,8 +10,7 @@ describe('GamesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientModule],
-      declarations: [GamesComponent, GameboardComponent],
+      imports: [GamesModule, HttpClientModule, BrowserAnimationsModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(GamesComponent);

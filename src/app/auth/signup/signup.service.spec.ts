@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { AppRoutingModule } from 'src/app/core';
+import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { SignupService } from './signup.service';
 
@@ -8,7 +8,7 @@ describe('SignupService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppRoutingModule, HttpClientModule],
+      imports: [RouterTestingModule, HttpClientModule],
     });
     service = TestBed.inject(SignupService);
   });

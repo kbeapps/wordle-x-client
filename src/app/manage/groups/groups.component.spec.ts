@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GroupsComponent } from './groups.component';
+import { ManageModule } from '../manage.module';
 
 describe('GroupsComponent', () => {
   let component: GroupsComponent;
@@ -7,7 +8,7 @@ describe('GroupsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GroupsComponent],
+      imports: [ManageModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(GroupsComponent);

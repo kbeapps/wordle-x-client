@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { AppRoutingModule } from '../../core/modules';
+import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
-
 import { DashboardGuard } from './dashboard.guard';
 
 describe('DashboardGuard', () => {
@@ -9,7 +8,7 @@ describe('DashboardGuard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [AppRoutingModule, HttpClientModule],
+      imports: [RouterTestingModule, HttpClientModule],
     });
     guard = TestBed.inject(DashboardGuard);
   });

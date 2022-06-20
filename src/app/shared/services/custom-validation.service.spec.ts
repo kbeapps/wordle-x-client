@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { CustomValidationService } from './custom-validation.service';
 
 describe('CustomValidationService', () => {

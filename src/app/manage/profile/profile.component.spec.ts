@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AppRoutingModule, MaterialModule } from '../../core';
+import { RouterTestingModule } from '@angular/router/testing';
 import { ProfileComponent } from './profile.component';
+import { ManageModule } from '../manage.module';
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
@@ -8,8 +9,7 @@ describe('ProfileComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppRoutingModule, MaterialModule],
-      declarations: [ProfileComponent],
+      imports: [RouterTestingModule, ManageModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProfileComponent);
