@@ -146,4 +146,8 @@ export class GameboardComponent implements OnInit {
     }
     this.keyboardService.setKeyColor(keyMap);
   }
+
+  ngOnDestroy() {
+    this.gameStoreSubscription.unsubscribe();
+  }
 }

@@ -7,10 +7,6 @@
 @include mat.core-theme($dark-theme);
 // include all used mat components in classes:
 .main-light-theme {
-  // $primary-color: $dark-primary-color;
-  // $accent-color: $dark-accent-color;
-  // $warn-color: $dark-warn-color;
-
   @include mat.autocomplete-color($light-theme);
   @include mat.badge-color($light-theme);
   @include mat.bottom-sheet-color($light-theme);
@@ -85,5 +81,7 @@
   @include mat.toolbar-color($dark-theme);
   @include mat.tooltip-color($dark-theme);
   @include mat.tree-color($dark-theme);
+
+  // below line used for importing all together, only call once if needed:
   // @include mat.all-component-themes($dark-theme);
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { StoreService } from 'src/app/shared-services';
+import { StoreService } from 'src/app/shared/services';
 
 export class GameStore {
   guesses: { guess: string[]; output: string[] }[] = [];
@@ -10,10 +10,10 @@ export class GameStore {
   providedIn: 'root',
 })
 export class GameboardService {
-  private gameStore!: GameStore;
+  private gameStore: GameStore = new GameStore();
   private finalAnswer: string = 'testy'; // TODO: add answer population
 
-  private gameStoreSubject = new Subject<any>();
+  private gameStoreSubject$ = new Subject<GameStore>();
 
   constructor(private storeService: StoreService) {}
 
@@ -28,7 +28,7 @@ export class GameboardService {
   public initializeGameStore(totalGuesses: number, wordSize: number): void {
     let gameStore = this.storeService.getData('gameStore') as GameStore;
     if (!gameStore) {
-      gameStore = new GameStore();
+      gameStore = { guesses: [] } as GameStore;
       const outputArray = new Array(wordSize).fill(null).map(() => {
         return '';
       });
@@ -39,7 +39,7 @@ export class GameboardService {
       this.storeService.setData('gameStore', gameStore);
     }
     this.gameStore = gameStore as GameStore;
-    this.gameStoreSubject.next(this.gameStore);
+    this.gameStoreSubject$.next(this.gameStore);
   }
 
   public updateGuess(guessArray: string[], activeRow: number): void {
@@ -54,10 +54,10 @@ export class GameboardService {
 
   private updateStore(): void {
     this.storeService.setData('gameStore', this.gameStore);
-    this.gameStoreSubject.next(this.gameStore);
+    this.gameStoreSubject$.next(this.gameStore);
   }
 
-  public watchGameStore(): Observable<any> {
-    return this.gameStoreSubject.asObservable();
+  public watchGameStore(): Observable<GameStore> {
+    return this.gameStoreSubject$.asObservable();
   }
 }

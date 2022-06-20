@@ -13,3 +13,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+## User Test
+
+Signin with username & password 'testuser' to signin without being connected to backend services. Full support not guaranteed.

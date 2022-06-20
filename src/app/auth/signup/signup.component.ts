@@ -5,10 +5,9 @@ import {
   Validators,
   ValidationErrors,
 } from '@angular/forms';
-import { CustomValidationService } from '../../shared-services';
+import { CustomValidationService } from 'src/app/shared/services';
 import { SignupService } from './signup.service';
 import { finalize } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-signup',

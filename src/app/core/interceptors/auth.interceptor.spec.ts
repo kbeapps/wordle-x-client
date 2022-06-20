@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { AppRoutingModule } from '../modules';
+import { RouterTestingModule } from '@angular/router/testing';
 import { AuthInterceptor } from './auth.interceptor';
 
 describe('AuthInterceptor', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
-      imports: [AppRoutingModule],
+      imports: [RouterTestingModule],
       providers: [AuthInterceptor],
     })
   );

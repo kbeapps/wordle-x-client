@@ -1,6 +1,5 @@
 import { Component, HostListener, OnInit, Output } from '@angular/core';
 import { EventEmitter } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { KeyboardService, IKey } from './keyboard.service';
 import { Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
@@ -26,18 +25,13 @@ export class KeyboardComponent implements OnInit {
     'M',
     'BACKSPACE',
   ];
-  initializedKeys: IKey[] = [];
-  keyboardStateSubscription: Subscription = new Subscription();
+  public $keyState = this.keyboardService.watchInitializedKeys();
   @Output() keyPressed: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private keyboardService: KeyboardService,
     @Inject(DOCUMENT) document: Document
-  ) {
-    this.keyboardStateSubscription = this.keyboardService
-      .watchInitializedKeys()
-      .subscribe((keyState: IKey[]) => (this.initializedKeys = keyState));
-  }
+  ) {}
 
   ngOnInit(): void {
     this.initializeKeys();

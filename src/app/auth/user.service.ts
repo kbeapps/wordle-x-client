@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { User, IUser } from 'src/app/core';
 import { catchError, finalize, map } from 'rxjs';
-import { HttpRequestService } from '../shared-services';
-import { StoreService } from '../shared-services';
+import { HttpRequestService, StoreService } from '../shared/services';
 import { AuthService } from './auth.service';
 import { LoadService } from 'src/app/core';
 
