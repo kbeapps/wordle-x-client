@@ -43,7 +43,7 @@ export class AuthService {
       return;
     }
     this.storeService.setData('auth', this.authStore);
-    this.router.navigateByUrl('dashboard');
+    this.router.navigateByUrl('dashboard/play');
   }
 
   public watchIsLoggedIn(): Observable<any> {

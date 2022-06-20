@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,7 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  constructor() {}
+  public links: string[] = ['play', 'manage'];
+  public activeLink = this.links[0];
 
-  ngOnInit(): void {}
+  constructor(private router: Router) {}
+
+  ngOnInit(): void {
+    if (this.router.url.includes('manage')) {
+      this.activeLink = this.links[1];
+    }
+  }
 }
