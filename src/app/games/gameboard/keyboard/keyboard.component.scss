@@ -27,7 +27,9 @@ $key-color: none;
   min-width: unset !important;
   font-size: $font-size;
   background-color: $key-color;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   @media (max-width: $breakpoint-mobile) {
     width: calc($key-width * 0.75) !important;
@@ -37,5 +39,9 @@ $key-color: none;
 
 .delete-base {
   @extend .key-base;
-  width: calc($key-width * 1.5) !important;
+  width: calc($key-width * 1.6) !important;
+
+  @media (max-width: $breakpoint-mobile) {
+    width: calc($key-width * 1.6 * 0.75) !important;
+  }
 }

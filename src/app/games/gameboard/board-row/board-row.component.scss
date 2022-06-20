@@ -14,13 +14,13 @@ $square-width: 30px;
   width: $square-width;
 
   @media (max-width: calc($breakpoint-mobile - 100px)) {
-    height: calc($square-width * 0.5);
-    width: calc($square-width * 0.5);
+    height: calc($square-width * 0.7);
+    width: calc($square-width * 0.7);
   }
 
   @media (max-width: $breakpoint-mobile-s) {
-    height: calc($square-width * 0.3);
-    width: calc($square-width * 0.3);
+    height: calc($square-width * 0.4);
+    width: calc($square-width * 0.4);
   }
 }
 
