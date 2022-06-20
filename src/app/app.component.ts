@@ -9,10 +9,10 @@ import { LoadService } from './core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title: string = environment.appTitle;
+  public title: string = environment.appTitle;
 
-  appState$ = this.loadService.watchAppIsReady();
-  selectedTheme$ = this.profileService.watchSelectedTheme();
+  public appState$ = this.loadService.watchAppIsReady();
+  public selectedTheme$ = this.profileService.watchSelectedTheme();
 
   constructor(
     private loadService: LoadService,

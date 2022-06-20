@@ -11,16 +11,17 @@ import { IUser } from '../core';
   styleUrls: ['./friends.component.scss'],
 })
 export class FriendsComponent implements OnInit {
-  isLoading: boolean = false;
-  private userSubscription: Subscription = new Subscription();
-  friendsList: string[] = [];
-  emailOrUsername!: FormControl;
+  public isLoading: boolean = false;
+  public friendsList: string[] = [];
+  public emailOrUsername!: FormControl;
+
+  private userSubscription$: Subscription = new Subscription();
 
   constructor(
     private friendsService: FriendsService,
     private userService: UserService
   ) {
-    this.userSubscription = this.userService
+    this.userSubscription$ = this.userService
       .watchUser()
       .subscribe((user: IUser) => (this.friendsList = user.friends));
   }
@@ -29,15 +30,19 @@ export class FriendsComponent implements OnInit {
     this.emailOrUsername = new FormControl('', Validators.required);
   }
 
-  onSendFriendRequest(): void {
+  public onSendFriendRequest(): void {
     if (!this.emailOrUsername) {
       return;
     }
   }
 
-  onDeleteFriend(friend: string): void {
+  public onDeleteFriend(friend: string): void {
     console.log(
       `You blocked me on facebook, now youre going to die: ${friend}`
     );
+  }
+
+  ngOnDestroy() {
+    this.userSubscription$.unsubscribe();
   }
 }
