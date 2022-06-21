@@ -133,6 +133,7 @@ export class GameboardComponent implements OnInit {
     const isValidWord: boolean = checkWord(guess);
     if (isValidWord) {
       keyMap = this.evaluateGuess(guessArray, this.answer);
+      this.gameboardService.setWinState(true);
     }
 
     const wonGame = guess === this.answer;

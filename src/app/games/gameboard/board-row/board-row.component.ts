@@ -56,6 +56,12 @@ export class BoardRowComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  ngAfterViewInit(): void {
+    if (this.guess.every((item) => item !== '')) {
+      this.startAnimation(false, true);
+    }
+  }
+
   public getColor(index: number): string {
     const colorState: string = this.guessEvaluation[index];
     return this.state !== 'uncolored'
