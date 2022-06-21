@@ -4,6 +4,7 @@ import { StoreService } from 'src/app/shared/services';
 
 export class GameStore {
   guesses: { guess: string[]; output: string[] }[] = [];
+  winState: boolean = false;
 }
 
 @Injectable({
@@ -28,7 +29,7 @@ export class GameboardService {
   public initializeGameStore(totalGuesses: number, wordSize: number): void {
     let gameStore = this.storeService.getData('gameStore') as GameStore;
     if (!gameStore) {
-      gameStore = { guesses: [] } as GameStore;
+      gameStore = new GameStore();
       const outputArray = new Array(wordSize).fill(null).map(() => {
         return '';
       });
@@ -39,6 +40,12 @@ export class GameboardService {
       this.storeService.setData('gameStore', gameStore);
     }
     this.gameStore = gameStore as GameStore;
+    this.gameStoreSubject$.next(this.gameStore);
+  }
+
+  public setWinState(gameIsWon: boolean) {
+    this.gameStore.winState = gameIsWon;
+    this.storeService.setData('gameStore', this.gameStore);
     this.gameStoreSubject$.next(this.gameStore);
   }
 
