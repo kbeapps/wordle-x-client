@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MaterialModule } from '../core';
 import { SharedModule } from '../shared/shared.module';
 import { ManageRoutingModule } from './manage-routing.module';
 
@@ -18,7 +17,7 @@ import { ManageComponent } from './components/manage/manage.component';
     ThemeToggleComponent,
     ManageComponent,
   ],
-  imports: [CommonModule, MaterialModule, SharedModule, ManageRoutingModule],
+  imports: [CommonModule, SharedModule, ManageRoutingModule],
   exports: [FriendsComponent, GroupsComponent, ProfileComponent],
 })
 export class ManageModule {}

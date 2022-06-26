@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MaterialModule } from '../core';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { GamesModule } from '../games/games.module';
 import { SharedModule } from '../shared/shared.module';
@@ -13,7 +12,6 @@ import { DashboardComponent } from './components/dashboard.component';
   imports: [
     CommonModule,
     DashboardRoutingModule,
-    MaterialModule,
     GamesModule,
     SharedModule,
     ManageModule,

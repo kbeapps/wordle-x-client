@@ -1,0 +1,64 @@
+@use '@angular/material' as mat;
+@include mat.core();
+
+$dark-primary-color: mat.define-palette(mat.$deep-purple-palette, 700);
+$dark-accent-color: mat.define-palette(mat.$cyan-palette, 500);
+$dark-warn-color: mat.define-palette(mat.$red-palette);
+
+$dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $dark-primary-color,
+      accent: $dark-accent-color,
+      warn: $dark-warn-color,
+    ),
+  )
+);
+
+@include mat.core-theme($dark-theme);
+
+.main-auth-lib-theme {
+  @include mat.autocomplete-color($dark-theme);
+  @include mat.button-color($dark-theme);
+  @include mat.card-color($dark-theme);
+  @include mat.form-field-color($dark-theme);
+  @include mat.grid-list-color($dark-theme);
+  @include mat.icon-color($dark-theme);
+  @include mat.input-color($dark-theme);
+  @include mat.progress-spinner-color($dark-theme);
+}
+
+.container-card {
+  height: 600px;
+  width: 600px;
+  text-align: center;
+
+  .section-header {
+    display: flex;
+    height: 25%;
+    justify-content: center;
+    align-items: center;
+  }
+  .section-form {
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    mat-form-field {
+      width: 60%;
+    }
+  }
+  .section-control {
+    height: 25%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .confirm-button {
+    width: 60%;
+    height: 40px;
+    margin: auto;
+  }
+}

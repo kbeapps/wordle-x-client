@@ -7,6 +7,7 @@ import { UiMaterialModule } from '@client/ui/material';
 import { UiComponentsModule } from '@client/ui/components';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ContainerComponent } from './components/container/container.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export const authRoutes: Route[] = [
   { path: 'login', component: LoginComponent },
@@ -15,6 +16,7 @@ export const authRoutes: Route[] = [
 
 @NgModule({
   imports: [
+    BrowserAnimationsModule,
     CommonModule,
     RouterModule,
     UiMaterialModule,
