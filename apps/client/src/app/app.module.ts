@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { AppRoutingModule } from './app-routing.module';
+// import { AppRoutingModule } from './app-routing.module';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,10 +13,18 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 
+// new imports:
+import { RouterModule } from '@angular/router';
+// import { authRoutes, AuthModule } from '@client/auth';
+import { AuthModule, authRoutes } from '../../../../libs/auth/src';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    AppRoutingModule,
+    AuthModule,
+    RouterModule.forRoot([{ path: 'auth', children: authRoutes }], {
+      initialNavigation: 'enabledBlocking',
+    }),
     BrowserModule,
     HttpClientModule,
     MaterialModule,

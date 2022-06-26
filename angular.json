@@ -1,7 +1,7 @@
 {
   "version": 2,
   "projects": {
-    "client": "apps/client",
-    "shared-auth": "libs/shared/auth"
+    "auth": "libs/auth",
+    "client": "apps/client"
   }
 }

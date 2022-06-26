@@ -19,7 +19,8 @@
     "module": "es2020",
     "lib": ["es2020", "dom"],
     "paths": {
-      "@client/shared/auth": ["libs/shared/auth/src/index.ts"]
+      "@client/*": ["libs/*"],
+      "@client/auth": ["libs/auth/src/index.ts"]
     },
     "rootDir": "."
   },
