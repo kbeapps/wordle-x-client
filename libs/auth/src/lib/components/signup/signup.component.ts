@@ -3,9 +3,9 @@ import {
   FormGroup,
   FormControl,
   Validators,
-  // ValidationErrors,
+  ValidationErrors,
 } from '@angular/forms';
-// import { CustomValidationService } from '../../shared/services';
+import { AuthValidationService } from '../../services/auth-validation.service';
 // import { SignupService } from './signup.service';
 // import { finalize } from 'rxjs/operators';
 
@@ -13,12 +13,14 @@ import {
   selector: 'client-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
-  // providers: [CustomValidationService],
+  // providers: [AuthValidationService],
 })
 export class SignupComponent implements OnInit {
   signupForm!: FormGroup;
   isLoading = false;
   errorMessage = '';
+
+  constructor(private validationService: AuthValidationService) {}
 
   ngOnInit(): void {
     this.signupForm = new FormGroup({
@@ -38,7 +40,7 @@ export class SignupComponent implements OnInit {
       confirmPassword: new FormControl('', [Validators.required]),
     });
 
-    // this.signupForm.addValidators(this.validationService.doesMatchValidator());
+    this.signupForm.addValidators(this.validationService.doesMatchValidator());
   }
 
   onSignup(): void {
@@ -56,23 +58,23 @@ export class SignupComponent implements OnInit {
     //   });
   }
 
-  // validateField(fieldKey: string): string {
-  //   const password: string = this.signupForm.value.password;
-  //   if (fieldKey === 'confirmPassword' || fieldKey === 'password') {
-  //     // check if password matches confirmPassword
-  //     const passwordIsValid =
-  //       this.signupForm.value.password ===
-  //       this.signupForm.value.confirmPassword;
+  validateField(fieldKey: string): string {
+    // const password: string = this.signupForm.value.password;
+    if (fieldKey === 'confirmPassword' || fieldKey === 'password') {
+      // check if password matches confirmPassword
+      const passwordIsValid =
+        this.signupForm.value.password ===
+        this.signupForm.value.confirmPassword;
 
-  //     // set Validation Error if not valid, null if is
-  //     this.signupForm.controls?.['confirmPassword'].setErrors(
-  //       !passwordIsValid ? { match: false } : null
-  //     );
-  //   }
+      // set Validation Error if not valid, null if is
+      this.signupForm.controls?.['confirmPassword'].setErrors(
+        !passwordIsValid ? { match: false } : null
+      );
+    }
 
-  //   // // get error for fieldKey
-  //   const errors: ValidationErrors | null =
-  //     this.signupForm.controls?.[fieldKey]?.errors;
-  //   return this.validationService.getErrorMessage(errors, fieldKey);
-  // }
+    // // get error for fieldKey
+    const errors: ValidationErrors | null =
+      this.signupForm.controls?.[fieldKey]?.errors;
+    return this.validationService.getErrorMessage(errors, fieldKey);
+  }
 }

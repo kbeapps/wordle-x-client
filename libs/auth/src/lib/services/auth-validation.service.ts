@@ -4,9 +4,7 @@ import { ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 @Injectable({
   providedIn: 'root',
 })
-export class CustomValidationService {
-  constructor() {}
-
+export class AuthValidationService {
   doesMatchValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const password = control.value.password;
@@ -16,37 +14,37 @@ export class CustomValidationService {
   }
 
   getErrorMessage(errors: ValidationErrors | null, fieldKey: string): string {
-    let err: string = '';
+    let error = '';
     if (errors) {
       // return message for first error
       for (const key in errors) {
         switch (key) {
           case 'email':
-            err = 'invalid email address';
+            error = 'invalid email address';
             break;
           case 'required':
-            err = `${fieldKey}: field required`;
+            error = `${fieldKey}: field required`;
             break;
           case 'minlength':
-            err = `minimum allowed length: ${errors[key].requiredLength}`;
+            error = `minimum allowed length: ${errors[key].requiredLength}`;
             break;
           case 'maxlength':
-            err = `maximum allowed length: ${errors[key].requiredLength}`;
+            error = `maximum allowed length: ${errors[key].requiredLength}`;
             break;
           case 'pattern':
-            err = `allowed characters: ${errors[key].requiredPattern}`;
+            error = `allowed characters: ${errors[key].requiredPattern}`;
             break;
           case 'match':
-            err = `confirm password does not match password`;
+            error = `confirm password does not match password`;
             break;
 
           default:
-            err = `${fieldKey}: invalid input`;
+            error = `${fieldKey}: invalid input`;
             break;
         }
         break;
       }
     }
-    return err;
+    return error;
   }
 }

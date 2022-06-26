@@ -3,10 +3,10 @@ import {
   FormGroup,
   FormControl,
   Validators,
-  // ValidationErrors,
+  ValidationErrors,
 } from '@angular/forms';
 
-// import { CustomValidationService } from '../../shared/services';
+import { AuthValidationService } from '../../services/auth-validation.service';
 // import { LoginService } from './login.service';
 // import { finalize } from 'rxjs/operators';
 
@@ -14,11 +14,14 @@ import {
   selector: 'client-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  // providers: [AuthValidationService],
 })
 export class LoginComponent implements OnInit {
   isLoading = false;
   loginForm!: FormGroup;
   errorMessage = '';
+
+  constructor(private validationService: AuthValidationService) {}
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -41,10 +44,10 @@ export class LoginComponent implements OnInit {
     //   });
   }
 
-  // validateField(fieldKey: string): string {
-  //   // // get error for fieldKey
-  //   const errors: ValidationErrors | null =
-  //     this.loginForm.controls?.[fieldKey]?.errors;
-  //   return this.validationService.getErrorMessage(errors, fieldKey);
-  // }
+  validateField(fieldKey: string): string {
+    // // get error for fieldKey
+    const errors: ValidationErrors | null =
+      this.loginForm.controls?.[fieldKey]?.errors;
+    return this.validationService.getErrorMessage(errors, fieldKey);
+  }
 }
