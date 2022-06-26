@@ -2,7 +2,6 @@
   "version": 2,
   "projects": {
     "client": "apps/client",
-    "shared-auth-data-access": "libs/shared/auth/data-access",
-    "shared-auth-feature-auth": "libs/shared/auth/feature-auth"
+    "shared-auth": "libs/shared/auth"
   }
 }
