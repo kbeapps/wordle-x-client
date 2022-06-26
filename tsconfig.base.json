@@ -17,11 +17,15 @@
     "importHelpers": true,
     "target": "es2020",
     "module": "es2020",
-    "lib": [
-      "es2020",
-      "dom"
-    ],
-    "paths": {},
+    "lib": ["es2020", "dom"],
+    "paths": {
+      "@client/shared/auth/data-access": [
+        "libs/shared/auth/data-access/src/index.ts"
+      ],
+      "@client/shared/auth/feature-auth": [
+        "libs/shared/auth/feature-auth/src/index.ts"
+      ]
+    },
     "rootDir": "."
   },
   "angularCompilerOptions": {
@@ -30,8 +34,5 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }
