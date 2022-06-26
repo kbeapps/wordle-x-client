@@ -6,7 +6,6 @@ import { SignupComponent } from './components/signup/signup.component';
 import { UiMaterialModule } from '@client/ui/material';
 import { UiComponentsModule } from '@client/ui/components';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ContainerComponent } from './components/container/container.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export const authRoutes: Route[] = [
@@ -23,6 +22,6 @@ export const authRoutes: Route[] = [
     UiComponentsModule,
     ReactiveFormsModule,
   ],
-  declarations: [LoginComponent, SignupComponent, ContainerComponent],
+  declarations: [LoginComponent, SignupComponent],
 })
 export class AuthModule {}
