@@ -10,6 +10,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { API_URL } from '@client/core/http-client';
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,7 +34,7 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     StoreRouterConnectingModule.forRoot(),
   ],
-  providers: [],
+  providers: [{ provide: API_URL, useValue: environment.apiUrl }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

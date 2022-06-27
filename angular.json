@@ -3,6 +3,7 @@
   "projects": {
     "auth": "libs/auth",
     "client": "apps/client",
+    "core-http-client": "libs/core/http-client",
     "ui-components": "libs/ui/components",
     "ui-material": "libs/ui/material",
     "wordle-x": "apps/wordle-x"

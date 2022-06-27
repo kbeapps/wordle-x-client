@@ -21,6 +21,7 @@
     "paths": {
       "@client/*": ["libs/*"],
       "@client/auth": ["libs/auth/src/index.ts"],
+      "@client/core/http-client": ["libs/core/http-client/src/index.ts"],
       "@client/ui/components": ["libs/ui/components/src/index.ts"],
       "@client/ui/material": ["libs/ui/material/src/index.ts"]
     },

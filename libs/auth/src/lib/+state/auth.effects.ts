@@ -1,27 +1,28 @@
 import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
-import { fetch } from '@nrwl/angular';
-
-import * as AuthActions from './auth.actions';
-import * as AuthFeature from './auth.reducer';
+import { AuthApiActions } from './auth.actions';
+import { AuthService } from '../services';
+import { concatMap, map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Injectable()
 export class AuthEffects {
-  init$ = createEffect(() =>
+  constructor(
+    private readonly actions$: Actions,
+    private authService: AuthService
+  ) {}
+
+  login$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthActions.init),
-      fetch({
-        run: (action) => {
-          // Your custom service 'load' logic goes here. For now just return a success action...
-          return AuthActions.loadAuthSuccess({ auth: [] });
-        },
-        onError: (action, error) => {
-          console.error('Error', error);
-          return AuthActions.loadAuthFailure({ error });
-        },
-      })
+      ofType(AuthApiActions.login),
+      concatMap((action) =>
+        this.authService.login(action).pipe(
+          catchError((error) =>
+            of(AuthApiActions.loginFail({ message: error.message }))
+          ),
+          map((response) => AuthApiActions.loginSuccess(response))
+        )
+      )
     )
   );
-
-  constructor(private readonly actions$: Actions) {}
 }

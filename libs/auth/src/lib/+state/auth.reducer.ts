@@ -17,7 +17,7 @@ export const initialState: AuthData = {
   loading: false,
 };
 
-export const scoreboardReducer = createReducer(
+export const authReducer = createReducer(
   initialState,
   on(AuthApiActions.init, (state) => ({ ...state })),
   on(AuthApiActions.login, (state) => ({ ...state, loading: true })),
