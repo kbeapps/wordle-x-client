@@ -7,6 +7,10 @@ import { UiMaterialModule } from '@client/ui/material';
 import { UiComponentsModule } from '@client/ui/components';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import * as fromAuth from './+state/auth.reducer';
+import { AuthEffects } from './+state/auth.effects';
 
 export const authRoutes: Route[] = [
   { path: 'login', component: LoginComponent },
@@ -21,6 +25,8 @@ export const authRoutes: Route[] = [
     UiMaterialModule,
     UiComponentsModule,
     ReactiveFormsModule,
+    StoreModule.forFeature(fromAuth.AUTH_FEATURE_KEY, fromAuth.reducer),
+    EffectsModule.forFeature([AuthEffects]),
   ],
   declarations: [LoginComponent, SignupComponent],
 })
