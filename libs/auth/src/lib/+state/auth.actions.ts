@@ -1,12 +1,12 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { ILoginRequest, ILoginResponse } from '@client/data-models';
+import { IUser, ILoginRequest } from '@client/data-models';
 
-export const AuthApiActions = createActionGroup({
+export const AuthActions = createActionGroup({
   source: 'Auth API',
   events: {
     Init: emptyProps(),
-    Login: props<ILoginRequest>(),
-    'Login Success': props<ILoginResponse>(),
-    'Login Fail': props<ILoginResponse>(),
+    Login: props<{ payload: ILoginRequest }>(),
+    'Load Login Success': props<{ user: IUser }>(),
+    'Load Login Fail': props<{ error: string }>(),
   },
 });

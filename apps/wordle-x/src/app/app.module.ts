@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { AppComponent } from './app.component';
-
+import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import { AuthModule, authRoutes } from '@client/auth';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { environment } from '../environments/environment';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+
+import { AppComponent } from './app.component';
+
+import { AuthModule, authRoutes } from '@client/auth';
+import { environment } from '../environments/environment';
 import { API_URL } from '@client/core/http-client';
 
 @NgModule({
@@ -17,6 +18,7 @@ import { API_URL } from '@client/core/http-client';
   imports: [
     AuthModule,
     BrowserModule,
+    HttpClientModule,
     RouterModule.forRoot([{ path: 'auth', children: authRoutes }], {
       initialNavigation: 'enabledBlocking',
     }),

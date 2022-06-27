@@ -7,7 +7,7 @@ export interface ILoginRequest {
 
 interface ILoginResponse {
   message: string;
-  data?: IUser;
+  data: IUser;
 }
 
 export interface ISignupRequest {}

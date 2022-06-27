@@ -1,18 +1,23 @@
-import { AuthApiActions } from './auth.actions';
+import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+import { createReducer, on, Action } from '@ngrx/store';
 import { IUser } from '@client/data-models';
-import { createReducer, on } from '@ngrx/store';
+import { AuthActions } from './auth.actions';
 
-export interface AuthData {
-  loading: boolean;
+export const AUTH_FEATURE_KEY = 'auth';
+
+export interface State extends EntityState<IUser> {
   user: IUser;
-  error: string;
-}
-export interface AuthState {
-  readonly auth: AuthData;
+  loaded: boolean;
+  error?: string | null;
 }
 
-export const initialState: AuthData = {
-  error: '',
+export interface AuthPartialState {
+  readonly [AUTH_FEATURE_KEY]: State;
+}
+
+export const authAdapter: EntityAdapter<IUser> = createEntityAdapter<IUser>();
+
+export const initialState: State = authAdapter.getInitialState({
   user: {
     _id: '',
     email: '',
@@ -22,21 +27,22 @@ export const initialState: AuthData = {
     games: [],
     groups: [],
   },
-  loading: false,
-};
+  loaded: false,
+});
 
-export const authReducer = createReducer(
+const authReducer = createReducer(
   initialState,
-  on(AuthApiActions.init, (state) => ({ ...state })),
-  on(AuthApiActions.login, (state) => ({ ...state, loading: true })),
-  on(AuthApiActions.loginSuccess, (state, action) => ({
+  on(AuthActions.init, (state) => ({ ...state, loaded: false, error: null })),
+  on(AuthActions.login, (state) => ({ ...state, loaded: true })),
+  on(AuthActions.loadLoginSuccess, (state, { user }) =>
+    authAdapter.setOne(user, { ...state, loaded: true })
+  ),
+  on(AuthActions.loadLoginFail, (state, { error }) => ({
     ...state,
-    user: action.data ? action.data : initialState.user,
-    loading: false,
-  })),
-  on(AuthApiActions.loginFail, (state, action) => ({
-    ...state,
-    error: action.message,
-    loading: false,
+    error: error,
   }))
 );
+
+export function reducer(state: State | undefined, action: Action) {
+  return authReducer(state, action);
+}

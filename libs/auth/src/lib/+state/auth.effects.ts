@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
-import { AuthApiActions } from './auth.actions';
+import { AuthActions } from './auth.actions';
 import { AuthService } from '../services';
 import { concatMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -14,13 +14,13 @@ export class AuthEffects {
 
   login$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthApiActions.login),
+      ofType(AuthActions.login),
       concatMap((action) =>
-        this.authService.login(action).pipe(
-          catchError((error) =>
-            of(AuthApiActions.loginFail({ message: error.message }))
+        this.authService.login(action.payload).pipe(
+          map((response) =>
+            AuthActions.loadLoginSuccess({ user: response.data })
           ),
-          map((response) => AuthApiActions.loginSuccess(response))
+          catchError((error) => of(AuthActions.loadLoginFail({ error })))
         )
       )
     )
