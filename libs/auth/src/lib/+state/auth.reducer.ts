@@ -4,16 +4,24 @@ import { createReducer, on } from '@ngrx/store';
 
 export interface AuthData {
   loading: boolean;
-  user: IUser | null;
-  error: Error | null;
+  user: IUser;
+  error: string;
 }
 export interface AuthState {
   readonly auth: AuthData;
 }
 
 export const initialState: AuthData = {
-  error: null,
-  user: null,
+  error: '',
+  user: {
+    _id: '',
+    email: '',
+    username: '',
+    avatar: '',
+    friends: [],
+    games: [],
+    groups: [],
+  },
   loading: false,
 };
 
@@ -23,12 +31,12 @@ export const authReducer = createReducer(
   on(AuthApiActions.login, (state) => ({ ...state, loading: true })),
   on(AuthApiActions.loginSuccess, (state, action) => ({
     ...state,
-    user: action.payload,
+    user: action.data ? action.data : initialState.user,
     loading: false,
   })),
   on(AuthApiActions.loginFail, (state, action) => ({
     ...state,
-    error: action.error,
+    error: action.message,
     loading: false,
   }))
 );

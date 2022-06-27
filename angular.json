@@ -4,8 +4,10 @@
     "auth": "libs/auth",
     "client": "apps/client",
     "core-http-client": "libs/core/http-client",
+    "game": "libs/game",
     "ui-components": "libs/ui/components",
     "ui-material": "libs/ui/material",
+    "user": "libs/user",
     "wordle-x": "apps/wordle-x"
   },
   "styles": ["apps/client/src/styles.scss"]
