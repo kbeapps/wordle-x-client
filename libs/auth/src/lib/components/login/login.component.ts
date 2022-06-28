@@ -8,9 +8,14 @@ import {
 import { Store } from '@ngrx/store';
 import { AuthValidationService } from '../../services/auth-validation.service';
 import { ILoginRequest, IUser } from '@client/data-models';
-import { Observable } from 'rxjs';
-import { getAuthLoading, getUser } from '../../+state/auth.selectors';
+import { Observable, map } from 'rxjs';
+import {
+  getAuthLoading,
+  getIsLoggedIn,
+  getUser,
+} from '../../+state/auth.selectors';
 import { AuthActions } from '../../+state/auth.actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'client-login',
@@ -18,17 +23,27 @@ import { AuthActions } from '../../+state/auth.actions';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-  user$: Observable<IUser>;
-  isLoading$: Observable<boolean>;
-  loginForm!: FormGroup;
-  errorMessage = '';
+  public user$: Observable<IUser>;
+  public isLoading$: Observable<boolean>;
+  public loginForm!: FormGroup;
+  public errorMessage = '';
+  public isLoggedIn$: Observable<boolean>;
 
   constructor(
     private validationService: AuthValidationService,
-    private store: Store
+    private store: Store,
+    private router: Router
   ) {
     this.user$ = store.select(getUser);
     this.isLoading$ = store.select(getAuthLoading);
+    this.isLoggedIn$ = store.select(getIsLoggedIn).pipe(
+      map((res) => {
+        if (res) {
+          this.router.navigateByUrl('dashboard');
+        }
+        return res;
+      })
+    );
   }
 
   ngOnInit(): void {

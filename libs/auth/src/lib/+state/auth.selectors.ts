@@ -15,6 +15,11 @@ export const getAuthError = createSelector(
   (state: State) => state.error
 );
 
+export const getIsLoggedIn = createSelector(
+  getAuthState,
+  (state: State) => state.loggedIn
+);
+
 export const getUser = createSelector(
   getAuthState,
   (state: State) => state.user

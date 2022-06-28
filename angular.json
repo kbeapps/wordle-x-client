@@ -5,6 +5,8 @@
     "client": "apps/client",
     "core-http-client": "libs/core/http-client",
     "game": "libs/game",
+    "layout-dashboard": "libs/layout/dashboard",
+    "layout-landing": "libs/layout/landing",
     "ui-components": "libs/ui/components",
     "ui-material": "libs/ui/material",
     "user": "libs/user",

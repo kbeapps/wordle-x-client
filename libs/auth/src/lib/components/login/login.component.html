@@ -1,6 +1,7 @@
 <div class="auth-container">
   {{ user$ | async | json }}
   {{ isLoading$ | async | json }}
+  {{ isLoggedIn$ | async | json }}
 
   <mat-card class="container-card">
     <div class="section-header">

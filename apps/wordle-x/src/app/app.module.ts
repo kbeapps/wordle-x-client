@@ -8,24 +8,32 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 import { AppComponent } from './app.component';
-
 import { AuthModule, authRoutes } from '@client/auth';
+import {
+  LayoutLandingModule,
+  layoutLandingRoutes,
+} from '@client/layout/landing';
+
 import { environment } from '../environments/environment';
 import { API_URL } from '@client/core/http-client';
-
-// import { authReducer } from '@client/auth/src';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     AuthModule,
+    LayoutLandingModule,
     BrowserModule,
     HttpClientModule,
-    RouterModule.forRoot([{ path: 'auth', children: authRoutes }], {
-      initialNavigation: 'enabledBlocking',
-    }),
+    RouterModule.forRoot(
+      [
+        { path: 'auth', children: authRoutes },
+        { path: '', children: layoutLandingRoutes },
+      ],
+      {
+        initialNavigation: 'enabledBlocking',
+      }
+    ),
     StoreModule.forRoot(
-      // { auth: authReducer },
       {},
       {
         metaReducers: !environment.production ? [] : [],

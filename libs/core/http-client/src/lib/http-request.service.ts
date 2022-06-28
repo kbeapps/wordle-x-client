@@ -24,7 +24,6 @@ export class HttpRequestService {
   }
 
   post<T, D>(route: string, data?: D): Observable<T> {
-    console.log(this.apiUrl + route);
     return this.http.post<T>(this.apiUrl + route, data, httpOptions);
   }
 
