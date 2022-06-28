@@ -11,7 +11,7 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { AppComponent } from './app.component';
 
 import { environment } from '../environments/environment';
-import { API_URL } from '@client/shared';
+import { API_URL } from '@client/shared/http-client';
 import { APP_TITLE } from '@client/layout/landing';
 
 @NgModule({
