@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { APP_TITLE } from '../app-title.token';
+import { APP_TITLE } from '../../app-title.token';
 
 @Component({
   selector: 'client-landing-page',

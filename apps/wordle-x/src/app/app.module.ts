@@ -29,6 +29,13 @@ import { APP_TITLE } from '@client/layout/landing';
               (m) => m.LayoutLandingModule
             ),
         },
+        {
+          path: 'dashboard',
+          loadChildren: () =>
+            import('@client/layout/dashboard/src').then(
+              (m) => m.LayoutDashboardModule
+            ),
+        },
       ],
       {
         initialNavigation: 'enabledBlocking',

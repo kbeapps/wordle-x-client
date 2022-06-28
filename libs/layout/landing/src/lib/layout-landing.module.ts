@@ -1,30 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Route } from '@angular/router';
-import { LandingComponent } from './landing.component';
 import { UiMaterialModule } from '@client/ui/material';
-import { LandingPageComponent } from './landing-page/landing-page.component';
+import { LandingRoutingModule } from './landing-routing.module';
 
-const layoutLandingRoutes: Route[] = [
-  {
-    path: '',
-    component: LandingComponent,
-    children: [
-      { path: '', component: LandingPageComponent },
-      {
-        path: 'auth',
-        loadChildren: () => import('@client/auth').then((m) => m.AuthModule),
-      },
-    ],
-  },
-];
+import { LandingComponent, LandingPageComponent } from './components';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(layoutLandingRoutes),
-    UiMaterialModule,
-  ],
+  imports: [CommonModule, LandingRoutingModule, UiMaterialModule],
   declarations: [LandingComponent, LandingPageComponent],
 })
 export class LayoutLandingModule {}

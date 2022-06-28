@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Route } from '@angular/router';
+import { DashboardRoutingModule } from './dashboard-routing.module';
+import { UiMaterialModule } from '@client/ui/material';
 
-export const layoutDashboardRoutes: Route[] = [];
+import { DashboardComponent } from './components/dashboard.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, DashboardRoutingModule, UiMaterialModule],
+  declarations: [DashboardComponent],
 })
 export class LayoutDashboardModule {}
