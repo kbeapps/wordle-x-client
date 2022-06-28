@@ -1,14 +1,13 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-// import { AUTH_FEATURE_KEY, State, authAdapter } from './auth.reducer';
-import { AUTH_FEATURE_KEY, State } from './auth.reducer';
+import { AUTH_FEATURE_KEY, State, authAdapter } from './auth.reducer';
 
-export const getAuthState = createFeatureSelector<State>(AUTH_FEATURE_KEY);
+const getAuthState = createFeatureSelector<State>(AUTH_FEATURE_KEY);
 
-// const { selectAll, selectEntities } = authAdapter.getSelectors();
+const { selectEntities } = authAdapter.getSelectors();
 
-export const getAuthLoaded = createSelector(
+export const getAuthLoading = createSelector(
   getAuthState,
-  (state: State) => state.loaded
+  (state: State) => state.loading
 );
 
 export const getAuthError = createSelector(
@@ -21,17 +20,18 @@ export const getUser = createSelector(
   (state: State) => state.user
 );
 
-// export const getAuthEntities = createSelector(getAuthState, (state: State) =>
-//   selectEntities(state)
-// );
+export const getAuthEntities = createSelector(getAuthState, (state: State) =>
+  selectEntities(state)
+);
 
-// export const getSelectedId = createSelector(
-//     getAuthState,
-//     (state: State) => state.
-// );
+export const getSelectedId = createSelector(
+  getAuthState,
+  (state: State) => state.selectedId
+);
 
 export const getSelected = createSelector(
   getUser,
-  getAuthLoaded
-  //   (entities, selectedId) => (selectedId ? entities[selectedId] : undefined)
+  getAuthLoading,
+  getAuthEntities,
+  (entities, selectedId) => (selectedId ? entities._id : undefined)
 );

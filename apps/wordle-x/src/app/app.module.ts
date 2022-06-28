@@ -13,6 +13,8 @@ import { AuthModule, authRoutes } from '@client/auth';
 import { environment } from '../environments/environment';
 import { API_URL } from '@client/core/http-client';
 
+// import { authReducer } from '@client/auth/src';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -23,6 +25,7 @@ import { API_URL } from '@client/core/http-client';
       initialNavigation: 'enabledBlocking',
     }),
     StoreModule.forRoot(
+      // { auth: authReducer },
       {},
       {
         metaReducers: !environment.production ? [] : [],

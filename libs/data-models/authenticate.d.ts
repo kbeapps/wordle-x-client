@@ -1,9 +1,18 @@
 import { IUser } from './user';
 
-export interface ILoginRequest {
-  emailOrUsername: string;
+interface ILoginRequestBase {
   password: string;
 }
+
+interface ILoginRequestEmail extends ILoginRequestBase {
+  email: string;
+}
+
+interface ILoginRequestUsername extends ILoginRequestBase {
+  username: string;
+}
+
+export type ILoginRequest = ILoginRequestEmail | ILoginRequestUsername;
 
 interface ILoginResponse {
   message: string;

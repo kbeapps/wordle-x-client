@@ -6,6 +6,7 @@ import { API_URL } from './api-url.token';
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
+    Accept: 'application/json',
   }),
 };
 
@@ -23,6 +24,7 @@ export class HttpRequestService {
   }
 
   post<T, D>(route: string, data?: D): Observable<T> {
+    console.log(this.apiUrl + route);
     return this.http.post<T>(this.apiUrl + route, data, httpOptions);
   }
 

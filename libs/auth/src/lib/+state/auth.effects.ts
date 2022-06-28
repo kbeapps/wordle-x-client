@@ -12,8 +12,8 @@ export class AuthEffects {
     private authService: AuthService
   ) {}
 
-  login$ = createEffect(() =>
-    this.actions$.pipe(
+  login$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(AuthActions.login),
       concatMap((action) =>
         this.authService.login(action.payload).pipe(
@@ -23,6 +23,6 @@ export class AuthEffects {
           catchError((error) => of(AuthActions.loadLoginFail({ error })))
         )
       )
-    )
-  );
+    );
+  });
 }

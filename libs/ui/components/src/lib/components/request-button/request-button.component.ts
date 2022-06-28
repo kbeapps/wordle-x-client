@@ -6,16 +6,20 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./request-button.component.scss'],
 })
 export class RequestButtonComponent {
-  @Input() class = '';
-  @Input() color = 'primary';
-  @Input() disabled = false;
-  @Input() label = 'button';
-  @Input() isLoading = true;
-  @Input() spinnerDiameter = 30;
-  @Output() btnClick = new EventEmitter();
+  @Input() public class = '';
+  @Input() public color = 'primary';
+  @Input() public disabled = false;
+  @Input() public label = 'button';
+  @Input() public spinnerDiameter = 30;
+  @Output() public btnClick = new EventEmitter();
+  public loading = true;
+
+  @Input() set isLoading(loadState: boolean | null) {
+    this.loading = loadState !== null ? loadState : false;
+  }
 
   onClick(): void {
-    if (!this.isLoading) {
+    if (!this.loading) {
       this.btnClick.emit();
     }
   }

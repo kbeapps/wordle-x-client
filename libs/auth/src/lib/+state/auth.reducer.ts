@@ -7,7 +7,8 @@ export const AUTH_FEATURE_KEY = 'auth';
 
 export interface State extends EntityState<IUser> {
   user: IUser;
-  loaded: boolean;
+  selectedId?: string | number;
+  loading: boolean;
   error?: string | null;
 }
 
@@ -15,7 +16,9 @@ export interface AuthPartialState {
   readonly [AUTH_FEATURE_KEY]: State;
 }
 
-export const authAdapter: EntityAdapter<IUser> = createEntityAdapter<IUser>();
+export const authAdapter: EntityAdapter<IUser> = createEntityAdapter<IUser>({
+  selectId: (user) => user._id,
+});
 
 export const initialState: State = authAdapter.getInitialState({
   user: {
@@ -27,22 +30,22 @@ export const initialState: State = authAdapter.getInitialState({
     games: [],
     groups: [],
   },
-  loaded: false,
+  loading: false,
 });
 
-const authReducer = createReducer(
+const reducer = createReducer(
   initialState,
-  on(AuthActions.init, (state) => ({ ...state, loaded: false, error: null })),
-  on(AuthActions.login, (state) => ({ ...state, loaded: true })),
-  on(AuthActions.loadLoginSuccess, (state, { user }) =>
-    authAdapter.setOne(user, { ...state, loaded: true })
-  ),
+  on(AuthActions.init, (state) => ({ ...state, loading: false, error: null })),
+  on(AuthActions.login, (state) => ({ ...state, loading: true })),
+  on(AuthActions.loadLoginSuccess, (state, { user }) => {
+    return authAdapter.setOne(user, { ...state, user: user, loading: false });
+  }),
   on(AuthActions.loadLoginFail, (state, { error }) => ({
     ...state,
     error: error,
   }))
 );
 
-export function reducer(state: State | undefined, action: Action) {
-  return authReducer(state, action);
+export function authReducer(state: State | undefined, action: Action) {
+  return reducer(state, action);
 }

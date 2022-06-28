@@ -5,10 +5,10 @@
   (click)="onClick()"
   [disabled]="disabled"
 >
-  <div *ngIf="!isLoading; else loading">
+  <div *ngIf="!loading; else loadingView">
     {{ label }}
   </div>
-  <ng-template #loading>
+  <ng-template #loadingView>
     <mat-progress-spinner
       color="accent"
       mode="indeterminate"

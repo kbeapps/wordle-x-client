@@ -1,4 +1,7 @@
 <div class="auth-container">
+  {{ user$ | async | json }}
+  {{ isLoading$ | async | json }}
+
   <mat-card class="container-card">
     <div class="section-header">
       <h1>Login</h1>
@@ -53,11 +56,13 @@
         <client-request-button
           color="primary"
           label="Login!"
-          [isLoading]="isLoading"
           (click)="onLogin()"
+          [isLoading]="isLoading$ | async"
           [disabled]="!loginForm.valid"
         ></client-request-button>
       </div>
     </div>
   </mat-card>
 </div>
+
+<!-- PUT [isLoading]="isLoading" BACK -->

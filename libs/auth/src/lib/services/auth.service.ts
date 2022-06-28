@@ -11,7 +11,7 @@ export class AuthService {
 
   public login(credentials: ILoginRequest): Observable<ILoginResponse> {
     return this.http.post<ILoginResponse, ILoginRequest>(
-      `auth/login`,
+      `auth/signin`,
       credentials
     );
   }
