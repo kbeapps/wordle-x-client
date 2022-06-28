@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { UiMaterialModule } from '@client/ui/material';
 
-import { DashboardComponent } from './components/dashboard.component';
+import { DashboardComponent, ManageComponent } from './components';
 
 @NgModule({
   imports: [CommonModule, DashboardRoutingModule, UiMaterialModule],
-  declarations: [DashboardComponent],
+  declarations: [DashboardComponent, ManageComponent],
 })
 export class LayoutDashboardModule {}
