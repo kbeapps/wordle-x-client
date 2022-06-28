@@ -9,16 +9,17 @@ import { environment } from '../../../environments/environment';
 })
 export class LandingComponent implements OnInit {
   title: string = environment.appTitle;
+  onHome: boolean;
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {}
 
   onLogin(): void {
-    this.router.navigateByUrl('login');
+    this.router.navigate([{ outlet: { landingOutlet: '/auth/login' } }]);
   }
 
   onRegister(): void {
-    this.router.navigateByUrl('signup');
+    this.router.navigateByUrl('auth/signup');
   }
 }

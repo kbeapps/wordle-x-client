@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
@@ -8,26 +9,26 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 import { AppComponent } from './app.component';
-import { AuthModule, authRoutes } from '@client/auth';
-import {
-  LayoutLandingModule,
-  layoutLandingRoutes,
-} from '@client/layout/landing';
 
 import { environment } from '../environments/environment';
 import { API_URL } from '@client/core/http-client';
+import { APP_TITLE } from '@client/layout/landing';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    AuthModule,
-    LayoutLandingModule,
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     RouterModule.forRoot(
       [
-        { path: 'auth', children: authRoutes },
-        { path: '', children: layoutLandingRoutes },
+        {
+          path: '',
+          loadChildren: () =>
+            import('@client/layout/landing/src').then(
+              (m) => m.LayoutLandingModule
+            ),
+        },
       ],
       {
         initialNavigation: 'enabledBlocking',
@@ -47,7 +48,10 @@ import { API_URL } from '@client/core/http-client';
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     StoreRouterConnectingModule.forRoot(),
   ],
-  providers: [{ provide: API_URL, useValue: environment.apiUrl }],
+  providers: [
+    { provide: API_URL, useValue: environment.apiUrl },
+    { provide: APP_TITLE, useValue: environment.appTitle },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

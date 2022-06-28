@@ -6,7 +6,6 @@ import { SignupComponent } from './components/signup/signup.component';
 import { UiMaterialModule } from '@client/ui/material';
 import { UiComponentsModule } from '@client/ui/components';
 import { ReactiveFormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import * as fromAuth from './+state/auth.reducer';
@@ -19,9 +18,8 @@ export const authRoutes: Route[] = [
 
 @NgModule({
   imports: [
-    BrowserAnimationsModule,
     CommonModule,
-    RouterModule,
+    RouterModule.forChild(authRoutes),
     UiMaterialModule,
     UiComponentsModule,
     ReactiveFormsModule,
