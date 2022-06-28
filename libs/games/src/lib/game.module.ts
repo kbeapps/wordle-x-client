@@ -29,4 +29,4 @@ import { KeyboardComponent } from './gameboard/keyboard/keyboard.component';
   ],
   // exports: [GamesComponent],
 })
-export class GameModule {}
+export class GamesModule {}

@@ -1,5 +1,5 @@
-@import "../../../../assets/styles/variables.scss";
-@import "../gameboard.component.scss";
+// @import "../../../../assets/styles/variables.scss";
+@import '../gameboard.component.scss';
 
 $key-width: 40px;
 $key-height: 60px;
@@ -31,17 +31,17 @@ $key-color: none;
   justify-content: center;
   align-items: center;
 
-  @media (max-width: $breakpoint-mobile) {
-    width: calc($key-width * 0.75) !important;
-    height: calc($key-height * 0.75) !important;
-  }
+  // @media (max-width: $breakpoint-mobile) {
+  //   width: calc($key-width * 0.75) !important;
+  //   height: calc($key-height * 0.75) !important;
+  // }
 }
 
 .delete-base {
   @extend .key-base;
   width: calc($key-width * 1.6) !important;
 
-  @media (max-width: $breakpoint-mobile) {
-    width: calc($key-width * 1.6 * 0.75) !important;
-  }
+  // @media (max-width: $breakpoint-mobile) {
+  //   width: calc($key-width * 1.6 * 0.75) !important;
+  // }
 }

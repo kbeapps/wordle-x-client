@@ -10,7 +10,7 @@ const routes: Routes = [
     children: [
       {
         path: 'play',
-        loadChildren: () => import('@client/game').then((m) => m.GameModule),
+        loadChildren: () => import('@client/games').then((m) => m.GamesModule),
       },
       // {
       //   path: 'manage',
