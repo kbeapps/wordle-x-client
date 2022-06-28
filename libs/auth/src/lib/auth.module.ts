@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Route } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
-import { UiMaterialModule } from '@client/ui/material';
-import { UiComponentsModule } from '@client/ui/components';
+import { MaterialModule } from '@client/shared';
+import { ComponentsModule } from '@client/shared';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -19,9 +19,9 @@ export const authRoutes: Route[] = [
 @NgModule({
   imports: [
     CommonModule,
+    ComponentsModule,
     RouterModule.forChild(authRoutes),
-    UiMaterialModule,
-    UiComponentsModule,
+    MaterialModule,
     ReactiveFormsModule,
     StoreModule.forFeature(fromAuth.AUTH_FEATURE_KEY, fromAuth.authReducer),
     EffectsModule.forFeature([AuthEffects]),

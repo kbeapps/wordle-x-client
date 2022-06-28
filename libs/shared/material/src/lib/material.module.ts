@@ -75,4 +75,4 @@ const material = [
   imports: material,
   exports: material,
 })
-export class UiMaterialModule {}
+export class MaterialModule {}

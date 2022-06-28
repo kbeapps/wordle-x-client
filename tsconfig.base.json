@@ -21,15 +21,15 @@
     "paths": {
       "@client/*": ["libs/*"],
       "@client/auth": ["libs/auth/src/index.ts"],
-      "@client/core/http-client": ["libs/core/http-client/src/index.ts"],
+      "@client/shared/http-client": ["libs/shared/http-client/src/index.ts"],
       "@client/friends": ["libs/friends/src/index.ts"],
       "@client/games": ["libs/games/src/index.ts"],
       "@client/groups": ["libs/groups/src/index.ts"],
       "@client/layout/dashboard": ["libs/layout/dashboard/src/index.ts"],
       "@client/layout/landing": ["libs/layout/landing/src/index.ts"],
       "@client/profile": ["libs/profile/src/index.ts"],
-      "@client/ui/components": ["libs/ui/components/src/index.ts"],
-      "@client/ui/material": ["libs/ui/material/src/index.ts"],
+      "@client/shared/components": ["libs/shared/components/src/index.ts"],
+      "@client/shared/material": ["libs/shared/material/src/index.ts"],
       "@client/user": ["libs/user/src/index.ts"]
     },
     "rootDir": "."

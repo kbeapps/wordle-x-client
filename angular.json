@@ -3,15 +3,15 @@
   "projects": {
     "auth": "libs/auth",
     "client": "apps/client",
-    "core-http-client": "libs/core/http-client",
+    "shared-http-client": "libs/shared/http-client",
     "friends": "libs/friends",
     "games": "libs/games",
     "groups": "libs/groups",
     "layout-dashboard": "libs/layout/dashboard",
     "layout-landing": "libs/layout/landing",
     "profile": "libs/profile",
-    "ui-components": "libs/ui/components",
-    "ui-material": "libs/ui/material",
+    "shared-components": "libs/shared/components",
+    "shared-material": "libs/shared/material",
     "user": "libs/user",
     "wordle-x": "apps/wordle-x"
   },

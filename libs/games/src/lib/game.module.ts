@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UiMaterialModule } from '@client/ui/material';
+import { MaterialModule } from '@client/shared';
 import { GameRoutingModule } from './game-routing.module';
 // import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -23,7 +23,7 @@ import { KeyboardComponent } from './gameboard/keyboard/keyboard.component';
   imports: [
     CommonModule,
     GameRoutingModule,
-    UiMaterialModule,
+    MaterialModule,
     // StoreModule.forFeature(fromGame.GAME_FEATURE_KEY, fromGame.reducer),
     EffectsModule.forFeature([GameEffects]),
   ],

@@ -1,13 +1,13 @@
 {
   "projectType": "library",
-  "sourceRoot": "libs/ui/material/src",
+  "sourceRoot": "libs/shared/material/src",
   "prefix": "client",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/ui/material"],
+      "outputs": ["coverage/libs/shared/material"],
       "options": {
-        "jestConfig": "libs/ui/material/jest.config.ts",
+        "jestConfig": "libs/shared/material/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -15,8 +15,8 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/ui/material/**/*.ts",
-          "libs/ui/material/**/*.html"
+          "libs/shared/material/**/*.ts",
+          "libs/shared/material/**/*.html"
         ]
       }
     }

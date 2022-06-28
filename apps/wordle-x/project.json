@@ -14,7 +14,8 @@
         "tsConfig": "apps/wordle-x/tsconfig.app.json",
         "assets": ["apps/wordle-x/src/favicon.ico", "apps/wordle-x/src/assets"],
         "styles": ["apps/wordle-x/src/styles.scss"],
-        "scripts": []
+        "scripts": [],
+        "allowedCommonJsDependencies": ["check-if-word-partial"]
       },
       "configurations": {
         "production": {

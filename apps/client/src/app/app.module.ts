@@ -7,7 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { httpInterceptorProviders } from './core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
-import { UiMaterialModule } from '../../../../libs/ui/material/src';
+// import { MaterialModule } from '@client/';
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -26,7 +26,7 @@ import { AuthModule, authRoutes } from '../../../../libs/auth/src';
     RouterModule.forRoot([{ path: 'auth', children: authRoutes }], {
       initialNavigation: 'enabledBlocking',
     }),
-    UiMaterialModule,
+    // MaterialModule,
     BrowserModule,
     HttpClientModule,
     MatProgressBarModule,

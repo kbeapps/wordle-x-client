@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ILoginRequest, ILoginResponse } from '@client/data-models';
-import { HttpRequestService } from '@client/core/http-client';
+import { HttpRequestService } from '@client/shared';
 
 @Injectable({
   providedIn: 'root',

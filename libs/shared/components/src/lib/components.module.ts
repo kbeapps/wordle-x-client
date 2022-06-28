@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UiMaterialModule } from '@client/ui/material';
+import { MaterialModule } from '@client/shared/material/src';
 import { RequestButtonComponent } from './components/request-button/request-button.component';
 
 @NgModule({
-  imports: [CommonModule, UiMaterialModule],
+  imports: [CommonModule, MaterialModule],
   declarations: [RequestButtonComponent],
   exports: [RequestButtonComponent],
 })
-export class UiComponentsModule {}
+export class ComponentsModule {}

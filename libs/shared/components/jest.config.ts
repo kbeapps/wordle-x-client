@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-  displayName: 'ui-material',
+  displayName: 'shared-components',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -9,7 +9,7 @@ export default {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../coverage/libs/ui/material',
+  coverageDirectory: '../../../coverage/libs/shared/components',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
