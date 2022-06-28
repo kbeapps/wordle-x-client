@@ -8,10 +8,10 @@ const routes: Routes = [
     path: '',
     component: DashboardComponent,
     children: [
-      // {
-      //   path: 'play',
-      //   component: GamesComponent,
-      // },
+      {
+        path: 'play',
+        loadChildren: () => import('@client/game').then((m) => m.GameModule),
+      },
       // {
       //   path: 'manage',
       //   loadChildren: () =>

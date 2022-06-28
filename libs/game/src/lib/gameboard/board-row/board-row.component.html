@@ -1,0 +1,14 @@
+<div class="board-row">
+  <div *ngFor="let char of guess; index as index">
+    <mat-card
+      class="board-square"
+      [@tileAnimationState]="{
+        value: state,
+        params: { color: getColor(index), delay: getDelay(index) }
+      }"
+      (@tileAnimationState.done)="finalizeState()"
+    >
+      {{ char }}
+    </mat-card>
+  </div>
+</div>
