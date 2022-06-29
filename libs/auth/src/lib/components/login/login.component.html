@@ -1,69 +1,52 @@
-<div class="auth-container">
-  {{ user$ | async | json }}
-  {{ isLoading$ | async | json }}
-  {{ isLoggedIn$ | async | json }}
+<client-card
+  header="Login"
+  controlLabel="Login!"
+  [isLoading]="(isLoading$ | async) || false"
+  [disabled]="!loginForm.valid"
+  errorMessage="errorMessage"
+>
+  <client-form> </client-form>
 
-  <mat-card class="container-card">
-    <div class="section-header">
-      <h1>Login</h1>
-    </div>
-    <form class="section-form" [formGroup]="loginForm" (ngSubmit)="onLogin()">
-      <!-- email or username input -->
-      <mat-form-field appearance="fill">
-        <mat-label>Email or Username</mat-label>
-        <input
-          type="text"
-          matInput
-          formControlName="emailOrUsername"
-          name="emailOrUsername"
-        />
-        <mat-error
-          *ngIf="
+  <!-- <ng-container [formGroup]="loginForm" (ngSubmit)="onLogin()"> -->
+  <!-- email or username input -->
+  <!-- 
+    <mat-form-field appearance="fill">
+      <mat-label>Email or Username</mat-label>
+      <input
+        type="text"
+        matInput
+        formControlName="emailOrUsername"
+        name="emailOrUsername"
+      />
+      <mat-error
+        *ngIf="
             !loginForm.controls?.['emailOrUsername']?.pristine &&
               !loginForm.controls?.['emailOrUsername']?.valid
             "
-        >
-          {{ validateField('emailOrUsername') }}
-        </mat-error>
-        <mat-icon matSuffix>account_circle</mat-icon>
-      </mat-form-field>
+      >
+        {{ validateField('emailOrUsername') }}
+      </mat-error>
+      <mat-icon matSuffix>account_circle</mat-icon>
+    </mat-form-field> -->
 
-      <!-- password input -->
-      <mat-form-field appearance="fill">
-        <mat-label>Password</mat-label>
-        <input
-          matInput
-          type="password"
-          formControlName="password"
-          name="password"
-        />
-        <mat-error
-          *ngIf="
+  <!-- password input -->
+  <!-- <mat-form-field appearance="fill">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        type="password"
+        formControlName="password"
+        name="password"
+      />
+      <mat-error
+        *ngIf="
               !loginForm.controls?.['password']?.pristine &&
               !loginForm.controls?.['password']?.valid
             "
-        >
-          {{ validateField('password') }}
-        </mat-error>
-        <mat-icon matSuffix>key</mat-icon>
-      </mat-form-field>
-    </form>
-
-    <div class="section-control">
-      <div class="error-display">
-        {{ errorMessage }}
-      </div>
-      <div class="confirm-button">
-        <client-request-button
-          color="primary"
-          label="Login!"
-          (click)="onLogin()"
-          [isLoading]="isLoading$ | async"
-          [disabled]="!loginForm.valid"
-        ></client-request-button>
-      </div>
-    </div>
-  </mat-card>
-</div>
-
-<!-- PUT [isLoading]="isLoading" BACK -->
+      >
+        {{ validateField('password') }}
+      </mat-error>
+      <mat-icon matSuffix>key</mat-icon>
+    </mat-form-field>
+  </ng-container> -->
+</client-card>

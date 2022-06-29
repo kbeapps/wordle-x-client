@@ -12,7 +12,6 @@ import { AuthValidationService } from '../../services/auth-validation.service';
 @Component({
   selector: 'client-signup',
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss'],
   // providers: [AuthValidationService],
 })
 export class SignupComponent implements OnInit {

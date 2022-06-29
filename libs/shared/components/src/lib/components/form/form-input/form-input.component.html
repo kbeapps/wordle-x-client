@@ -1,0 +1,10 @@
+<mat-form-field appearance="fill">
+  <mat-label>{{ label }}</mat-label>
+  <input [type]="type" matInput [formControl]="formControl" />
+
+  <mat-error>
+    <ng-content></ng-content>
+  </mat-error>
+
+  <mat-icon matSuffix>{{ icon }}</mat-icon>
+</mat-form-field>

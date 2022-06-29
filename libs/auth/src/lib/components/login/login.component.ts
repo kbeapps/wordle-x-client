@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
-  FormGroup,
+  FormBuilder,
   FormControl,
   Validators,
   ValidationErrors,
@@ -20,19 +20,24 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'client-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   public user$: Observable<IUser>;
   public isLoading$: Observable<boolean>;
-  public loginForm!: FormGroup;
+
   public errorMessage = '';
   public isLoggedIn$: Observable<boolean>;
+
+  public loginForm = this.fb.group({
+    emailOrUsername: '',
+    password: '',
+  });
 
   constructor(
     private validationService: AuthValidationService,
     private store: Store,
-    private router: Router
+    private router: Router,
+    private fb: FormBuilder
   ) {
     this.user$ = store.select(getUser);
     this.isLoading$ = store.select(getAuthLoading);
@@ -46,19 +51,6 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {
-    this.loginForm = new FormGroup({
-      emailOrUsername: new FormControl('', [
-        Validators.required,
-        Validators.minLength(5),
-      ]),
-      password: new FormControl('', [
-        Validators.required,
-        Validators.minLength(5),
-      ]),
-    });
-  }
-
   isEmail(str: string): boolean {
     const regexExp =
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi;
@@ -66,25 +58,23 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin(): void {
-    const emailOrUsername: string = this.loginForm.value.emailOrUsername;
-    const password: string = this.loginForm.value.password;
-
-    const loginPayload = this.isEmail(emailOrUsername)
-      ? { email: emailOrUsername }
-      : { username: emailOrUsername };
-
-    const loginRequest: ILoginRequest = {
-      ...loginPayload,
-      password: password,
-    };
-
-    this.store.dispatch(AuthActions.login({ payload: loginRequest }));
+    // const emailOrUsername: string = this.loginForm.value.emailOrUsername;
+    // const password: string = this.loginForm.value.password;
+    // const loginPayload = this.isEmail(emailOrUsername)
+    //   ? { email: emailOrUsername }
+    //   : { username: emailOrUsername };
+    // const loginRequest: ILoginRequest = {
+    //   ...loginPayload,
+    //   password: password,
+    // };
+    // this.store.dispatch(AuthActions.login({ payload: loginRequest }));
   }
 
   validateField(fieldKey: string): string {
     // // get error for fieldKey
-    const errors: ValidationErrors | null =
-      this.loginForm.controls?.[fieldKey]?.errors;
-    return this.validationService.getErrorMessage(errors, fieldKey);
+    // const errors: ValidationErrors | null =
+    // this.loginForm.controls?.[fieldKey]?.errors;
+    // return this.validationService.getErrorMessage(errors, fieldKey);
+    return '';
   }
 }
