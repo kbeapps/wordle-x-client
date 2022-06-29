@@ -1,20 +1,28 @@
 <mat-card
-  fxLayout="column"
-  fxLayoutAlign="space-around center"
-  [ngStyle]="{ height: '600px', width: '600px', 'text-align': 'center' }"
+  fxLayoutAlign="center center"
+  [ngStyle.lt-sm]="{ height: '100vh', width: '100vw' }"
 >
-  <h1>{{ header }}</h1>
-  <ng-content></ng-content>
+  <div
+    fxLayout="column"
+    fxLayoutAlign="space-around center"
+    [ngStyle]="{ height: '500px', width: '500px' }"
+    [ngStyle.xs]="{ height: '300px', width: '300px' }"
+  >
+    <h1 fxFlex="15">{{ header }}</h1>
 
-  <p [ngStyle]="{ height: '15px', color: 'red' }">
-    {{ errorMessage }}
-  </p>
+    <ng-content></ng-content>
 
-  <client-request-button
-    color="primary"
-    [label]="controlLabel"
-    (click)="onClick()"
-    [isLoading]="isLoading"
-    [disabled]="disabled"
-  ></client-request-button>
+    <p [ngStyle]="{ height: '15px', color: 'red' }">
+      {{ errorMessage }}
+    </p>
+
+    <client-request-button
+      fxFlex="15"
+      color="primary"
+      [label]="controlLabel"
+      (click)="onClick()"
+      [isLoading]="isLoading"
+      [disabled]="disabled"
+    ></client-request-button>
+  </div>
 </mat-card>
