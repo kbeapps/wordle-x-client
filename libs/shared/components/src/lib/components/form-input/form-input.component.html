@@ -1,8 +1,10 @@
-<mat-form-field appearance="fill">
+<mat-form-field appearance="fill" [ngStyle]="{ width: '300px' }">
   <mat-label>{{ label }}</mat-label>
   <input [type]="type" matInput [formControl]="formControl" />
 
-  <mat-error> {{ validateField() }} </mat-error>
+  <mat-error>
+    {{ validateField() }}
+  </mat-error>
 
   <mat-icon matSuffix>{{ icon }}</mat-icon>
 </mat-form-field>

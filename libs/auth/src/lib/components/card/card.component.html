@@ -3,21 +3,18 @@
   fxLayoutAlign="space-around center"
   [ngStyle]="{ height: '600px', width: '600px', 'text-align': 'center' }"
 >
-  <h1 fxFlex="1 1 auto">{{ header }}</h1>
-  <div fxFlex="3 1 auto">
-    <ng-content></ng-content>
-  </div>
+  <h1>{{ header }}</h1>
+  <ng-content></ng-content>
 
-  <p fxFlex="1 1 auto" [ngStyle]="{ height: '30px', color: 'red' }">
+  <p [ngStyle]="{ height: '15px', color: 'red' }">
     {{ errorMessage }}
   </p>
-  <div fxFlex="1 1 auto">
-    <client-request-button
-      color="primary"
-      [label]="controlLabel"
-      (click)="onClick()"
-      [isLoading]="isLoading"
-      [disabled]="disabled"
-    ></client-request-button>
-  </div>
+
+  <client-request-button
+    color="primary"
+    [label]="controlLabel"
+    (click)="onClick()"
+    [isLoading]="isLoading"
+    [disabled]="disabled"
+  ></client-request-button>
 </mat-card>

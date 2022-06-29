@@ -3,9 +3,16 @@
   controlLabel="Login!"
   [isLoading]="(isLoading$ | async) || false"
   [disabled]="!loginForm.valid"
+  (btnClick)="onLogin()"
   errorMessage="errorMessage"
 >
-  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+  <form
+    fxLayout="column"
+    fxLayoutAlign="space-around center"
+    fxLayoutGap="10px"
+    [formGroup]="loginForm"
+    (ngSubmit)="onLogin()"
+  >
     <client-form-input
       label="Email or Username"
       icon="account_circle"
@@ -22,6 +29,4 @@
     >
     </client-form-input>
   </form>
-
-  <button (click)="onTest()">Test</button>
 </client-card>
