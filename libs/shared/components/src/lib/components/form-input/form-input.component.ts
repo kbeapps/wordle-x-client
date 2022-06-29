@@ -1,12 +1,11 @@
+import { Component, forwardRef, Input } from '@angular/core';
 import {
-  Component,
-  EventEmitter,
-  forwardRef,
-  Input,
-  Output,
-} from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+  ValidationErrors,
+} from '@angular/forms';
 import { FormControl } from '@angular/forms';
+import { FormValidationService } from '@client/shared/validation';
 
 @Component({
   selector: 'client-form-input',
@@ -25,15 +24,23 @@ export class FormInputComponent implements ControlValueAccessor {
   @Input() public icon = 'icon';
   @Input() public name = '';
   @Input() public type = 'text';
-  @Output() public emitChanges = new EventEmitter();
 
-  writeValue(value: string) {}
+  constructor(private validationService: FormValidationService) {}
+
+  writeValue(value: string) {
+    return;
+  }
 
   registerOnChange(fn: any) {
-    this.emitChanges.emit('change');
+    return;
   }
 
   registerOnTouched(fn: any) {
-    this.emitChanges.emit('touched');
+    return;
+  }
+
+  validateField(): string {
+    const errors: ValidationErrors | null = this.formControl.errors;
+    return this.validationService.getErrorMessage(errors, this.name);
   }
 }

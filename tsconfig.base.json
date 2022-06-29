@@ -32,6 +32,7 @@
       "@client/shared/http-client": ["libs/shared/http-client/src/index.ts"],
       "@client/shared/local-store": ["libs/shared/local-store/src/index.ts"],
       "@client/shared/material": ["libs/shared/material/src/index.ts"],
+      "@client/shared/validation": ["libs/shared/validation/src/index.ts"],
       "@client/user": ["libs/user/src/index.ts"]
     },
     "rootDir": "."

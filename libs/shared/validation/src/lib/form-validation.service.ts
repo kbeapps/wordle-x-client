@@ -4,7 +4,7 @@ import { ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthValidationService {
+export class FormValidationService {
   doesMatchValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const password = control.value.password;

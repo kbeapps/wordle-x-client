@@ -14,6 +14,7 @@
     "material": "libs/shared/material",
     "profile": "libs/profile",
     "shared": "libs/shared",
+    "shared-validation": "libs/shared/validation",
     "user": "libs/user",
     "wordle-x": "apps/wordle-x"
   },

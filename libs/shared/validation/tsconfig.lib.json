@@ -1,13 +1,12 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc/libs/auth",
+    "outDir": "../../../dist/out-tsc",
     "declaration": true,
     "declarationMap": true,
-    "sourceMap": true,
     "inlineSources": true,
     "types": []
   },
   "exclude": ["src/test-setup.ts", "**/*.spec.ts", "**/*.test.ts"],
-  "include": ["**/*.ts", "../shared/validation/auth-validation.service.spec.ts"]
+  "include": ["**/*.ts"]
 }

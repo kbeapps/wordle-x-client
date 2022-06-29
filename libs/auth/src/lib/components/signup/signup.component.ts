@@ -5,21 +5,18 @@ import {
   Validators,
   ValidationErrors,
 } from '@angular/forms';
-import { AuthValidationService } from '../../services/auth-validation.service';
-// import { SignupService } from './signup.service';
-// import { finalize } from 'rxjs/operators';
+import { FormValidationService } from '@client/shared/validation/src';
 
 @Component({
   selector: 'client-signup',
   templateUrl: './signup.component.html',
-  // providers: [AuthValidationService],
 })
 export class SignupComponent implements OnInit {
   signupForm!: FormGroup;
   isLoading = false;
   errorMessage = '';
 
-  constructor(private validationService: AuthValidationService) {}
+  constructor(private validationService: FormValidationService) {}
 
   ngOnInit(): void {
     this.signupForm = new FormGroup({

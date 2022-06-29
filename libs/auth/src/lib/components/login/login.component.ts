@@ -1,12 +1,6 @@
 import { Component } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  Validators,
-  ValidationErrors,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { AuthValidationService } from '../../services/auth-validation.service';
 import { ILoginRequest, IUser } from '@client/data-models';
 import { Observable, map } from 'rxjs';
 import {
@@ -24,21 +18,16 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   public user$: Observable<IUser>;
   public isLoading$: Observable<boolean>;
-
-  public errorMessage = '';
   public isLoggedIn$: Observable<boolean>;
 
-  public loginForm = this.fb.group({
-    emailOrUsername: '',
-    password: '',
+  public errorMessage = '';
+
+  public loginForm = new FormGroup({
+    emailOrUsername: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required]),
   });
 
-  constructor(
-    private validationService: AuthValidationService,
-    private store: Store,
-    private router: Router,
-    private fb: FormBuilder
-  ) {
+  constructor(private store: Store, private router: Router) {
     this.user$ = store.select(getUser);
     this.isLoading$ = store.select(getAuthLoading);
     this.isLoggedIn$ = store.select(getIsLoggedIn).pipe(
@@ -51,30 +40,29 @@ export class LoginComponent {
     );
   }
 
+  onLogin(): void {
+    const emailOrUsername = this.loginForm.value.emailOrUsername;
+    const password = this.loginForm.value.password;
+    if (!emailOrUsername || !password) {
+      return;
+    }
+    const loginPayload = this.isEmail(emailOrUsername)
+      ? { email: emailOrUsername }
+      : { username: emailOrUsername };
+    const loginRequest: ILoginRequest = {
+      ...loginPayload,
+      password: password,
+    };
+    this.store.dispatch(AuthActions.login({ payload: loginRequest }));
+  }
+
   isEmail(str: string): boolean {
     const regexExp =
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gi;
     return regexExp.test(str);
   }
 
-  onLogin(): void {
-    // const emailOrUsername: string = this.loginForm.value.emailOrUsername;
-    // const password: string = this.loginForm.value.password;
-    // const loginPayload = this.isEmail(emailOrUsername)
-    //   ? { email: emailOrUsername }
-    //   : { username: emailOrUsername };
-    // const loginRequest: ILoginRequest = {
-    //   ...loginPayload,
-    //   password: password,
-    // };
-    // this.store.dispatch(AuthActions.login({ payload: loginRequest }));
-  }
-
-  validateField(fieldKey: string): string {
-    // // get error for fieldKey
-    // const errors: ValidationErrors | null =
-    // this.loginForm.controls?.[fieldKey]?.errors;
-    // return this.validationService.getErrorMessage(errors, fieldKey);
-    return '';
+  onTest() {
+    console.log('test: ', this.loginForm);
   }
 }
