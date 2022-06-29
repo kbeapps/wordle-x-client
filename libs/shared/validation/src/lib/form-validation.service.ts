@@ -1,22 +1,13 @@
 import { Injectable } from '@angular/core';
-import { ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
+import { ValidationErrors } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FormValidationService {
-  doesMatchValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const password = control.value.password;
-      const confirmPassword = control.value.confirmPassword;
-      return password !== confirmPassword ? { match: false } : null;
-    };
-  }
-
   getErrorMessage(errors: ValidationErrors | null, fieldKey: string): string {
     let error = '';
     if (errors) {
-      // return message for first error
       for (const key in errors) {
         switch (key) {
           case 'email':

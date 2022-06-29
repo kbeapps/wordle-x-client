@@ -1,76 +1,90 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Validators, FormBuilder } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { AuthActions } from '../../+state/auth.actions';
+import { getAuthLoading, getIsLoggedIn } from '../../+state/auth.selectors';
+import { ISignupRequest } from '@client/data-models';
+import { Observable, map } from 'rxjs';
+import { Router } from '@angular/router';
 import {
-  FormGroup,
-  FormControl,
-  Validators,
+  ValidatorFn,
+  AbstractControl,
   ValidationErrors,
+  FormGroup,
 } from '@angular/forms';
-import { FormValidationService } from '@client/shared/validation/src';
 
 @Component({
   selector: 'client-signup',
   templateUrl: './signup.component.html',
 })
-export class SignupComponent implements OnInit {
-  signupForm!: FormGroup;
-  isLoading = false;
-  errorMessage = '';
+export class SignupComponent {
+  public isLoading$: Observable<boolean> = this.store.select(getAuthLoading);
+  public isLoggedIn$: Observable<boolean>;
+  public errorMessage = '';
 
-  constructor(private validationService: FormValidationService) {}
-
-  ngOnInit(): void {
-    this.signupForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      username: new FormControl('', [
+  public signupForm = this.fb.group({
+    detailForm: this.fb.group({
+      email: this.fb.control('', [Validators.required, Validators.email]),
+      username: this.fb.control('', [
         Validators.required,
         Validators.minLength(5),
         Validators.maxLength(20),
         Validators.pattern('^[a-zA-Z0-9_.-]{5,20}$'),
       ]),
-      password: new FormControl('', [
-        Validators.required,
-        Validators.minLength(5),
-        Validators.pattern('^[a-zA-Z0-9_.!@$%&(){}:;<>,?+=|-]{5,20}$'),
-        // this.validationService.doesMatchValidator,
-      ]),
-      confirmPassword: new FormControl('', [Validators.required]),
-    });
+    }),
+    passwordForm: this.fb.group(
+      {
+        password: this.fb.control('', [
+          Validators.required,
+          Validators.minLength(5),
+          Validators.pattern('^[a-zA-Z0-9_.!@$%&(){}:;<>,?+=|-]{5,20}$'),
+        ]),
+        confirmPassword: this.fb.control('', [Validators.required]),
+      },
+      { validators: this.doesMatchValidator() }
+    ),
+  });
 
-    this.signupForm.addValidators(this.validationService.doesMatchValidator());
+  constructor(
+    private fb: FormBuilder,
+    private store: Store,
+    private router: Router
+  ) {
+    this.isLoggedIn$ = store.select(getIsLoggedIn).pipe(
+      map((res) => {
+        if (res) {
+          this.router.navigateByUrl('dashboard');
+        }
+        return res;
+      })
+    );
   }
 
   onSignup(): void {
-    this.isLoading = true;
-    // this.signupService
-    //   .requestSignup(
-    //     this.signupForm.value.email,
-    //     this.signupForm.value.username,
-    //     this.signupForm.value.password
-    //   )
-    //   .pipe(finalize(() => (this.isLoading = false)))
-    //   .subscribe({
-    //     next: (res) => {},
-    //     error: (error) => (this.errorMessage = error.message),
-    //   });
+    const signupRequest: ISignupRequest = {
+      email: this.signupForm.controls.detailForm.value.email || '',
+      username: this.signupForm.controls.detailForm.value.username || '',
+      password: this.signupForm.controls.passwordForm.value.password || '',
+    };
+    this.store.dispatch(AuthActions.signup({ payload: signupRequest }));
   }
 
-  validateField(fieldKey: string): string {
-    // const password: string = this.signupForm.value.password;
-    if (fieldKey === 'confirmPassword' || fieldKey === 'password') {
-      // check if password matches confirmPassword
-      const passwordIsValid =
-        this.signupForm.value.password ===
-        this.signupForm.value.confirmPassword;
+  doesMatchValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const formGroup = control as FormGroup;
+      const password = formGroup.get('password')?.value;
+      const confirmPassword = formGroup.get('confirmPassword')?.value;
+      const errors = password === confirmPassword ? null : { match: true };
 
-      // set Validation Error if not valid, null if is
-      this.signupForm.controls?.['confirmPassword'].setErrors(
-        !passwordIsValid ? { match: false } : null
-      );
-    }
-
-    // // get error for fieldKey
-    const errors: ValidationErrors | null =
-      this.signupForm.controls?.[fieldKey]?.errors;
-    return this.validationService.getErrorMessage(errors, fieldKey);
+      if (password && confirmPassword) {
+        this.signupForm?.controls.passwordForm.controls.password.setErrors(
+          errors
+        );
+        this.signupForm?.controls.passwordForm.controls.confirmPassword.setErrors(
+          errors
+        );
+      }
+      return errors;
+    };
   }
 }

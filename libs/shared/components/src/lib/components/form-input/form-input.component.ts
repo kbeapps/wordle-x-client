@@ -22,7 +22,6 @@ export class FormInputComponent implements ControlValueAccessor {
   @Input() public formControl!: FormControl;
   @Input() public label = 'Form Field';
   @Input() public icon = 'icon';
-  @Input() public name = '';
   @Input() public type = 'text';
 
   constructor(private validationService: FormValidationService) {}
@@ -41,6 +40,6 @@ export class FormInputComponent implements ControlValueAccessor {
 
   validateField(): string {
     const errors: ValidationErrors | null = this.formControl.errors;
-    return this.validationService.getErrorMessage(errors, this.name);
+    return this.validationService.getErrorMessage(errors, this.label);
   }
 }

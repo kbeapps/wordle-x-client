@@ -18,9 +18,23 @@ export class AuthEffects {
       concatMap((action) =>
         this.authService.login(action.payload).pipe(
           map((response) =>
-            AuthActions.loadLoginSuccess({ user: response.data })
+            AuthActions.loadAuthSuccess({ user: response.data })
           ),
-          catchError((error) => of(AuthActions.loadLoginFail({ error })))
+          catchError((error) => of(AuthActions.loadAuthFail({ error })))
+        )
+      )
+    );
+  });
+
+  signup$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(AuthActions.signup),
+      concatMap((action) =>
+        this.authService.signup(action.payload).pipe(
+          map((response) =>
+            AuthActions.loadAuthSuccess({ user: response.data })
+          ),
+          catchError((error) => of(AuthActions.loadAuthFail({ error })))
         )
       )
     );

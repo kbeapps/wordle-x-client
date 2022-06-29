@@ -1,14 +1,10 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { ILoginRequest, IUser } from '@client/data-models';
-import { Observable, map } from 'rxjs';
-import {
-  getAuthLoading,
-  getIsLoggedIn,
-  getUser,
-} from '../../+state/auth.selectors';
 import { AuthActions } from '../../+state/auth.actions';
+import { getAuthLoading, getIsLoggedIn } from '../../+state/auth.selectors';
+import { ILoginRequest } from '@client/data-models';
+import { Observable, map } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,20 +12,15 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
-  public user$: Observable<IUser>;
-  public isLoading$: Observable<boolean>;
+  public isLoading$: Observable<boolean> = this.store.select(getAuthLoading);
   public isLoggedIn$: Observable<boolean>;
-
   public errorMessage = '';
-
   public loginForm = new FormGroup({
     emailOrUsername: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
   });
 
   constructor(private store: Store, private router: Router) {
-    this.user$ = store.select(getUser);
-    this.isLoading$ = store.select(getAuthLoading);
     this.isLoggedIn$ = store.select(getIsLoggedIn).pipe(
       map((res) => {
         if (res) {
@@ -41,11 +32,9 @@ export class LoginComponent {
   }
 
   onLogin(): void {
-    const emailOrUsername = this.loginForm.value.emailOrUsername;
-    const password = this.loginForm.value.password;
-    if (!emailOrUsername || !password) {
-      return;
-    }
+    const emailOrUsername = this.loginForm.value.emailOrUsername || '';
+    const password = this.loginForm.value.password || '';
+
     const loginPayload = this.isEmail(emailOrUsername)
       ? { email: emailOrUsername }
       : { username: emailOrUsername };

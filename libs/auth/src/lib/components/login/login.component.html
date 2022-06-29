@@ -2,9 +2,9 @@
   header="Login"
   controlLabel="Login!"
   [isLoading]="(isLoading$ | async) || false"
-  [disabled]="!loginForm.valid"
+  [disabled]="!loginForm.valid || (isLoggedIn$ | async) || false"
   (btnClick)="onLogin()"
-  errorMessage="errorMessage"
+  [errorMessage]="errorMessage"
 >
   <form
     fxLayout="column"
@@ -16,7 +16,6 @@
     <client-form-input
       label="Email or Username"
       icon="account_circle"
-      name="EmailOrUsername"
       [formControl]="loginForm.controls.emailOrUsername"
     >
     </client-form-input>
@@ -24,7 +23,7 @@
     <client-form-input
       label="Password"
       icon="key"
-      name="password"
+      type="password"
       [formControl]="loginForm.controls.password"
     >
     </client-form-input>

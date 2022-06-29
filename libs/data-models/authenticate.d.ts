@@ -14,9 +14,13 @@ interface ILoginRequestUsername extends ILoginRequestBase {
 
 export type ILoginRequest = ILoginRequestEmail | ILoginRequestUsername;
 
-interface ILoginResponse {
+interface IAuthResponse {
   message: string;
   data: IUser;
 }
 
-export interface ISignupRequest {}
+export interface ISignupRequest {
+  email: string;
+  username: string;
+  password: string;
+}

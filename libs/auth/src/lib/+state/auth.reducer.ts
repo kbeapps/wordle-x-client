@@ -39,7 +39,7 @@ const reducer = createReducer(
   initialState,
   on(AuthActions.init, (state) => ({ ...state, loading: false, error: null })),
   on(AuthActions.login, (state) => ({ ...state, loading: true })),
-  on(AuthActions.loadLoginSuccess, (state, { user }) => {
+  on(AuthActions.loadAuthSuccess, (state, { user }) => {
     return authAdapter.setOne(user, {
       ...state,
       user: user,
@@ -47,7 +47,7 @@ const reducer = createReducer(
       loggedIn: true,
     });
   }),
-  on(AuthActions.loadLoginFail, (state, { error }) => ({
+  on(AuthActions.loadAuthFail, (state, { error }) => ({
     ...state,
     error: error,
     loggedIn: false,
