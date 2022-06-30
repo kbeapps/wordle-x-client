@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LandingComponent, LandingPageComponent } from './components';
-import {} from './components/landing-page/landing-page.component';
+import { LandingGuard } from './guards/landing.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: LandingComponent,
+    canActivate: [LandingGuard],
     children: [
       { path: '', component: LandingPageComponent },
       {

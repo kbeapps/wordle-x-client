@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent, ManageComponent } from './components';
-// import { GamesComponent } from '../games/components/games.component';
+import { DashboardGuard } from './guards/dashboard.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: DashboardComponent,
+    canActivate: [DashboardGuard],
     children: [
       {
         path: 'play',

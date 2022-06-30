@@ -13,7 +13,7 @@ export interface State extends EntityState<IUser> {
   error?: string | null;
 }
 
-export interface AuthPartialState {
+export interface AuthState {
   readonly [AUTH_FEATURE_KEY]: State;
 }
 
