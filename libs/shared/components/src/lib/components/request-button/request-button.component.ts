@@ -7,7 +7,6 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 export class RequestButtonComponent {
   @Input() public color = 'primary';
   @Input() public disabled = false;
-  @Input() public label = 'button';
   @Input() public isLoading = false;
   @Output() public btnClick = new EventEmitter();
 

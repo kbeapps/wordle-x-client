@@ -23,10 +23,11 @@
 
     <client-request-button
       fxFlex="15"
-      [label]="controlLabel"
       (click)="onClick()"
       [isLoading]="isLoading"
       [disabled]="disabled"
-    ></client-request-button>
+    >
+      {{ controlLabel }}
+    </client-request-button>
   </div>
 </mat-card>

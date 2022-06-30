@@ -6,7 +6,7 @@
   [disabled]="disabled"
 >
   <div *ngIf="!isLoading; else loadingView">
-    {{ label }}
+    <ng-content></ng-content>
   </div>
   <ng-template #loadingView>
     <mat-progress-spinner
