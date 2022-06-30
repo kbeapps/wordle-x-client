@@ -1,4 +1,13 @@
-<mat-form-field appearance="fill" [ngStyle]="{ width: '300px' }">
+<mat-form-field
+  appearance="fill"
+  [ngStyle.xs]="{
+    width: '60vw',
+    height: '20px',
+    'font-size': '90%',
+    'margin-bottom': '25px'
+  }"
+  [ngStyle.gt-xs]="{ width: '300px' }"
+>
   <mat-label>{{ label }}</mat-label>
   <input [type]="type" matInput [formControl]="formControl" />
 

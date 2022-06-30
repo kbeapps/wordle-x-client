@@ -1,5 +1,6 @@
 <button
-  [ngStyle]="{ height: '40px', width: '300px' }"
+  [ngStyle.xs]="{ width: '60vw' }"
+  [ngStyle.gt-xs]="{ height: '40px', width: '300px' }"
   mat-raised-button
   [color]="color"
   (click)="onClick()"
