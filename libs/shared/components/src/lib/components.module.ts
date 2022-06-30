@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@client/shared/material/src';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { FormInputComponent } from './components/form-input/form-input.component';
 import { RequestButtonComponent } from './components/request-button/request-button.component';
@@ -9,7 +9,7 @@ import { RequestButtonComponent } from './components/request-button/request-butt
 const sharedComponents = [FormInputComponent, RequestButtonComponent];
 
 @NgModule({
-  imports: [CommonModule, MaterialModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, MaterialModule, ReactiveFormsModule],
   declarations: [sharedComponents],
   exports: [sharedComponents],
 })

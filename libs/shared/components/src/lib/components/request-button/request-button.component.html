@@ -1,7 +1,7 @@
 <button
   [ngStyle]="{ height: '40px', width: '300px' }"
   mat-raised-button
-  color="primary"
+  [color]="color"
   (click)="onClick()"
   [disabled]="disabled"
 >
@@ -11,7 +11,7 @@
   <ng-template #loadingView>
     <mat-progress-spinner
       [ngStyle]="{ margin: 'auto' }"
-      color="accent"
+      [color]="color === 'primary' ? 'accent' : 'primary'"
       mode="indeterminate"
       class="request-spinner"
       diameter="30"

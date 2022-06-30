@@ -1,27 +1,22 @@
 import { Component, Inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { APP_TITLE } from '../../app-title.token';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'client-landing-page',
   templateUrl: './landing-page.component.html',
-  styleUrls: ['./landing-page.component.scss'],
 })
 export class LandingPageComponent {
   public title: string;
 
   constructor(
-    private router: Router,
-    @Inject(APP_TITLE) private appTitle: string
+    @Inject(APP_TITLE) private appTitle: string,
+    private router: Router
   ) {
     this.title = appTitle;
   }
 
-  onLogin(): void {
-    this.router.navigateByUrl('auth/login');
-  }
-
-  onRegister(): void {
+  onSignup(): void {
     this.router.navigateByUrl('auth/signup');
   }
 }

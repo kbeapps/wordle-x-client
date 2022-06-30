@@ -1,12 +1,35 @@
-<mat-card>
-  <div class="overview-section">
-    <h1>{{ title }}</h1>
-  </div>
-  <div class="options-section">
-    <button mat-raised-button color="accent" (click)="onRegister()">
-      Register
-    </button>
+<mat-card
+  fxLayout="column"
+  fxLayoutAlign="space-around center"
+  class="mat-elevation-z4"
+  [ngStyle]="{ height: '500px', width: '500px' }"
+  [ngStyle.xs]="{
+    width: '300px',
+    height: '300px'
+  }"
+  [ngStyle.gt-sm]="{ height: '600px', width: '500px' }"
+>
+  <h1
+    fxLayoutAlign="center center"
+    [ngStyle]="{ 'font-size': '3em', height: '50%', color: '#00bcd4' }"
+    [ngStyle.xs]="{ 'font-size': '1.8em', height: '50%', color: '#00bcd4' }"
+  >
+    {{ title }}
+  </h1>
 
-    <button mat-raised-button color="primary" (click)="onLogin()">Login</button>
+  <div
+    fxLayout.lt-md="column"
+    fxLayoutAlign="center center"
+    [ngStyle]="{ height: '50%', width: '100%' }"
+  >
+    <button
+      mat-raised-button
+      [ngStyle.xs]="{ width: '80%' }"
+      [ngStyle]="{ width: '200px' }"
+      color="primary"
+      (click)="onSignup()"
+    >
+      Signup!
+    </button>
   </div>
 </mat-card>

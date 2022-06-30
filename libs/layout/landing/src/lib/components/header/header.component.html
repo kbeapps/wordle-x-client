@@ -1,0 +1,29 @@
+<mat-toolbar
+  color="primary"
+  fxLayoutAlign="space-between"
+  aria-label="navigation button to login"
+  [ngStyle]="{ height: '60px' }"
+  class="mat-elevation-z4"
+>
+  <span [ngStyle]="{ width: '140px' }" fxLayoutAlign="center center">
+    <button
+      mat-button
+      aria-label="navigation button to landing"
+      (click)="onHome()"
+    >
+      <h1>{{ title }}</h1>
+    </button>
+  </span>
+  <span fxLayoutAlign="center center" [ngStyle]="{ width: '80px' }">
+    <button
+      mat-raised-button
+      color="primary"
+      fxLayoutAlign="center center"
+      [ngStyle]="{}"
+      aria-label="navigation button to login"
+      (click)="onLogin()"
+    >
+      <h3>Login</h3>
+    </button>
+  </span>
+</mat-toolbar>
