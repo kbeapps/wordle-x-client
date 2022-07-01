@@ -14,6 +14,7 @@ export enum AuthActionTypes {
 export const AuthActions = createActionGroup({
   source: source,
   events: {
+    Initialize: emptyProps,
     Login: props<{ payload: ILoginRequest }>(),
     Logout: emptyProps,
     Signup: props<{ payload: ISignupRequest }>(),

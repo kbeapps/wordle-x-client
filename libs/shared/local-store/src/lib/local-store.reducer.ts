@@ -3,20 +3,34 @@ import { setData, getData } from './local-store.service';
 import { IUser } from '@client/data-models';
 import { AuthActionTypes } from '@client/auth';
 
-export interface GameStore {
+interface IAuthAction {
+  type: string;
+  user: IUser;
+}
+
+export interface IGameStore {
   guesses: { guess: string[]; output: string[] }[];
   winState: boolean;
 }
 
-export interface LocalStore {
-  loggedIn: string;
-  user: IUser;
-  game: GameStore;
+export interface ILocalStore {
+  loggedIn: boolean;
+  _id: string;
+  username: string;
+  game: IGameStore | null;
 }
 
-const userKey = 'user';
-const loggedInKey = 'loggedIn';
-const gameKey = 'game';
+class LocalStore implements ILocalStore {
+  loggedIn = false;
+  _id = '';
+  username = '';
+  game = null;
+}
+
+export const loggedInKey = 'loggedIn';
+export const idKey = '_id';
+export const usernameKey = 'username';
+export const gameKey = 'game';
 
 export const localStoreReducer = (
   reducer: ActionReducer<any>
@@ -26,7 +40,13 @@ export const localStoreReducer = (
 
     switch (true) {
       case type === AuthActionTypes.authSuccess:
-        // setData(userKey, action?.user);
+        if (Object.keys(action).includes('user')) {
+          const authAction = action as IAuthAction;
+          const user = authAction.user;
+          setData(idKey, user?._id);
+          setData(usernameKey, user?.username);
+          setData(loggedInKey, String(true));
+        }
 
         break;
 
