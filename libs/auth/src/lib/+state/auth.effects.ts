@@ -2,42 +2,48 @@ import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { AuthActions } from './auth.actions';
 import { AuthService } from '../services';
-import { concatMap, map, catchError } from 'rxjs/operators';
+import { concatMap, map, catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthEffects {
   constructor(
     private readonly actions$: Actions,
     private authService: AuthService,
-    private store: Store
+    private router: Router
   ) {}
-
-  // initialize$ = createEffect(() => {
-  //   return this.actions$.pipe(
-  //     ofType(AuthActions.initialize),
-  //     exhaustMap((action) =>
-  //       this.authService.initialize(action.payload).pipe(
-  //         map((user) => AuthActions.loadAuthSuccess({ user: user })),
-  //         catchError((error) => of(AuthActions.loadAuthFail({ error })))
-  //       )
-  //     )
-  //   );
-  // });
 
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.login),
       concatMap((action) =>
         this.authService.login(action.payload).pipe(
-          map((response) =>
-            AuthActions.loadAuthSuccess({ user: response.data })
-          ),
-          catchError((error) => of(AuthActions.loadAuthFail({ error })))
+          map((response) => AuthActions.authSuccess({ user: response.data })),
+          catchError((error) => of(AuthActions.authFail({ error })))
         )
       )
     )
+  );
+
+  logout$$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.logout),
+        tap(() => {
+          this.router.navigate(['/login']);
+        })
+      ),
+    { dispatch: false }
+  );
+
+  authSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.authSuccess),
+        tap(() => this.router.navigate(['/dashboard/play']))
+      ),
+    { dispatch: false }
   );
 
   signup$ = createEffect(() =>
@@ -45,10 +51,8 @@ export class AuthEffects {
       ofType(AuthActions.signup),
       concatMap((action) =>
         this.authService.signup(action.payload).pipe(
-          map((response) =>
-            AuthActions.loadAuthSuccess({ user: response.data })
-          ),
-          catchError((error) => of(AuthActions.loadAuthFail({ error })))
+          map((response) => AuthActions.authSuccess({ user: response.data })),
+          catchError((error) => of(AuthActions.authFail({ error })))
         )
       )
     )
