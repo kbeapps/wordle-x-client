@@ -5,6 +5,7 @@
   [color]="color"
   (click)="onClick()"
   [disabled]="disabled"
+  class="{{ disabled ? '' : 'mat-elevation-z12' }}"
 >
   <div *ngIf="!isLoading; else loadingView">
     <ng-content></ng-content>

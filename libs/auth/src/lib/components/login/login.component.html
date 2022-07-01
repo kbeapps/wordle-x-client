@@ -7,9 +7,10 @@
   [errorMessage]="errorMessage"
 >
   <form
+    authForm
     fxLayout="column"
     fxLayoutAlign="space-around center"
-    fxLayoutGap="10px"
+    fxLayoutGap="20px"
     [formGroup]="loginForm"
     (ngSubmit)="onLogin()"
   >
@@ -28,4 +29,11 @@
     >
     </client-form-input>
   </form>
+
+  <div options fxLayoutAlign="space-between center" class="options">
+    <a routerLink="/auth/signup">Register</a>
+
+    <!-- TODO: setup forgot password -->
+    <a routerLink="/auth/login">Forgot Password?</a>
+  </div>
 </client-card>

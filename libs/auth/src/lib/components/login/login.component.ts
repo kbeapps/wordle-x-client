@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'client-login',
   templateUrl: './login.component.html',
+  styleUrls: ['../../styles.scss'],
 })
 export class LoginComponent {
   public isLoading$: Observable<boolean> = this.store.select(getAuthLoading);

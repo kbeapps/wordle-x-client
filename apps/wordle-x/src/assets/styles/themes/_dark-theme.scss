@@ -1,4 +1,11 @@
-@use "@angular/material" as mat;
+@use '@angular/material' as mat;
+@use 'palette-helper';
+
+$dark-bg: #212121;
+
+.custom-app-background {
+  background-color: $dark-bg;
+}
 
 $dark-primary-color: mat.define-palette(mat.$deep-purple-palette, 700);
 $dark-accent-color: mat.define-palette(mat.$cyan-palette, 500);
@@ -13,3 +20,5 @@ $dark-theme: mat.define-dark-theme(
     ),
   )
 );
+
+$dark-theme: palette-helper.modify-background($dark-theme, $dark-bg);

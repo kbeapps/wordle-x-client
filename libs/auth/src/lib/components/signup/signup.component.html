@@ -7,9 +7,10 @@
   [errorMessage]="errorMessage"
 >
   <form
+    authForm
     fxLayout="column"
     fxLayoutAlign="space-around center"
-    fxLayoutGap="5px"
+    fxLayoutGap="24px"
     [formGroup]="signupForm"
     (ngSubmit)="onSignup()"
   >
@@ -42,4 +43,10 @@
     >
     </client-form-input>
   </form>
+
+  <div options class="options">
+    <a fxLayoutAlign="end" routerLink="/auth/login">
+      Already have an account?
+    </a>
+  </div>
 </client-card>

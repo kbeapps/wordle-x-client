@@ -16,6 +16,7 @@ import {
 @Component({
   selector: 'client-signup',
   templateUrl: './signup.component.html',
+  styleUrls: ['../../styles.scss'],
 })
 export class SignupComponent {
   public isLoading$: Observable<boolean> = this.store.select(getAuthLoading);

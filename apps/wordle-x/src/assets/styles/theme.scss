@@ -4,9 +4,15 @@
 @import 'themes/dark-theme';
 @import './variables.scss';
 
-@include mat.core-theme($dark-theme);
 // include all used mat components in classes:
+@include mat.core-theme($dark-theme);
 .main-light-theme {
+  @include mat.elevation-transition();
+  @include mat.elevation(2);
+
+  &:active {
+    @include mat.elevation(8);
+  }
   @include mat.autocomplete-color($light-theme);
   @include mat.badge-color($light-theme);
   @include mat.bottom-sheet-color($light-theme);
@@ -44,9 +50,13 @@
 }
 
 .main-dark-theme {
-  $primary-color: $light-primary-color;
-  $accent-color: $light-accent-color;
-  $warn-color: $light-warn-color;
+  @include mat.elevation-transition();
+  @include mat.elevation(2);
+
+  &:active {
+    @include mat.elevation(8);
+  }
+
   @include mat.autocomplete-color($dark-theme);
   @include mat.badge-color($dark-theme);
   @include mat.bottom-sheet-color($dark-theme);

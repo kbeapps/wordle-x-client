@@ -4,6 +4,7 @@ import { EventEmitter } from '@angular/core';
 @Component({
   selector: 'client-card',
   templateUrl: './card.component.html',
+  styleUrls: ['../../styles.scss'],
 })
 export class CardComponent {
   @Input() public header = 'Header';

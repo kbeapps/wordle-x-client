@@ -1,36 +1,32 @@
-<mat-card
-  fxLayoutAlign="center center"
-  [ngStyle]="{
-    'background-color': 'transparent'
-  }"
-  class="mat-elevation-z4"
->
+<div fxLayoutAlign="center center">
   <div
     fxLayout="column"
-    fxLayoutAlign="space-around center"
-    [ngStyle.xs]="{ height: '60vh', width: '75vw' }"
+    fxLayoutAlign="center center"
+    [ngStyle.xs]="{ height: '65vh', width: '75vw' }"
     [ngStyle.gt-xs]="{
       width: '500px',
       height: '500px'
     }"
   >
-    <h1 fxFlex="15" fxLayoutAlign="center center">
+    <h1 fxLayoutAlign="center center">
       {{ header }}
     </h1>
-
-    <ng-content></ng-content>
 
     <p [ngStyle]="{ height: '15px', color: 'red' }">
       {{ errorMessage }}
     </p>
 
-    <client-request-button
-      fxFlex="15"
-      (click)="onClick()"
-      [isLoading]="isLoading"
-      [disabled]="disabled"
-    >
-      {{ controlLabel }}
-    </client-request-button>
+    <ng-content select="[authForm]"></ng-content>
+
+    <div [ngStyle]="{ 'margin-top': '50px' }">
+      <client-request-button
+        (click)="onClick()"
+        [isLoading]="isLoading"
+        [disabled]="disabled"
+      >
+        {{ controlLabel }}
+      </client-request-button>
+      <ng-content select="[options]"></ng-content>
+    </div>
   </div>
-</mat-card>
+</div>

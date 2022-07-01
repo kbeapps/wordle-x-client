@@ -23,6 +23,7 @@ export class FormInputComponent implements ControlValueAccessor {
   @Input() public label = 'Form Field';
   @Input() public icon = 'icon';
   @Input() public type = 'text';
+  public isFocused = false;
 
   constructor(private validationService: FormValidationService) {}
 
@@ -41,5 +42,9 @@ export class FormInputComponent implements ControlValueAccessor {
   validateField(): string {
     const errors: ValidationErrors | null = this.formControl.errors;
     return this.validationService.getErrorMessage(errors, this.label);
+  }
+
+  onFocus() {
+    console.log('focused');
   }
 }
