@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { AuthActions } from './auth.actions';
 import { AuthService } from '../services';
-import { concatMap, map, catchError, tap } from 'rxjs/operators';
+import { concatMap, map, catchError, tap, exhaustMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -13,6 +13,17 @@ export class AuthEffects {
     private authService: AuthService,
     private router: Router
   ) {}
+
+  // initialize$ = createEffect(() =>
+  //   this.actions$.pipe(
+  //     exhaustMap((action) =>
+  //       this.authService.initialize().pipe(
+  //         map((response) => AuthActions.authSuccess({ user: response })),
+  //         catchError((error) => of(AuthActions.authFail({ error })))
+  //       )
+  //     )
+  //   )
+  // );
 
   login$ = createEffect(() =>
     this.actions$.pipe(

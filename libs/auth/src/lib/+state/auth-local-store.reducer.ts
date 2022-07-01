@@ -1,30 +1,12 @@
 import { ActionReducer } from '@ngrx/store';
-import { setData, getData } from './local-store.service';
-import { IUser } from '@client/data-models';
-import { AuthActionTypes } from '@client/auth';
+import { setData, getData } from '@client/shared/local-store';
+import { IAuthAction } from '@client/data-models';
+import { AuthActionTypes } from './auth.actions';
 
-interface IAuthAction {
-  type: string;
-  user: IUser;
-}
-
-export interface IGameStore {
-  guesses: { guess: string[]; output: string[] }[];
-  winState: boolean;
-}
-
-export interface ILocalStore {
+export interface IAuthLocalStore {
   loggedIn: boolean;
   _id: string;
   username: string;
-  game: IGameStore | null;
-}
-
-class LocalStore implements ILocalStore {
-  loggedIn = false;
-  _id = '';
-  username = '';
-  game = null;
 }
 
 export const loggedInKey = 'loggedIn';
@@ -32,7 +14,7 @@ export const idKey = '_id';
 export const usernameKey = 'username';
 export const gameKey = 'game';
 
-export const localStoreReducer = (
+export const authStoreReducer = (
   reducer: ActionReducer<any>
 ): ActionReducer<any> => {
   return (state, action) => {
@@ -47,7 +29,6 @@ export const localStoreReducer = (
           setData(usernameKey, user?.username);
           setData(loggedInKey, String(true));
         }
-
         break;
 
       default:

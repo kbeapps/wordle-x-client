@@ -13,6 +13,8 @@ import { HttpRequestService } from '@client/shared/http-client';
 export class AuthService {
   constructor(private http: HttpRequestService) {}
 
+  // public initialize();
+
   public login(credentials: ILoginRequest): Observable<IAuthResponse> {
     return this.http.post<IAuthResponse, ILoginRequest>(
       `auth/signin`,

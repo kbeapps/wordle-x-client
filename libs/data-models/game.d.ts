@@ -10,3 +10,8 @@ export interface IGame {
   boards: object[];
   theme: string;
 }
+
+export interface IGameStore {
+  guesses: { guess: string[]; output: string[] }[];
+  winState: boolean;
+}

@@ -1,5 +1,10 @@
 import { IUser } from './user';
 
+interface IAuthAction {
+  type: string;
+  user: IUser;
+}
+
 interface ILoginRequestBase {
   password: string;
 }

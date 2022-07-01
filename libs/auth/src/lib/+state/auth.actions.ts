@@ -4,6 +4,7 @@ import { ILoginRequest, ISignupRequest, IUser } from '@client/data-models';
 const source = 'Auth Api';
 
 export enum AuthActionTypes {
+  initialize = '[Auth Api] Initialize',
   login = '[Auth Api] Login',
   logout = '[Auth Api] Logout',
   signup = '[Auth Api] Signup',

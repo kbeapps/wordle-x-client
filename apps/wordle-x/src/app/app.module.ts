@@ -16,7 +16,7 @@ import { API_URL } from '@client/shared/http-client';
 import { APP_TITLE } from '@client/layout/landing';
 
 import { debugReducer } from '@client/shared/src';
-import { localStoreReducer } from '@client/shared/local-store/src';
+import { authStoreReducer } from '@client/auth/src/';
 
 @NgModule({
   declarations: [AppComponent],
@@ -50,8 +50,8 @@ import { localStoreReducer } from '@client/shared/local-store/src';
       {},
       {
         metaReducers: !environment.production
-          ? [debugReducer, localStoreReducer]
-          : [localStoreReducer],
+          ? [debugReducer, authStoreReducer]
+          : [authStoreReducer],
         runtimeChecks: {
           strictActionImmutability: true,
           strictStateImmutability: true,
