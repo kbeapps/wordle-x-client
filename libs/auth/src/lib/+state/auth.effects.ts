@@ -4,16 +4,30 @@ import { AuthActions } from './auth.actions';
 import { AuthService } from '../services';
 import { concatMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class AuthEffects {
   constructor(
     private readonly actions$: Actions,
-    private authService: AuthService
+    private authService: AuthService,
+    private store: Store
   ) {}
 
-  login$ = createEffect(() => {
-    return this.actions$.pipe(
+  // initialize$ = createEffect(() => {
+  //   return this.actions$.pipe(
+  //     ofType(AuthActions.initialize),
+  //     exhaustMap((action) =>
+  //       this.authService.initialize(action.payload).pipe(
+  //         map((user) => AuthActions.loadAuthSuccess({ user: user })),
+  //         catchError((error) => of(AuthActions.loadAuthFail({ error })))
+  //       )
+  //     )
+  //   );
+  // });
+
+  login$ = createEffect(() =>
+    this.actions$.pipe(
       ofType(AuthActions.login),
       concatMap((action) =>
         this.authService.login(action.payload).pipe(
@@ -23,11 +37,11 @@ export class AuthEffects {
           catchError((error) => of(AuthActions.loadAuthFail({ error })))
         )
       )
-    );
-  });
+    )
+  );
 
-  signup$ = createEffect(() => {
-    return this.actions$.pipe(
+  signup$ = createEffect(() =>
+    this.actions$.pipe(
       ofType(AuthActions.signup),
       concatMap((action) =>
         this.authService.signup(action.payload).pipe(
@@ -37,6 +51,6 @@ export class AuthEffects {
           catchError((error) => of(AuthActions.loadAuthFail({ error })))
         )
       )
-    );
-  });
+    )
+  );
 }

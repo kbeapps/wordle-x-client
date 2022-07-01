@@ -15,6 +15,9 @@ import { environment } from '../environments/environment';
 import { API_URL } from '@client/shared/http-client';
 import { APP_TITLE } from '@client/layout/landing';
 
+import { debugReducer } from '@client/shared/src';
+import { localStoreReducer } from '@client/shared/local-store/src';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -46,7 +49,9 @@ import { APP_TITLE } from '@client/layout/landing';
     StoreModule.forRoot(
       {},
       {
-        metaReducers: !environment.production ? [] : [],
+        metaReducers: !environment.production
+          ? [debugReducer, localStoreReducer]
+          : [localStoreReducer],
         runtimeChecks: {
           strictActionImmutability: true,
           strictStateImmutability: true,

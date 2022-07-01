@@ -1,24 +1,20 @@
-import { Injectable } from '@angular/core';
+export const setData = (key: string, data: string | object) => {
+  const jsonData = typeof data === 'string' ? data : JSON.stringify(data);
+  localStorage.setItem(key, jsonData);
+};
 
-@Injectable({
-  providedIn: 'root',
-})
-export class LocalStoreService {
-  setData(key: string, data: string | object) {
-    const jsonData = typeof data === 'string' ? data : JSON.stringify(data);
-    localStorage.setItem(key, jsonData);
-  }
+export const getData = (
+  key: string,
+  isString?: boolean
+): object | string | undefined => {
+  const data: string | null = localStorage.getItem(key);
+  return data ? (isString ? data : JSON.parse(data)) : undefined;
+};
 
-  getData(key: string, isString?: boolean): object | string | undefined {
-    const data: string | null = localStorage.getItem(key);
-    return data ? (isString ? data : JSON.parse(data)) : undefined;
-  }
+export const removeData = (key: string) => {
+  localStorage.removeItem(key);
+};
 
-  removeData(key: string) {
-    localStorage.removeItem(key);
-  }
-
-  clearData() {
-    localStorage.clear();
-  }
-}
+export const clearData = () => {
+  localStorage.clear();
+};

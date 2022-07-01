@@ -21,7 +21,6 @@ export class AuthService {
   }
 
   public signup(details: ISignupRequest): Observable<IAuthResponse> {
-    console.log('signup');
     return this.http.post<IAuthResponse, ISignupRequest>(
       `auth/signup`,
       details

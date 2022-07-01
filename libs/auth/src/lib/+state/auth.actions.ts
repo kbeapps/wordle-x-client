@@ -1,13 +1,14 @@
-import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { IUser, ILoginRequest, ISignupRequest } from '@client/data-models';
+import { createActionGroup, props } from '@ngrx/store';
+import { ILoginRequest, ISignupRequest, IUser } from '@client/data-models';
+import { AuthState } from './auth.reducer';
 
 export const AuthActions = createActionGroup({
   source: 'Auth API',
   events: {
-    Init: emptyProps(),
+    Initialize: props<{ authState: AuthState }>,
     Login: props<{ payload: ILoginRequest }>(),
     'Load Auth Success': props<{ user: IUser }>(),
     'Load Auth Fail': props<{ error: string }>(),
-    Signup: props<{payload: ISignupRequest}>()
+    Signup: props<{ payload: ISignupRequest }>(),
   },
 });
