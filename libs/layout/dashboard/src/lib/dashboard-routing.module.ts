@@ -7,7 +7,6 @@ const routes: Routes = [
   {
     path: '',
     component: DashboardComponent,
-    canActivate: [DashboardGuard],
     children: [
       {
         path: 'play',
@@ -21,16 +20,19 @@ const routes: Routes = [
             path: 'friends',
             loadChildren: () =>
               import('@client/friends').then((m) => m.FriendsModule),
+            title: 'Friends',
           },
           {
             path: 'groups',
             loadChildren: () =>
               import('@client/groups').then((m) => m.GroupsModule),
+            title: 'Groups',
           },
           {
             path: 'profile',
             loadChildren: () =>
               import('@client/profile').then((m) => m.ProfileModule),
+            title: 'Profile',
           },
         ],
       },

@@ -2,10 +2,9 @@ import { Component } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AuthActions } from '../../+state/auth.actions';
-import { getAuthLoading, getIsLoggedIn } from '../../+state/auth.selectors';
+import { getAuthLoading } from '../../+state/auth.selectors';
 import { ISignupRequest } from '@client/data-models';
-import { Observable, map } from 'rxjs';
-import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import {
   ValidatorFn,
   AbstractControl,
@@ -20,7 +19,7 @@ import {
 })
 export class SignupComponent {
   public isLoading$: Observable<boolean> = this.store.select(getAuthLoading);
-  public isLoggedIn$: Observable<boolean>;
+  // public isLoggedIn$: Observable<boolean>;
   public errorMessage = '';
 
   public signupForm = this.fb.group({
@@ -46,20 +45,7 @@ export class SignupComponent {
     ),
   });
 
-  constructor(
-    private fb: FormBuilder,
-    private store: Store,
-    private router: Router
-  ) {
-    this.isLoggedIn$ = store.select(getIsLoggedIn).pipe(
-      map((res) => {
-        if (res) {
-          this.router.navigateByUrl('dashboard');
-        }
-        return res;
-      })
-    );
-  }
+  constructor(private fb: FormBuilder, private store: Store) {}
 
   onSignup(): void {
     const signupRequest: ISignupRequest = {

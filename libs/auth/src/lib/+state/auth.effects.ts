@@ -16,14 +16,28 @@ export class AuthEffects {
 
   // initialize$ = createEffect(() =>
   //   this.actions$.pipe(
-  //     exhaustMap((action) =>
-  //       this.authService.initialize().pipe(
-  //         map((response) => AuthActions.authSuccess({ user: response })),
+  //     ofType(AuthActions.initialize),
+  //     exhaustMap(() => {
+  //       console.log('init in effect');
+  //       return this.authService.initialize().pipe(
+  //         map((user) => {
+  //           console.log('init user: ', user);
+  //           return AuthActions.authSuccess({ user: user });
+  //         }),
   //         catchError((error) => of(AuthActions.authFail({ error })))
-  //       )
-  //     )
+  //       );
+  //     })
   //   )
   // );
+
+  loggedInRedirect$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.loggedInRedirect),
+        tap(() => this.router.navigate(['/dashboard/play']))
+      ),
+    { dispatch: false }
+  );
 
   login$ = createEffect(() =>
     this.actions$.pipe(
@@ -37,13 +51,11 @@ export class AuthEffects {
     )
   );
 
-  logout$$ = createEffect(
+  logout$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(AuthActions.logout),
-        tap(() => {
-          this.router.navigate(['/login']);
-        })
+        tap(() => this.router.navigate(['/auth/login']))
       ),
     { dispatch: false }
   );

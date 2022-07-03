@@ -18,9 +18,17 @@ import { APP_TITLE } from '@client/layout/landing';
 import { debugReducer } from '@client/shared/src';
 import { authStoreReducer } from '@client/auth/src/';
 
+import * as fromAuth from '@client/auth/src';
+import { AuthEffects } from '@client/auth/src/lib/+state/auth.effects';
+import { AuthModule } from '@client/auth/src/';
+
+import { LandingGuard } from '@client/layout/landing/src/lib/guards/landing.guard';
+import { DashboardGuard } from '@client/layout/dashboard/src/lib/guards/dashboard.guard';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
+    AuthModule,
     BrowserModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
@@ -33,6 +41,7 @@ import { authStoreReducer } from '@client/auth/src/';
             import('@client/layout/landing/src').then(
               (m) => m.LayoutLandingModule
             ),
+          canActivate: [LandingGuard],
         },
         {
           path: 'dashboard',
@@ -40,6 +49,7 @@ import { authStoreReducer } from '@client/auth/src/';
             import('@client/layout/dashboard/src').then(
               (m) => m.LayoutDashboardModule
             ),
+          canActivate: [DashboardGuard],
         },
       ],
       {
@@ -47,7 +57,7 @@ import { authStoreReducer } from '@client/auth/src/';
       }
     ),
     StoreModule.forRoot(
-      {},
+      { auth: fromAuth.authReducer },
       {
         metaReducers: !environment.production
           ? [debugReducer, authStoreReducer]
@@ -58,7 +68,7 @@ import { authStoreReducer } from '@client/auth/src/';
         },
       }
     ),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([AuthEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     StoreRouterConnectingModule.forRoot(),
   ],

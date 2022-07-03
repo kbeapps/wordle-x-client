@@ -6,6 +6,7 @@ const source = 'Auth Api';
 export enum AuthActionTypes {
   initialize = '[Auth Api] Initialize',
   login = '[Auth Api] Login',
+  loggedInRedirect = '[Auth Api] Logged in Redirect',
   logout = '[Auth Api] Logout',
   signup = '[Auth Api] Signup',
   authSuccess = '[Auth Api] Auth Success',
@@ -15,9 +16,10 @@ export enum AuthActionTypes {
 export const AuthActions = createActionGroup({
   source: source,
   events: {
-    Initialize: emptyProps,
+    Initialize: emptyProps(),
     Login: props<{ payload: ILoginRequest }>(),
-    Logout: emptyProps,
+    'Logged In Redirect': emptyProps,
+    Logout: emptyProps(),
     Signup: props<{ payload: ISignupRequest }>(),
     'Auth Success': props<{ user: IUser }>(),
     'Auth Fail': props<{ error: string }>(),

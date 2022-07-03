@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable, of, throwError } from 'rxjs';
 import {
   IAuthResponse,
   ILoginRequest,
   ISignupRequest,
+  IUser,
 } from '@client/data-models';
 import { HttpRequestService } from '@client/shared/http-client';
+import { getData } from '@client/shared/local-store';
+import { loggedInKey } from '../+state';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +16,14 @@ import { HttpRequestService } from '@client/shared/http-client';
 export class AuthService {
   constructor(private http: HttpRequestService) {}
 
-  // public initialize();
+  public initialize(): Observable<IUser> {
+    console.log('init');
+    const isLoggedIn = getData(loggedInKey);
+    console.log('isLoggedIn: ', isLoggedIn);
+    return this.http
+      .get<IAuthResponse>(`user/getbyid`)
+      .pipe(map((response) => response.data));
+  }
 
   public login(credentials: ILoginRequest): Observable<IAuthResponse> {
     return this.http.post<IAuthResponse, ILoginRequest>(

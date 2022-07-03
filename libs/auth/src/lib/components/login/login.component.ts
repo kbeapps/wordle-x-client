@@ -2,10 +2,9 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AuthActions } from '../../+state/auth.actions';
-import { getAuthLoading, getIsLoggedIn } from '../../+state/auth.selectors';
+import { getAuthLoading } from '../../+state/auth.selectors';
 import { ILoginRequest } from '@client/data-models';
-import { Observable, map } from 'rxjs';
-import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'client-login',
@@ -14,23 +13,13 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
   public isLoading$: Observable<boolean> = this.store.select(getAuthLoading);
-  public isLoggedIn$: Observable<boolean>;
   public errorMessage = '';
   public loginForm = new FormGroup({
     emailOrUsername: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
   });
 
-  constructor(private store: Store, private router: Router) {
-    this.isLoggedIn$ = store.select(getIsLoggedIn).pipe(
-      map((res) => {
-        if (res) {
-          this.router.navigateByUrl('dashboard');
-        }
-        return res;
-      })
-    );
-  }
+  constructor(private store: Store) {}
 
   onLogin(): void {
     const emailOrUsername = this.loginForm.value.emailOrUsername || '';

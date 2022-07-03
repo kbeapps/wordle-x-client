@@ -2,7 +2,7 @@
   header="Signup"
   controlLabel="Signup!"
   [isLoading]="(isLoading$ | async) || false"
-  [disabled]="!signupForm.valid || (isLoggedIn$ | async) || false"
+  [disabled]="!signupForm.valid"
   (btnClick)="onSignup()"
   [errorMessage]="errorMessage"
 >

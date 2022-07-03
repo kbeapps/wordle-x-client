@@ -8,6 +8,7 @@ const httpOptions = {
     'Content-Type': 'application/json',
     Accept: 'application/json',
   }),
+  withCredentials: true,
 };
 
 @Injectable({
@@ -19,8 +20,13 @@ export class HttpRequestService {
     @Inject(API_URL) private apiUrl: string
   ) {}
 
-  get<T>(route: string, paramKey: string, paramValue: string): Observable<T> {
-    return this.http.get<T>(`${this.apiUrl}${route}/${paramKey}/${paramValue}`);
+  get<T>(route: string, paramKey?: string, paramValue?: string): Observable<T> {
+    return paramKey && paramValue
+      ? this.http.get<T>(
+          `${this.apiUrl}${route}/${paramKey}/${paramValue}`,
+          httpOptions
+        )
+      : this.http.get<T>(this.apiUrl + route, httpOptions);
   }
 
   post<T, D>(route: string, data?: D): Observable<T> {

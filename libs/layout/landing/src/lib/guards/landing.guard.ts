@@ -5,29 +5,29 @@ import {
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
-import { AuthState } from '@client/auth/src';
-import { Store, select } from '@ngrx/store';
+import { IAuthState, getIsLoggedIn, AuthActions } from '@client/auth/src';
+import { Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LandingGuard implements CanActivate {
-  constructor(private router: Router, private store: Store<AuthState>) {}
+  constructor(private router: Router, private store: Store<IAuthState>) {}
 
   canActivate(
-    next: ActivatedRouteSnapshot,
+    route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> {
-    return this.store.pipe(
-      select((state) => state.auth?.loggedIn),
+    const url: string = state.url;
+
+    return this.store.select(getIsLoggedIn).pipe(
       map((loggedIn) => {
-        if (!loggedIn) {
-          return true;
-        } else {
-          this.router.navigate([`/dashboard`]);
+        if (loggedIn) {
+          this.store.dispatch(AuthActions.loggedInRedirect());
           return false;
         }
+        return true;
       })
     );
   }
