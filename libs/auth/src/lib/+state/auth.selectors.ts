@@ -27,9 +27,3 @@ export const getUserId = createSelector(
   getAuthState,
   (state: IAuthState) => state.user._id
 );
-
-export const getSelected = createSelector(
-  getUser,
-  getAuthLoading,
-  (entities, selectedId) => (selectedId ? entities._id : undefined)
-);

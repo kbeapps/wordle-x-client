@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
-  Router,
   RouterStateSnapshot,
 } from '@angular/router';
 import { IAuthState, getIsLoggedIn, AuthActions } from '@client/auth/src';
@@ -13,7 +12,7 @@ import { map, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class LandingGuard implements CanActivate {
-  constructor(private router: Router, private store: Store<IAuthState>) {}
+  constructor(private store: Store<IAuthState>) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,

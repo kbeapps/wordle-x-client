@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
-  Router,
   RouterStateSnapshot,
 } from '@angular/router';
 import { AuthActions, getIsLoggedIn, IAuthState } from '@client/auth/src';
@@ -13,7 +12,7 @@ import { map, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class DashboardGuard implements CanActivate {
-  constructor(private router: Router, private store: Store<IAuthState>) {}
+  constructor(private store: Store<IAuthState>) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,

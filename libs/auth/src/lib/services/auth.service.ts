@@ -1,28 +1,23 @@
 import { Injectable } from '@angular/core';
-import { map, Observable, of, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   IAuthResponse,
   ILoginRequest,
   ISignupRequest,
-  IUser,
 } from '@client/data-models';
+
 import { HttpRequestService } from '@client/shared/http-client';
-import { getData } from '@client/shared/local-store';
-import { loggedInKey } from '../+state';
+
+import { Store } from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpRequestService) {}
+  constructor(private http: HttpRequestService, private store: Store) {}
 
-  public initialize(): Observable<IUser> {
-    console.log('init');
-    const isLoggedIn = getData(loggedInKey);
-    console.log('isLoggedIn: ', isLoggedIn);
-    return this.http
-      .get<IAuthResponse>(`user/getbyid`)
-      .pipe(map((response) => response.data));
+  public getUser(): Observable<IAuthResponse> {
+    return this.http.get<IAuthResponse>(`user/getbyid`);
   }
 
   public login(credentials: ILoginRequest): Observable<IAuthResponse> {

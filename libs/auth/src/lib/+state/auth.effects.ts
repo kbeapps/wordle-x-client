@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
-import { AuthActions } from './auth.actions';
 import { AuthService } from '../services';
-import { concatMap, map, catchError, tap, exhaustMap } from 'rxjs/operators';
+import { concatMap, map, catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
+import { AuthActions } from '../+state';
 
 @Injectable()
 export class AuthEffects {
@@ -14,21 +14,17 @@ export class AuthEffects {
     private router: Router
   ) {}
 
-  // initialize$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(AuthActions.initialize),
-  //     exhaustMap(() => {
-  //       console.log('init in effect');
-  //       return this.authService.initialize().pipe(
-  //         map((user) => {
-  //           console.log('init user: ', user);
-  //           return AuthActions.authSuccess({ user: user });
-  //         }),
-  //         catchError((error) => of(AuthActions.authFail({ error })))
-  //       );
-  //     })
-  //   )
-  // );
+  loadUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.getUser),
+      concatMap(() =>
+        this.authService.getUser().pipe(
+          map((response) => AuthActions.authSuccess({ user: response.data })),
+          catchError((error) => of(AuthActions.authFail({ error })))
+        )
+      )
+    )
+  );
 
   loggedInRedirect$ = createEffect(
     () =>
@@ -64,7 +60,11 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.authSuccess),
-        tap(() => this.router.navigate(['/dashboard/play']))
+        tap(() => {
+          if (!this.router.url.includes('dashboard')) {
+            this.router.navigate(['/dashboard/play']);
+          }
+        })
       ),
     { dispatch: false }
   );
