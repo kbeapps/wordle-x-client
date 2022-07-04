@@ -1,0 +1,32 @@
+<div
+  fxLayoutAlign="center center"
+  class="keyboard-container"
+  id="display-keyboard"
+>
+  <div class="keyboard">
+    <div
+      class="keyboard-row"
+      fxLayoutAlign="center center"
+      *ngFor="let row of keyboardRows$ | async"
+    >
+      <button
+        [ngClass]="
+          key.key === 'enter' || key.key === 'backspace'
+            ? 'delete-base'
+            : key.color
+            ? key.color + '-key key-base'
+            : 'key-base'
+        "
+        (click)="onClick(key.key)"
+        *ngFor="let key of row.keys"
+      >
+        <div *ngIf="key.key !== 'backspace'; else backspaceKey">
+          {{ key.key }}
+        </div>
+        <ng-template #backspaceKey>
+          <mat-icon>backspace</mat-icon>
+        </ng-template>
+      </button>
+    </div>
+  </div>
+</div>

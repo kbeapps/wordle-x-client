@@ -1,36 +1,29 @@
-// import { createFeatureSelector, createSelector } from '@ngrx/store';
-// import { GAME_FEATURE_KEY, State, gameAdapter } from './game.reducer';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { GAME_FEATURE_KEY, IGameState } from './game.reducer';
 
-// // Lookup the 'Game' feature state managed by NgRx
-// export const getGameState = createFeatureSelector<State>(GAME_FEATURE_KEY);
+const getGameState = createFeatureSelector<IGameState>(GAME_FEATURE_KEY);
 
-// const { selectAll, selectEntities } = gameAdapter.getSelectors();
+export const getGameLoading = createSelector(
+  getGameState,
+  (state: IGameState) => state.loading
+);
 
-// export const getGameLoaded = createSelector(
-//   getGameState,
-//   (state: State) => state.loaded
-// );
+export const getGameError = createSelector(
+  getGameState,
+  (state: IGameState) => state.error
+);
 
-// export const getGameError = createSelector(
-//   getGameState,
-//   (state: State) => state.error
-// );
+export const getGame = createSelector(
+  getGameState,
+  (state: IGameState) => state.game
+);
 
-// export const getAllGame = createSelector(getGameState, (state: State) =>
-//   selectAll(state)
-// );
+export const getGameId = createSelector(
+  getGameState,
+  (state: IGameState) => state.game._id
+);
 
-// export const getGameEntities = createSelector(getGameState, (state: State) =>
-//   selectEntities(state)
-// );
-
-// export const getSelectedId = createSelector(
-//   getGameState,
-//   (state: State) => state.selectedId
-// );
-
-// export const getSelected = createSelector(
-//   getGameEntities,
-//   getSelectedId,
-//   (entities, selectedId) => (selectedId ? entities[selectedId] : undefined)
-// );
+export const getKeyboardRows = createSelector(
+  getGameState,
+  (state: IGameState) => state.keyboard.rows
+);

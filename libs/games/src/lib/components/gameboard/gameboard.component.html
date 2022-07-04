@@ -1,17 +1,15 @@
-<div *ngIf="!loading" class="gameboard-container">
+<div fxLayout="column" fxLayoutAlign="" class="gameboard-container">
   <div class="board-section">
     <div
       class="board-row"
       *ngFor="let guess of gameStore.guesses; index as rowIndex"
     >
-      <app-board-row
+      <client-board-row
         [guess]="guess.guess"
         [guessEvaluation]="guess.output"
-      ></app-board-row>
+      ></client-board-row>
     </div>
   </div>
-
-  <div class="keyboard-section">
-    <app-keyboard (keyPressed)="onKeyInput($event)"></app-keyboard>
-  </div>
 </div>
+
+<client-keyboard (keyPressed)="onKeyInput($event)"></client-keyboard>

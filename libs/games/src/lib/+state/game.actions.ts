@@ -1,14 +1,21 @@
-// import { createAction, props } from '@ngrx/store';
-// import { GameEntity } from './game.models';
+import { createActionGroup, emptyProps, props } from '@ngrx/store';
+import { IGame, IKeyboard } from '@client/data-models';
 
-// export const init = createAction('[Game Page] Init');
+const source = 'Game';
 
-// export const loadGameSuccess = createAction(
-//   '[Game/API] Load Game Success',
-//   props<{ game: GameEntity[] }>()
-// );
+export enum GameActionTypes {
+  create = '[Game] Create',
+  get = '[Game] Get',
+  update = '[Game] Update',
+  initializeKeyboard = '[Game] Initialize Keyboard',
+}
 
-// export const loadGameFailure = createAction(
-//   '[Game/API] Load Game Failure',
-//   props<{ error: any }>()
-// );
+export const GameActions = createActionGroup({
+  source: source,
+  events: {
+    Create: props<{ game: IGame }>(),
+    Get: emptyProps(),
+    Update: emptyProps(),
+    'Initialize Keyboard': props<{ keyboard: IKeyboard }>(),
+  },
+});

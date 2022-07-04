@@ -3,7 +3,6 @@ import {
   animation,
   style,
   keyframes,
-  transition,
 } from '@angular/animations';
 
 export const revealAnimation = animation(

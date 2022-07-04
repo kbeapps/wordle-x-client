@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { API_URL } from './api-url.token';
 
@@ -31,7 +31,6 @@ export class HttpRequestService {
         httpOptions
       );
     }
-    console.log('route: ', route);
     return this.http.get<T>(this.apiUrl + route, httpOptions);
   }
 

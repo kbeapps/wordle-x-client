@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-
-export interface IKey {
-  key: string;
-  color: string;
-}
+import { IKey } from '@client/data-models';
 
 @Injectable({
   providedIn: 'root',
@@ -18,8 +14,8 @@ export class KeyboardService {
   }
 
   setKeyColor(keyMap: IKey[]): void {
-    let index: number = -1;
-    for (let key of keyMap) {
+    let index = -1;
+    for (const key of keyMap) {
       index = this.initializedKeys.findIndex(
         (item) => item.key.toLowerCase() === key.key.toLowerCase()
       );

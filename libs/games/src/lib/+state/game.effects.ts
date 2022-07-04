@@ -1,26 +1,41 @@
 import { Injectable } from '@angular/core';
-// import { createEffect, Actions, ofType } from '@ngrx/effects';
-// import { fetch } from '@nrwl/angular';
-
-// import * as GameActions from './game.actions';
-// import * as GameFeature from './game.reducer';
+import { createEffect, Actions, ofType } from '@ngrx/effects';
+import { GamesService } from '../games.service';
+import { GameActions } from './game.actions';
+import { concatMap, map, catchError, tap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Injectable()
 export class GameEffects {
-  //   init$ = createEffect(() =>
+  constructor(
+    private readonly actions$: Actions,
+    private gameService: GamesService
+  ) {}
+
+  initializeKeyboard$ = createEffect(
+    () => this.actions$.pipe(ofType(GameActions.initializeKeyboard)),
+    { dispatch: false }
+  );
+
+  // logout$ = createEffect(
+  //   () =>
   //     this.actions$.pipe(
-  //       ofType(GameActions.init),
-  //       fetch({
-  //         run: (action) => {
-  //           // Your custom service 'load' logic goes here. For now just return a success action...
-  //           return GameActions.loadGameSuccess({ game: [] });
-  //         },
-  //         onError: (action, error) => {
-  //           console.error('Error', error);
-  //           return GameActions.loadGameFailure({ error });
-  //         },
+  //       ofType(AuthActions.logout),
+  //       tap(() => this.router.navigate(['/auth/login']))
+  //     ),
+  //   { dispatch: false }
+  // );
+
+  // authSuccess$ = createEffect(
+  //   () =>
+  //     this.actions$.pipe(
+  //       ofType(AuthActions.authSuccess),
+  //       tap(() => {
+  //         if (!this.router.url.includes('dashboard')) {
+  //           this.router.navigate(['/dashboard/play']);
+  //         }
   //       })
-  //     )
-  //   );
-  //   constructor(private readonly actions$: Actions) {}
+  //     ),
+  //   { dispatch: false }
+  // );
 }

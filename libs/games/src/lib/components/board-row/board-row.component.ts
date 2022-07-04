@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { Input } from '@angular/core';
 import {
   state,
@@ -11,7 +11,7 @@ import {
 import { invalidAnimation, revealAnimation, wonAnimation } from './animations';
 
 @Component({
-  selector: 'app-board-row',
+  selector: 'client-board-row',
   templateUrl: './board-row.component.html',
   styleUrls: ['./board-row.component.scss'],
   animations: [
@@ -46,15 +46,11 @@ import { invalidAnimation, revealAnimation, wonAnimation } from './animations';
     ]),
   ],
 })
-export class BoardRowComponent implements OnInit {
+export class BoardRowComponent implements AfterViewInit {
   public state: 'uncolored' | 'colored' | 'invalid' | 'won' = 'uncolored';
-  public won: boolean = false;
+  public won = false;
   @Input() guess: string[] = [];
   @Input() guessEvaluation: string[] = [];
-
-  constructor() {}
-
-  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     if (this.guess.every((item) => item !== '')) {

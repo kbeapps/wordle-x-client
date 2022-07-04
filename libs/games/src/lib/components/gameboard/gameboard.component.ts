@@ -1,25 +1,31 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  QueryList,
+  ViewChildren,
+  OnDestroy,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
-import { IKey } from './keyboard/keyboard.service';
-import { GameboardService, GameStore } from './gameboard.service';
-import { KeyboardService } from './keyboard/keyboard.service';
+import { IKey } from '@client/data-models';
+import { GameboardService, GameStore } from '../../services/gameboard.service';
+import { KeyboardService } from '../../services/keyboard.service';
 import { checkWord } from 'check-if-word-partial';
-import { BoardRowComponent } from './board-row/board-row.component';
+import { BoardRowComponent } from '../board-row/board-row.component';
 
 @Component({
-  selector: 'app-gameboard',
+  selector: 'client-gameboard',
   templateUrl: './gameboard.component.html',
   styleUrls: ['./gameboard.component.scss'],
 })
-export class GameboardComponent implements OnInit {
+export class GameboardComponent implements OnInit, OnDestroy {
   public gameStore: GameStore = new GameStore();
-  private wordSize: number = 5;
-  private totalGuesses: number = 6;
-  private activeRow: number = 0;
+  private wordSize = 5;
+  private totalGuesses = 6;
+  private activeRow = 0;
   private gameStoreSubscription: Subscription = new Subscription();
-  public loading: boolean = true;
-  private answer: string = '';
-  public animateRowNumber: number = -1;
+  public loading = true;
+  private answer = '';
+  public animateRowNumber = -1;
 
   @ViewChildren(BoardRowComponent)
   private BoardRowList!: QueryList<BoardRowComponent>;
@@ -44,11 +50,10 @@ export class GameboardComponent implements OnInit {
       (item) => item.guess[0] !== ''
     ).length;
     this.loading = false;
-    setInterval(() => {}, 500);
   }
 
   public onKeyInput(key: string): void {
-    let currentGuess: string[] = this.gameStore.guesses[this.activeRow].guess;
+    const currentGuess: string[] = this.gameStore.guesses[this.activeRow].guess;
     let currentPosition: number = currentGuess.findIndex((char) => char === '');
 
     if (currentPosition === -1) {
@@ -83,14 +88,14 @@ export class GameboardComponent implements OnInit {
   }
 
   private evaluateGuess(guessArray: string[], inputAnswer: string): IKey[] {
-    let keyMap: IKey[] = [];
-    let guessOutput: string[] = [];
-    let key: string = '';
-    let evaluation: string = '';
+    const keyMap: IKey[] = [];
+    const guessOutput: string[] = [];
+    let key = '';
+    let evaluation = '';
     const answer: string[] = inputAnswer.split('');
-    let answerLetterCount: number = 0;
-    let letterCount: number = 0;
-    let isDuplicate: boolean = false;
+    let answerLetterCount = 0;
+    let letterCount = 0;
+    let isDuplicate = false;
 
     for (const [index, char] of guessArray.entries()) {
       key = char.toLowerCase();

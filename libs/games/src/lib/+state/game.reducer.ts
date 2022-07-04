@@ -1,38 +1,50 @@
-// import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-// import { createReducer, on, Action } from '@ngrx/store';
+import { createReducer, on, Action } from '@ngrx/store';
+import { IGame, IKeyboard, IKey } from '@client/data-models';
+import { GameActions } from './game.actions';
 
-// import * as GameActions from './game.actions';
-// import { GameEntity } from './game.models';
+export const GAME_FEATURE_KEY = 'game';
 
-// export const GAME_FEATURE_KEY = 'game';
+export interface IGameState {
+  game: IGame;
+  keyboard: IKeyboard;
+  loading: boolean;
+  error?: string | null;
+}
 
-// export interface State extends EntityState<GameEntity> {
-//   selectedId?: string | number; // which Game record has been selected
-//   loaded: boolean; // has the Game list been loaded
-//   error?: string | null; // last known error (if any)
-// }
+export const initialState: IGameState = {
+  game: {
+    _id: '',
+    name: '',
+    ownerId: '',
+    players: [],
+    wordHistory: [],
+    type: '',
+    winCondition: '',
+    wordSize: 5,
+    boards: [],
+    theme: '',
+  },
+  keyboard: {
+    rows: [],
+  },
+  loading: false,
+};
 
-// export interface GamePartialState {
-//   readonly [GAME_FEATURE_KEY]: State;
-// }
+const reducer = createReducer(
+  initialState,
+  on(GameActions.create, (state, { game }) => ({
+    ...state,
+    game: game,
+    loading: false,
+  })),
+  on(GameActions.get, (state) => ({ ...state, loading: false })),
+  on(GameActions.initializeKeyboard, (state, { keyboard }) => ({
+    ...state,
+    keyboard: keyboard,
+    loading: false,
+  }))
+);
 
-// export const gameAdapter: EntityAdapter<GameEntity> =
-//   createEntityAdapter<GameEntity>();
-
-// export const initialState: State = gameAdapter.getInitialState({
-//   // set initial required properties
-//   loaded: false,
-// });
-
-// const gameReducer = createReducer(
-//   initialState,
-//   on(GameActions.init, (state) => ({ ...state, loaded: false, error: null })),
-//   on(GameActions.loadGameSuccess, (state, { game }) =>
-//     gameAdapter.setAll(game, { ...state, loaded: true })
-//   ),
-//   on(GameActions.loadGameFailure, (state, { error }) => ({ ...state, error }))
-// );
-
-// export function reducer(state: State | undefined, action: Action) {
-//   return gameReducer(state, action);
-// }
+export function gameReducer(state: IGameState | undefined, action: Action) {
+  return reducer(state, action);
+}

@@ -15,3 +15,17 @@ export interface IGameStore {
   guesses: { guess: string[]; output: string[] }[];
   winState: boolean;
 }
+
+export interface IKey {
+  key: string;
+  color: string;
+}
+
+export interface IKeyboardRow {
+  position: 'top' | 'middle' | 'bottom';
+  keys: IKey[];
+}
+
+export interface IKeyboard {
+  rows: IKeyboardRow[];
+}
