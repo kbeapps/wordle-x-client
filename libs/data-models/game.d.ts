@@ -11,8 +11,14 @@ export interface IGame {
   theme: string;
 }
 
+export interface IGuess {
+  guess: string[];
+  evaluation: string[];
+}
+
 export interface IGameStore {
-  guesses: { guess: string[]; output: string[] }[];
+  guesses: IGuess[];
+  row: number;
   winState: boolean;
 }
 

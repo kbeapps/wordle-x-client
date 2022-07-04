@@ -1,98 +1,42 @@
 import { Injectable } from '@angular/core';
-// import { HttpRequestService } from '../shared/services';
-// import { catchError, map } from 'rxjs/operators';
-// import { Observable } from 'rxjs';
-
-// interface IGame {
-//   _id?: string;
-//   name: string;
-//   ownerId: string;
-//   players: string[];
-//   wordHistory: string[];
-//   type: string;
-//   winCondition: string;
-//   wordSize: number;
-//   theme?: string;
-// }
+import { getData, setData } from '@client/shared/local-store';
+import { winStateKey, guessesKey, rowKey } from './+state';
+import { IGameStore, IGuess } from '@client/data-models';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GamesService {
-  // constructor(private http: HttpRequestService) {}
-  // public create(game: IGame): Observable<boolean> {
-  //   return this.http.post('game/create', game).pipe(
-  //     catchError((error) => {
-  //       throw new Error(error.message);
-  //     }),
-  //     map((res) => {
-  //       if (res) {
-  //         // implement
-  //         return true;
-  //       }
-  //       return false;
-  //     })
-  //   );
-  // }
-  // public get(gameId: string): Observable<boolean> {
-  //   return this.http.get('game/get', '_id', gameId).pipe(
-  //     catchError((error) => {
-  //       throw new Error(error.message);
-  //     }),
-  //     map((res) => {
-  //       if (res) {
-  //         // implement
-  //         return true;
-  //       }
-  //       return false;
-  //     })
-  //   );
-  // }
-  // public getAll(ownerId: string): Observable<boolean> {
-  //   return this.http.get('game/getAll', 'ownerId', ownerId).pipe(
-  //     catchError((error) => {
-  //       throw new Error(error.message);
-  //     }),
-  //     map((res) => {
-  //       if (res) {
-  //         // implement
-  //         return true;
-  //       }
-  //       return false;
-  //     })
-  //   );
-  // }
-  // public update(gameId: string, query: object): Observable<boolean> {
-  //   return this.http
-  //     .patch('game/update', {
-  //       _id: gameId,
-  //       ...query,
-  //     })
-  //     .pipe(
-  //       catchError((error) => {
-  //         throw new Error(error.message);
-  //       }),
-  //       map((res) => {
-  //         if (res) {
-  //           // implement
-  //           return true;
-  //         }
-  //         return false;
-  //       })
-  //     );
-  // }
-  // public delete(gameId: string): Observable<boolean> {
-  //   return this.http.delete('game/remove', gameId).pipe(
-  //     catchError((error) => {
-  //       throw new Error(error.message);
-  //     }),
-  //     map((res) => {
-  //       if (res) {
-  //         // implement
-  //         return true;
-  //       }
-  //       return false;
-  //     })
-  //   );
-  // }
+  public initializeGameboard(
+    totalGuesses: number,
+    wordSize: number
+  ): Observable<IGameStore> {
+    const activeWinState = getData(winStateKey);
+    const activeGuesses = getData(guessesKey);
+    const activeRow = getData(rowKey);
+
+    const gameStore: IGameStore = {
+      guesses: activeGuesses
+        ? (activeGuesses as IGuess[])
+        : this.generateGuesses(totalGuesses, wordSize),
+      row: activeRow ? Number(activeRow) : 0,
+      winState: activeWinState ? Boolean(activeWinState) : false,
+    };
+
+    setData(winStateKey, String(gameStore.winState));
+    setData(guessesKey, gameStore.guesses);
+    setData(rowKey, String(gameStore.row));
+    console.log('returning');
+    return of(gameStore);
+  }
+
+  private generateGuesses = (totalGuesses: number, wordSize: number) => {
+    const outputArray = new Array(wordSize).fill(null).map(() => '');
+
+    return new Array(totalGuesses).fill(null).map(() => ({
+      guess: new Array(wordSize).fill(''),
+      evaluation: outputArray,
+    }));
+  };
 }

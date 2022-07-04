@@ -1,24 +1,20 @@
-import {
-  Component,
-  OnInit,
-  QueryList,
-  ViewChildren,
-  OnDestroy,
-} from '@angular/core';
-import { Subscription } from 'rxjs';
-import { IKey } from '@client/data-models';
-import { GameboardService, GameStore } from '../../services/gameboard.service';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+import { IKey, IGame } from '@client/data-models';
 import { KeyboardService } from '../../services/keyboard.service';
 import { checkWord } from 'check-if-word-partial';
 import { BoardRowComponent } from '../board-row/board-row.component';
+import { Store } from '@ngrx/store';
+import { getGame } from '../../+state/game.selectors';
+import { GameActions } from '../../+state/game.actions';
 
 @Component({
   selector: 'client-gameboard',
   templateUrl: './gameboard.component.html',
   styleUrls: ['./gameboard.component.scss'],
 })
-export class GameboardComponent implements OnInit, OnDestroy {
-  public gameStore: GameStore = new GameStore();
+export class GameboardComponent implements OnInit {
+  public game: Observable<IGame> = this.store.select(getGame);
   private wordSize = 5;
   private totalGuesses = 6;
   private activeRow = 0;
@@ -30,61 +26,55 @@ export class GameboardComponent implements OnInit, OnDestroy {
   @ViewChildren(BoardRowComponent)
   private BoardRowList!: QueryList<BoardRowComponent>;
 
-  constructor(
-    private gameboardService: GameboardService,
-    private keyboardService: KeyboardService
-  ) {
-    this.gameStoreSubscription = this.gameboardService
-      .watchGameStore()
-      .subscribe((gameStore: GameStore) => (this.gameStore = gameStore));
+  constructor(private keyboardService: KeyboardService, private store: Store) {
+    this.store.dispatch(
+      GameActions.initializeGameboard({ totalGuesses: 6, wordSize: 5 })
+    );
   }
 
   ngOnInit(): void {
-    this.answer = this.gameboardService.answer.toLowerCase();
-    this.gameboardService.initializeGameStore(this.totalGuesses, this.wordSize);
+    // this.answer = this.gameboardService.answer.toLowerCase();
+    // this.gameboardService.initializeGameStore(this.totalGuesses, this.wordSize);
     this.initialize();
   }
 
   private initialize(): void {
-    this.activeRow = this.gameStore.guesses.filter(
-      (item) => item.guess[0] !== ''
-    ).length;
-    this.loading = false;
+    // this.activeRow = this.gameStore.guesses.filter(
+    //   (item) => item.guess[0] !== ''
+    // ).length;
+    // this.loading = false;
   }
 
   public onKeyInput(key: string): void {
-    const currentGuess: string[] = this.gameStore.guesses[this.activeRow].guess;
-    let currentPosition: number = currentGuess.findIndex((char) => char === '');
-
-    if (currentPosition === -1) {
-      currentPosition = this.wordSize;
-    }
-
-    const currentGuessLength: number = currentGuess.filter(
-      (char) => char != ''
-    ).length;
-    switch (key) {
-      case 'ENTER':
-        if (currentGuessLength === this.wordSize) {
-          this.handleGuess(currentGuess);
-        }
-        break;
-      case 'BACKSPACE':
-        if (currentGuessLength && currentPosition >= 0) {
-          currentGuess[currentPosition - 1] = '';
-          this.gameboardService.updateGuess(currentGuess, this.activeRow);
-          currentPosition -= 1;
-        }
-        break;
-
-      default:
-        if (currentGuessLength < this.wordSize && currentPosition >= 0) {
-          currentGuess[currentPosition] = key;
-          currentPosition += 1;
-          this.gameboardService.updateGuess(currentGuess, this.activeRow);
-        }
-        break;
-    }
+    // const currentGuess: string[] = this.gameStore.guesses[this.activeRow].guess;
+    // let currentPosition: number = currentGuess.findIndex((char) => char === '');
+    // if (currentPosition === -1) {
+    //   currentPosition = this.wordSize;
+    // }
+    // const currentGuessLength: number = currentGuess.filter(
+    //   (char) => char != ''
+    // ).length;
+    // switch (key) {
+    //   case 'ENTER':
+    //     if (currentGuessLength === this.wordSize) {
+    //       this.handleGuess(currentGuess);
+    //     }
+    //     break;
+    //   case 'BACKSPACE':
+    //     if (currentGuessLength && currentPosition >= 0) {
+    //       currentGuess[currentPosition - 1] = '';
+    //       this.gameboardService.updateGuess(currentGuess, this.activeRow);
+    //       currentPosition -= 1;
+    //     }
+    //     break;
+    //   default:
+    //     if (currentGuessLength < this.wordSize && currentPosition >= 0) {
+    //       currentGuess[currentPosition] = key;
+    //       currentPosition += 1;
+    //       this.gameboardService.updateGuess(currentGuess, this.activeRow);
+    //     }
+    //     break;
+    // }
   }
 
   private evaluateGuess(guessArray: string[], inputAnswer: string): IKey[] {
@@ -127,7 +117,7 @@ export class GameboardComponent implements OnInit, OnDestroy {
       guessOutput.push(evaluation);
     }
 
-    this.gameboardService.updateGuessEvaluation(this.activeRow, guessOutput);
+    // this.gameboardService.updateGuessEvaluation(this.activeRow, guessOutput);
     return keyMap;
   }
 
@@ -138,7 +128,7 @@ export class GameboardComponent implements OnInit, OnDestroy {
     const isValidWord: boolean = checkWord(guess);
     if (isValidWord) {
       keyMap = this.evaluateGuess(guessArray, this.answer);
-      this.gameboardService.setWinState(true);
+      this.store.dispatch(GameActions.updateActiveWinstate({ winState: true }));
     }
 
     const wonGame = guess === this.answer;
@@ -151,9 +141,5 @@ export class GameboardComponent implements OnInit, OnDestroy {
       this.activeRow += 1;
     }
     this.keyboardService.setKeyColor(keyMap);
-  }
-
-  ngOnDestroy() {
-    this.gameStoreSubscription.unsubscribe();
   }
 }

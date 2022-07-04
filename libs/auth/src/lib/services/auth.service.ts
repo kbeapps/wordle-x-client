@@ -8,13 +8,11 @@ import {
 
 import { HttpRequestService } from '@client/shared/http-client';
 
-import { Store } from '@ngrx/store';
-
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpRequestService, private store: Store) {}
+  constructor(private http: HttpRequestService) {}
 
   public getUser(): Observable<IAuthResponse> {
     return this.http.get<IAuthResponse>(`user/getbyid`);

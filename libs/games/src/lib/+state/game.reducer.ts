@@ -1,11 +1,16 @@
 import { createReducer, on, Action } from '@ngrx/store';
-import { IGame, IKeyboard, IKey } from '@client/data-models';
+import { IGame, IKeyboard, IGameStore, IGuess } from '@client/data-models';
 import { GameActions } from './game.actions';
+import { getData } from '@client/shared/local-store/src';
+import { winStateKey, guessesKey, rowKey } from './game-local-store.reducer';
 
 export const GAME_FEATURE_KEY = 'game';
 
 export interface IGameState {
   game: IGame;
+  guesses: IGuess[];
+  row: number;
+  winState: boolean;
   keyboard: IKeyboard;
   loading: boolean;
   error?: string | null;
@@ -24,6 +29,9 @@ export const initialState: IGameState = {
     boards: [],
     theme: '',
   },
+  guesses: [{ guess: [], evaluation: [] }],
+  row: 0,
+  winState: false,
   keyboard: {
     rows: [],
   },
@@ -41,6 +49,14 @@ const reducer = createReducer(
   on(GameActions.initializeKeyboard, (state, { keyboard }) => ({
     ...state,
     keyboard: keyboard,
+    loading: false,
+  })),
+  on(GameActions.initializeGameboard, (state) => ({ ...state, loading: true })),
+  on(GameActions.gameLoadSuccessful, (state, { gameStore }) => ({
+    ...state,
+    guesses: gameStore.guesses,
+    row: gameStore.row,
+    winState: gameStore.winState,
     loading: false,
   }))
 );
