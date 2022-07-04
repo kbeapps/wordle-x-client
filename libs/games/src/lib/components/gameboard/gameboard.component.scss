@@ -1,4 +1,4 @@
-// @import "../../../assets/styles/variables.scss";
+@import '../../../styles.scss';
 
 .gameboard-container {
   display: flex;
@@ -12,10 +12,6 @@
   flex-direction: column;
   justify-content: center;
   height: 60%;
-
-  // @media (max-width: $breakpoint-mobile) {
-  //   width: 100vw;
-  // }
 }
 
 .board-row {
@@ -23,26 +19,7 @@
 }
 
 .keyboard-section {
-  // width: $breakpoint-mobile;
   margin-bottom: 5%;
   margin-left: auto;
   margin-right: auto;
-
-  // @media (max-width: $breakpoint-mobile) {
-  //   width: 100vw;
-  //   pading: 10px;
-  //   bottom: 0;
-  // }
 }
-
-// .correct-key {
-//   background-color: $correct-color;
-// }
-
-// .close-key {
-//   background-color: $close-color;
-// }
-
-// .incorrect-key {
-//   background-color: $incorrect-color;
-// }

@@ -27,3 +27,31 @@ export const getKeyboardRows = createSelector(
   getGameState,
   (state: IGameState) => state.keyboard.rows
 );
+
+export const getActiveRow = createSelector(
+  getGameState,
+  (state: IGameState) => state.row
+);
+
+export const getActiveGuesses = createSelector(
+  getGameState,
+  (state: IGameState) => state.guesses
+);
+
+export const getCurrentGuesses = createSelector(
+  getGameState,
+  (state: IGameState) => ({
+    guesses: state.guesses,
+    activeIndex: state.row,
+  })
+);
+
+export const getCurrentGuessEvaluation = createSelector(
+  getGameState,
+  (state: IGameState) => state.guesses[state.row].evaluation
+);
+
+export const getWordSize = createSelector(
+  getGameState,
+  (state: IGameState) => state.game.wordSize
+);

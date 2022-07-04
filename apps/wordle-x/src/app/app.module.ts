@@ -17,6 +17,7 @@ import { APP_TITLE } from '@client/layout/landing';
 
 import { debugReducer } from '@client/shared/src';
 import { authStoreReducer } from '@client/auth/src/';
+import { gameStoreReducer } from '@client/games/src/lib/+state';
 
 import * as fromAuth from '@client/auth/src';
 import { AuthEffects } from '@client/auth/src/lib/+state/auth.effects';
@@ -60,8 +61,8 @@ import { DashboardGuard } from '@client/layout/dashboard/src/lib/guards/dashboar
       { auth: fromAuth.authReducer },
       {
         metaReducers: !environment.production
-          ? [debugReducer, authStoreReducer]
-          : [authStoreReducer],
+          ? [debugReducer, authStoreReducer, gameStoreReducer]
+          : [authStoreReducer, gameStoreReducer],
         runtimeChecks: {
           strictActionImmutability: true,
           strictStateImmutability: true,

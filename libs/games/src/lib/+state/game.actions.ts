@@ -11,7 +11,8 @@ export enum GameActionTypes {
   initializeGameboard = '[Game] Initialize Gameboard',
   gameLoadSuccessful = '[Game] Game Load Successful',
   updateActiveWinState = '[Game] Update Active WinState',
-  updateGuess = '[Game] Update Guess',
+  updateActiveRow = '[Game] Update Active Row',
+  updateGuesses = '[Game] Update Guesses',
 }
 
 export const GameActions = createActionGroup({
@@ -24,6 +25,7 @@ export const GameActions = createActionGroup({
     'Initialize Gameboard': props<{ totalGuesses: number; wordSize: number }>(),
     'Game Load Successful': props<{ gameStore: IGameStore }>(),
     'Update Active WinState': props<{ winState: boolean }>(),
-    'Update Guess': props<{ guess: IGuess }>(),
+    'Update Guesses': props<{ guesses: IGuess[] }>(),
+    'Update Active Row': props<{ row: number }>(),
   },
 });

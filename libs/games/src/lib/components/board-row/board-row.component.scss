@@ -1,4 +1,4 @@
-// @import "../../../../assets/styles/variables.scss";
+@import '../../../styles.scss';
 $square-width: 30px;
 
 .board-row {
@@ -12,36 +12,4 @@ $square-width: 30px;
   text-align: center;
   height: $square-width;
   width: $square-width;
-
-  // @media (max-width: calc($breakpoint-mobile - 100px)) {
-  //   height: calc($square-width * 0.7);
-  //   width: calc($square-width * 0.7);
-  // }
-
-  // @media (max-height: 900px) {
-  //   height: calc($square-width * 0.7);
-  //   width: calc($square-width * 0.7);
-  // }
-
-  // @media (max-width: $breakpoint-mobile-s) {
-  //   height: calc($square-width * 0.4);
-  //   width: calc($square-width * 0.4);
-  // }
-
-  // @media (max-height: 600px) {
-  //   height: calc($square-width * 0.4);
-  //   width: calc($square-width * 0.4);
-  // }
 }
-
-// .correct-key {
-//   background-color: $correct-color;
-// }
-
-// .close-key {
-//   background-color: $close-color;
-// }
-
-// .incorrect-key {
-//   background-color: $incorrect-color;
-// }
