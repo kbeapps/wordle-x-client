@@ -1,10 +1,9 @@
-<div fxLayout="column" fxLayoutAlign="" class="gameboard-container">
-  <div class="board-section">
-    <div class="board-row" *ngFor="let guess of guesses$ | async">
-      <client-board-row
-        [guess]="guess.guess"
-        [guessEvaluation]="guess.evaluation"
-      ></client-board-row>
+<div class="gameboard-container">
+  <div fxLayoutAlign="center center">
+    <div>
+      <div *ngFor="let guess of guesses$ | async; index as rowIndex">
+        <client-board-row [guessIndex]="rowIndex"></client-board-row>
+      </div>
     </div>
   </div>
 </div>

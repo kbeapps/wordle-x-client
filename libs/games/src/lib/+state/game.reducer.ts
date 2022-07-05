@@ -49,6 +49,10 @@ const reducer = createReducer(
     keyboard: keyboard,
     loading: false,
   })),
+  on(GameActions.updateKeyboard, (state) => ({
+    ...state,
+    loading: true,
+  })),
   on(GameActions.initializeGameboard, (state) => ({ ...state, loading: true })),
   on(GameActions.gameLoadSuccessful, (state, { gameStore }) => ({
     ...state,
@@ -58,6 +62,10 @@ const reducer = createReducer(
     loading: false,
   })),
   on(GameActions.updateActiveRow, (state, { row }) => ({ ...state, row: row })),
+  on(GameActions.updateActiveWinstate, (state, { winState }) => ({
+    ...state,
+    winState: winState,
+  })),
   on(GameActions.updateGuesses, (state, { guesses }) => ({
     ...state,
     guesses: guesses,

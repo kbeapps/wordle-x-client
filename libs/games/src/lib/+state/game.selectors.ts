@@ -55,3 +55,8 @@ export const getWordSize = createSelector(
   getGameState,
   (state: IGameState) => state.game.wordSize
 );
+
+export const getIsWon = createSelector(
+  getGameState,
+  (state: IGameState) => state.winState
+);

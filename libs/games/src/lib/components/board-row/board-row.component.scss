@@ -1,15 +1,22 @@
-@import '../../../styles.scss';
 $square-width: 30px;
-
-.board-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 .board-square {
   margin: 2px;
+  text-transform: uppercase;
   text-align: center;
   height: $square-width;
   width: $square-width;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: 400px) {
+    width: 10px;
+    height: 10px;
+  }
+
+  @media (max-height: 800px) {
+    width: 10px;
+    height: 10px;
+  }
 }

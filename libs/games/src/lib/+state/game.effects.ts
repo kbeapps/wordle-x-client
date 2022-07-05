@@ -4,6 +4,8 @@ import { GamesService } from '../games.service';
 import { GameActions } from './game.actions';
 import { concatMap, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
+import { getKeyboardRows } from './game.selectors';
+import { IKey, IKeyboardRow } from '@client/data-models';
 
 @Injectable()
 export class GameEffects {
@@ -16,6 +18,41 @@ export class GameEffects {
   initializeKeyboard$ = createEffect(
     () => this.actions$.pipe(ofType(GameActions.initializeKeyboard)),
     { dispatch: false }
+  );
+
+  updateKeyboard$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(GameActions.updateKeyboard),
+      map((action) => {
+        let keyboardRows: IKeyboardRow[] = [];
+        this.store.select(getKeyboardRows).subscribe((rows) => {
+          keyboardRows = [...rows];
+        });
+        const updatedKeyboardRows: IKeyboardRow[] = [
+          { position: 'top', keys: [] },
+          { position: 'middle', keys: [] },
+          { position: 'bottom', keys: [] },
+        ];
+
+        for (const [index, keyboardRow] of updatedKeyboardRows.entries()) {
+          keyboardRow.keys = keyboardRows[index].keys.map((setKey) => {
+            let newKey: IKey | null = null;
+            for (const mappedKey of action.keyMap) {
+              if (setKey.key === mappedKey.key && setKey.color !== 'correct') {
+                newKey = {
+                  key: setKey.key,
+                  color: mappedKey.color,
+                };
+              }
+            }
+            return newKey ? newKey : setKey;
+          });
+        }
+        return GameActions.initializeKeyboard({
+          keyboard: { rows: updatedKeyboardRows },
+        });
+      })
+    )
   );
 
   initializeGameboard$ = createEffect(() =>
@@ -32,28 +69,4 @@ export class GameEffects {
       )
     )
   );
-
-  // updateGuesses$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(GameActions.updateActiveGuess),
-  //     mergeMap((action: { guess: any; row: any }) =>
-  //       this.store.select(getActiveGuesses).pipe(
-  //         map((guesses) => {
-  //           const updatedGuess = [...action.guess];
-  //           const rowIndex = action.row;
-  //           const updatedGuesses = guesses.map((guess, index) =>
-  //             index === rowIndex
-  //               ? {
-  //                   guess: updatedGuess,
-  //                   evaluation: guesses[index].evaluation,
-  //                 }
-  //               : guess
-  //           );
-  //           console.log('update guess');
-  //           return GameActions.updateGuesses({ guesses: updatedGuesses });
-  //         })
-  //       )
-  //     )
-  //   )
-  // );
 }

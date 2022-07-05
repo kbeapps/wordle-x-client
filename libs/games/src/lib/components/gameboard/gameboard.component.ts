@@ -1,8 +1,12 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {
+  Component,
+  OnInit,
+  QueryList,
+  ViewChildren,
+  OnDestroy,
+} from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { IKey, IGuess } from '@client/data-models';
-import { KeyboardService } from '../../services/keyboard.service';
 import { checkWord } from 'check-if-word-partial';
 import { BoardRowComponent } from '../board-row/board-row.component';
 import { Store } from '@ngrx/store';
@@ -19,18 +23,27 @@ import { GameActions } from '../../+state/game.actions';
   templateUrl: './gameboard.component.html',
   styleUrls: ['./gameboard.component.scss'],
 })
-export class GameboardComponent implements OnInit {
+export class GameboardComponent implements OnInit, OnDestroy {
   public guesses$: Observable<IGuess[]> = this.store.select(getActiveGuesses);
   public activeRow$: Observable<number> = this.store.select(getActiveRow);
   public loading$ = this.store.select(getGameLoading);
-
   private answer = 'testy';
-  public animateRowNumber = -1;
+
+  private guessesSubscription$: Subscription = new Subscription();
+  public guesses: IGuess[] = [];
+  private activeIndex = 0;
 
   @ViewChildren(BoardRowComponent)
   private BoardRowList!: QueryList<BoardRowComponent>;
 
-  constructor(private keyboardService: KeyboardService, private store: Store) {}
+  constructor(private store: Store) {
+    this.guessesSubscription$ = this.store
+      .select(getCurrentGuesses)
+      .subscribe((guesses) => {
+        this.guesses = [...guesses.guesses];
+        this.activeIndex = guesses.activeIndex;
+      });
+  }
 
   ngOnInit(): void {
     this.store.dispatch(
@@ -39,18 +52,8 @@ export class GameboardComponent implements OnInit {
   }
 
   public onKeyInput(key: string): void {
-    let guessObj: { guesses: IGuess[]; activeIndex: number } = {
-      guesses: [],
-      activeIndex: 0,
-    };
-
-    const currentGuessesSubscription$ = this.store
-      .select(getCurrentGuesses)
-      .subscribe((guesses) => (guessObj = guesses));
-    currentGuessesSubscription$.unsubscribe();
-
-    let guesses = [...guessObj.guesses];
-    const guessIndex = guessObj.activeIndex;
+    let guesses = [...this.guesses];
+    const guessIndex = this.activeIndex;
     const guess = [...guesses[guessIndex].guess];
 
     let currentPosition = guess.findIndex((char) => char === '');
@@ -103,7 +106,30 @@ export class GameboardComponent implements OnInit {
     }
   }
 
-  private evaluateGuess(guessArray: string[], inputAnswer: string): IKey[] {
+  private handleGuess(guessArray: string[]): void {
+    const guess: string = guessArray.join('').toLowerCase();
+
+    const isValidWord: boolean = checkWord(guess);
+    if (isValidWord) {
+      this.evaluateGuess(guessArray, this.answer);
+    }
+
+    const wonGame = guess === this.answer;
+
+    if (wonGame) {
+      this.store.dispatch(GameActions.updateActiveWinstate({ winState: true }));
+    }
+
+    this.startAnimation(wonGame, isValidWord);
+
+    if (isValidWord && !wonGame) {
+      this.store.dispatch(
+        GameActions.updateActiveRow({ row: this.activeIndex + 1 })
+      );
+    }
+  }
+
+  private evaluateGuess(guessArray: string[], inputAnswer: string): void {
     const keyMap: IKey[] = [];
     const guessOutput: string[] = [];
     let key = '';
@@ -143,29 +169,28 @@ export class GameboardComponent implements OnInit {
       guessOutput.push(evaluation);
     }
 
-    // this.gameboardService.updateGuessEvaluation(this.activeRow, guessOutput);
-    return keyMap;
+    const updatedGuesses = this.guesses.map((oldGuess, index) =>
+      index === this.activeIndex
+        ? { guess: oldGuess.guess, evaluation: guessOutput }
+        : oldGuess
+    );
+
+    this.store.dispatch(
+      GameActions.updateGuesses({
+        guesses: updatedGuesses,
+      })
+    );
+
+    this.store.dispatch(GameActions.updateKeyboard({ keyMap: keyMap }));
   }
 
-  private handleGuess(guessArray: string[]): void {
-    const guess: string = guessArray.join('').toLowerCase();
-    let keyMap: IKey[] = [];
+  startAnimation(wonGame: boolean, isValidWord: boolean) {
+    this.BoardRowList.find(
+      (item, index) => index === this.activeIndex
+    )?.startAnimation(wonGame, isValidWord);
+  }
 
-    const isValidWord: boolean = checkWord(guess);
-    if (isValidWord) {
-      keyMap = this.evaluateGuess(guessArray, this.answer);
-      this.store.dispatch(GameActions.updateActiveWinstate({ winState: true }));
-    }
-
-    const wonGame = guess === this.answer;
-
-    // this.BoardRowList.find(
-    //   (item, index) => index === this.activeRow
-    // )?.startAnimation(wonGame, isValidWord);
-
-    // if (isValidWord && !wonGame) {
-    //   this.activeRow += 1;
-    // }
-    this.keyboardService.setKeyColor(keyMap);
+  ngOnDestroy(): void {
+    this.guessesSubscription$.unsubscribe();
   }
 }

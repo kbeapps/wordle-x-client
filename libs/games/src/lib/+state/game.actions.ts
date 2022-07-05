@@ -1,5 +1,11 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { IGame, IGuess, IKeyboard, IGameStore } from '@client/data-models';
+import {
+  IGame,
+  IGuess,
+  IKeyboard,
+  IGameStore,
+  IKey,
+} from '@client/data-models';
 
 const source = 'Game';
 
@@ -13,6 +19,7 @@ export enum GameActionTypes {
   updateActiveWinState = '[Game] Update Active WinState',
   updateActiveRow = '[Game] Update Active Row',
   updateGuesses = '[Game] Update Guesses',
+  updateKeyboard = '[Game] Update Keyboard',
 }
 
 export const GameActions = createActionGroup({
@@ -22,6 +29,7 @@ export const GameActions = createActionGroup({
     Get: emptyProps(),
     Update: emptyProps(),
     'Initialize Keyboard': props<{ keyboard: IKeyboard }>(),
+    'Update Keyboard': props<{ keyMap: IKey[] }>(),
     'Initialize Gameboard': props<{ totalGuesses: number; wordSize: number }>(),
     'Game Load Successful': props<{ gameStore: IGameStore }>(),
     'Update Active WinState': props<{ winState: boolean }>(),

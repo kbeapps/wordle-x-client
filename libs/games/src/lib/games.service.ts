@@ -27,7 +27,6 @@ export class GamesService {
     setData(winStateKey, String(gameStore.winState));
     setData(guessesKey, gameStore.guesses);
     setData(rowKey, String(gameStore.row));
-    console.log('returning');
     return of(gameStore);
   }
 
