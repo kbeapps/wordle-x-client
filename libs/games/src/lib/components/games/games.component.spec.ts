@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
-import { GamesModule } from '../games.module';
+import { GamesModule } from '../../game.module';
 import { GamesComponent } from './games.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
