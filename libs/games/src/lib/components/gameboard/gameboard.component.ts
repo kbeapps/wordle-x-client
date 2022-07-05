@@ -27,7 +27,7 @@ export class GameboardComponent implements OnInit, OnDestroy {
   public guesses$: Observable<IGuess[]> = this.store.select(getActiveGuesses);
   public activeRow$: Observable<number> = this.store.select(getActiveRow);
   public loading$ = this.store.select(getGameLoading);
-  private answer = 'testy';
+  private answer = 'testy'; // add answer population from state
 
   private guessesSubscription$: Subscription = new Subscription();
   public guesses: IGuess[] = [];
@@ -120,8 +120,8 @@ export class GameboardComponent implements OnInit, OnDestroy {
       this.store.dispatch(GameActions.updateActiveWinstate({ winState: true }));
     }
 
-    this.startAnimation(wonGame, isValidWord);
-
+    // TODO: Move child animation trigger to here:
+    // this.startAnimation(wonGame, isValidWord);
     if (isValidWord && !wonGame) {
       this.store.dispatch(
         GameActions.updateActiveRow({ row: this.activeIndex + 1 })

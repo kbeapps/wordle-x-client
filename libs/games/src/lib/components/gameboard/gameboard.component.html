@@ -2,7 +2,10 @@
   <div fxLayoutAlign="center center">
     <div>
       <div *ngFor="let guess of guesses$ | async; index as rowIndex">
-        <client-board-row [guessIndex]="rowIndex"></client-board-row>
+        <client-board-row
+          [guess]="guess.guess"
+          [evaluation]="guess.evaluation"
+        ></client-board-row>
       </div>
     </div>
   </div>

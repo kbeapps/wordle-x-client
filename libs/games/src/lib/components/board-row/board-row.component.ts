@@ -1,5 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { map, Subscription } from 'rxjs';
+import { Component, Input, AfterViewChecked } from '@angular/core';
 import {
   state,
   style,
@@ -9,8 +8,6 @@ import {
 } from '@angular/animations';
 import { invalidAnimation, revealAnimation, wonAnimation } from './animations';
 import { Store } from '@ngrx/store';
-import { getActiveGuesses } from '../../+state';
-import { IGuess } from '@client/data-models';
 
 @Component({
   selector: 'client-board-row',
@@ -48,43 +45,31 @@ import { IGuess } from '@client/data-models';
     ]),
   ],
 })
-export class BoardRowComponent implements OnInit, OnDestroy {
+export class BoardRowComponent implements AfterViewChecked {
   public state: 'uncolored' | 'colored' | 'invalid' | 'won' = 'uncolored';
-  @Input() public guessIndex = -1;
-  public guessSubscription$: Subscription = new Subscription();
-  public guess: IGuess = {
-    guess: [],
-    evaluation: [],
-  };
+  @Input() public guess: string[] = [];
+  @Input() public evaluation: string[] = [];
 
+  // TODO: Add is won from state
   public isWon = false;
 
   constructor(private store: Store) {}
 
-  ngOnInit(): void {
-    this.guessSubscription$ = this.store
-      .select(getActiveGuesses)
-      .pipe(
-        map((guesses) => {
-          this.guess = guesses[this.guessIndex];
-          if (
-            guesses[this.guessIndex].evaluation.every((char) => char !== '')
-          ) {
-            this.state = 'colored';
-          }
-        })
-      )
-      .subscribe((guesses) => guesses);
+  ngAfterViewChecked(): void {
+    // TODO: Move animation to trigger from parent, resolve issue with data change after init
+    if (this.evaluation.every((char) => char !== '')) {
+      this.startAnimation(false, true);
+    }
   }
 
-  public getColor(evaluation: string): string {
-    const colorState: string = evaluation;
+  public getColor(index: number): string {
+    const colorState: string = this.evaluation[index];
     return this.state !== 'uncolored'
       ? colorState === 'correct'
         ? '#4caf50'
         : colorState === 'close'
         ? '#ffa000'
-        : ''
+        : '#424242'
       : '';
   }
 
@@ -99,7 +84,7 @@ export class BoardRowComponent implements OnInit, OnDestroy {
     }
 
     this.state = 'colored';
-    this.isWon = false;
+    this.isWon = wonGame;
   }
 
   public finalizeState(): void {
@@ -108,9 +93,5 @@ export class BoardRowComponent implements OnInit, OnDestroy {
       : this.state !== 'colored'
       ? 'uncolored'
       : 'colored';
-  }
-
-  ngOnDestroy(): void {
-    this.guessSubscription$.unsubscribe();
   }
 }

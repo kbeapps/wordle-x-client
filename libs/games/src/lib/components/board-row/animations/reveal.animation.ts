@@ -1,9 +1,4 @@
-import {
-  animate,
-  animation,
-  style,
-  keyframes,
-} from '@angular/animations';
+import { animate, animation, style, keyframes } from '@angular/animations';
 
 export const revealAnimation = animation(
   [
