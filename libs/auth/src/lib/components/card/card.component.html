@@ -1,0 +1,32 @@
+<div fxLayoutAlign="center center">
+  <div
+    fxLayout="column"
+    fxLayoutAlign="center center"
+    [ngStyle.xs]="{ height: '65vh', width: '75vw' }"
+    [ngStyle.gt-xs]="{
+      width: '500px',
+      height: '500px'
+    }"
+  >
+    <h1 fxLayoutAlign="center center">
+      {{ header }}
+    </h1>
+
+    <p [ngStyle]="{ height: '15px', color: 'red' }">
+      {{ errorMessage }}
+    </p>
+
+    <ng-content select="[authForm]"></ng-content>
+
+    <div [ngStyle]="{ 'margin-top': '50px' }">
+      <client-request-button
+        (click)="onClick()"
+        [isLoading]="isLoading"
+        [disabled]="disabled"
+      >
+        {{ controlLabel }}
+      </client-request-button>
+      <ng-content select="[options]"></ng-content>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+<client-card
+  header="Login"
+  controlLabel="Login!"
+  [isLoading]="(isLoading$ | async) || false"
+  [disabled]="!loginForm.valid"
+  (btnClick)="onLogin()"
+  [errorMessage]="errorMessage"
+>
+  <form
+    authForm
+    fxLayout="column"
+    fxLayoutAlign="space-around center"
+    fxLayoutGap="20px"
+    [formGroup]="loginForm"
+    (ngSubmit)="onLogin()"
+  >
+    <client-form-input
+      label="Email or Username"
+      icon="account_circle"
+      [formControl]="loginForm.controls.emailOrUsername"
+    >
+    </client-form-input>
+
+    <client-form-input
+      label="Password"
+      icon="key"
+      type="password"
+      [formControl]="loginForm.controls.password"
+    >
+    </client-form-input>
+  </form>
+
+  <div options fxLayoutAlign="space-between center" class="options">
+    <a routerLink="/auth/signup">Register</a>
+
+    <!-- TODO: setup forgot password -->
+    <a routerLink="/auth/login">Forgot Password?</a>
+  </div>
+</client-card>

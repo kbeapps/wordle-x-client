@@ -1,0 +1,44 @@
+$key-width: 40px;
+$key-height: 60px;
+$key-margin: 2px;
+$key-color: silver;
+$font-size: 0.7em;
+$key-color: none;
+
+$correct-color: #4caf50;
+$close-color: #ffa000;
+$incorrect-color: #212121;
+
+.keyboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 15px;
+}
+
+.key-base {
+  margin: $key-margin;
+  height: $key-height !important;
+  width: $key-width !important;
+  min-width: unset !important;
+  font-size: $font-size;
+  background-color: $key-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: $breakpoint-mobile) {
+    width: calc($key-width * 0.75) !important;
+    height: calc($key-height * 0.75) !important;
+  }
+}
+
+.delete-base {
+  @extend .key-base;
+  width: calc($key-width * 1.6) !important;
+
+  @media (max-width: $breakpoint-mobile) {
+    width: calc($key-width * 1.6 * 0.75) !important;
+  }
+}

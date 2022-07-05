@@ -1,0 +1,23 @@
+<button
+  [ngStyle.xs]="{ width: '60vw' }"
+  [ngStyle.gt-xs]="{ height: '40px', width: '300px' }"
+  mat-raised-button
+  [color]="color"
+  (click)="onClick()"
+  [disabled]="disabled"
+  class="{{ disabled ? '' : 'mat-elevation-z12' }}"
+>
+  <div *ngIf="!isLoading; else loadingView">
+    <ng-content></ng-content>
+  </div>
+  <ng-template #loadingView>
+    <mat-progress-spinner
+      [ngStyle]="{ margin: 'auto' }"
+      [color]="color === 'primary' ? 'accent' : 'primary'"
+      mode="indeterminate"
+      class="request-spinner"
+      diameter="30"
+    >
+    </mat-progress-spinner>
+  </ng-template>
+</button>

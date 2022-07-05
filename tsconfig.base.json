@@ -1,0 +1,47 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2020",
+    "module": "es2020",
+    "lib": ["es2020", "dom"],
+    "paths": {
+      "@client/*": ["libs/*"],
+      "@client/auth": ["libs/auth/src/index.ts"],
+      "@client/friends": ["libs/friends/src/index.ts"],
+      "@client/games": ["libs/games/src/index.ts"],
+      "@client/groups": ["libs/groups/src/index.ts"],
+      "@client/layout/dashboard": ["libs/layout/dashboard/src/index.ts"],
+      "@client/layout/landing": ["libs/layout/landing/src/index.ts"],
+      "@client/profile": ["libs/profile/src/index.ts"],
+      "@client/shared": ["libs/shared/src/index.ts"],
+      "@client/shared/components": ["libs/shared/components/src/index.ts"],
+      "@client/shared/http-client": ["libs/shared/http-client/src/index.ts"],
+      "@client/shared/local-store": ["libs/shared/local-store/src/index.ts"],
+      "@client/shared/material": ["libs/shared/material/src/index.ts"],
+      "@client/shared/validation": ["libs/shared/validation/src/index.ts"],
+      "@client/user": ["libs/user/src/index.ts"]
+    },
+    "rootDir": "."
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  },
+  "exclude": ["node_modules", "tmp"]
+}

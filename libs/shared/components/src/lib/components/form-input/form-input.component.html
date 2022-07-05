@@ -1,0 +1,27 @@
+<div class="{{ isFocused ? 'mat-elevation-z12' : '' }}">
+  <mat-form-field
+    appearance="fill"
+    [ngStyle.xs]="{
+      width: '60vw',
+      height: '20px',
+      'font-size': '90%',
+      'margin-bottom': '25px'
+    }"
+    [ngStyle.gt-xs]="{ width: '300px' }"
+  >
+    <mat-label>{{ label }}</mat-label>
+    <input
+      [type]="type"
+      matInput
+      [formControl]="formControl"
+      (focus)="isFocused = true"
+      (focusout)="isFocused = false"
+    />
+
+    <mat-error>
+      {{ validateField() }}
+    </mat-error>
+
+    <mat-icon matSuffix>{{ icon }}</mat-icon>
+  </mat-form-field>
+</div>
