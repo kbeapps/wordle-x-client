@@ -1,0 +1,28 @@
+<!-- <div
+  *ngIf="appState$ | async; let appState"
+  class="main-{{
+    selectedTheme$ | async
+  }}-theme mat-app-background layout-container"
+>
+  <router-outlet *ngIf="appState.isReady && !appState.hasError"></router-outlet>
+  <div *ngIf="!appState.isReady || appState.hasError" class="loading-container">
+    <mat-progress-bar
+      class="loading-bar"
+      color="accent"
+      mode="indeterminate"
+    ></mat-progress-bar>
+    <div *ngIf="appState.hasError">
+      <p>
+        There was an error connecting to our services, please refresh the page
+        and try again. Have a cup of coffee, maybe some tea, then try again.
+      </p>
+    </div>
+  </div>
+  <div class="footer">
+    <p>Footer</p>
+  </div>
+</div> -->
+
+<div class="main-dark-theme mat-app-background layout-container">
+  <router-outlet></router-outlet>
+</div>

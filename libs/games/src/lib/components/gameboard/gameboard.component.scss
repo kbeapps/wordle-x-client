@@ -1,0 +1,12 @@
+@import '../../../styles.scss';
+
+.gameboard-container {
+  position: fixed;
+  left: 0px;
+  top: 15%;
+  width: 100vw;
+}
+
+.gameboard {
+  display: flex;
+}

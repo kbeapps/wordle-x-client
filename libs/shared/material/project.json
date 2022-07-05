@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/shared/material/src",
+  "prefix": "client",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/shared/material"],
+      "options": {
+        "jestConfig": "libs/shared/material/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/shared/material/**/*.ts",
+          "libs/shared/material/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

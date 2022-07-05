@@ -1,0 +1,22 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/friends/src",
+  "prefix": "client",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/friends"],
+      "options": {
+        "jestConfig": "libs/friends/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/friends/**/*.ts", "libs/friends/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/layout/landing/src",
+  "prefix": "client",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/layout/landing"],
+      "options": {
+        "jestConfig": "libs/layout/landing/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/layout/landing/**/*.ts",
+          "libs/layout/landing/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

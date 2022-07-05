@@ -1,0 +1,18 @@
+<div fxLayoutAlign="row">
+  <div *ngFor="let char of guess; index as tileIndex">
+    <mat-card
+      [id]="'board-square-' + tileIndex"
+      class="board-square"
+      [@tileAnimationState]="{
+        value: state,
+        params: {
+          color: getColor(tileIndex),
+          delay: getDelay(tileIndex)
+        }
+      }"
+      (@tileAnimationState.done)="finalizeState()"
+    >
+      {{ char }}
+    </mat-card>
+  </div>
+</div>

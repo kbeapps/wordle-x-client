@@ -1,0 +1,52 @@
+<client-card
+  header="Signup"
+  controlLabel="Signup!"
+  [isLoading]="(isLoading$ | async) || false"
+  [disabled]="!signupForm.valid"
+  (btnClick)="onSignup()"
+  [errorMessage]="errorMessage"
+>
+  <form
+    authForm
+    fxLayout="column"
+    fxLayoutAlign="space-around center"
+    fxLayoutGap="24px"
+    [formGroup]="signupForm"
+    (ngSubmit)="onSignup()"
+  >
+    <client-form-input
+      label="Email"
+      icon="mail"
+      [formControl]="signupForm.controls.detailForm.controls.email"
+    >
+    </client-form-input>
+
+    <client-form-input
+      label="Username"
+      icon="account_circle"
+      [formControl]="signupForm.controls.detailForm.controls.username"
+    >
+    </client-form-input>
+    <client-form-input
+      label="Password"
+      icon="key"
+      type="password"
+      [formControl]="signupForm.controls.passwordForm.controls.password"
+    >
+    </client-form-input>
+
+    <client-form-input
+      label="Confirm Password"
+      icon="lock"
+      type="password"
+      [formControl]="signupForm.controls.passwordForm.controls.confirmPassword"
+    >
+    </client-form-input>
+  </form>
+
+  <div options class="options">
+    <a fxLayoutAlign="end" routerLink="/auth/login">
+      Already have an account?
+    </a>
+  </div>
+</client-card>
